@@ -495,7 +495,7 @@ footer a:hover{text-decoration:underline}
       <a href="#/banking" data-p="banking">Banking</a>
       <a href="#/schedule" data-p="schedule">Schedule</a>
       <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag</a>
-      <a href="#/lab" data-p="lab">Performance Lab</a>
+      <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener" data-p="lab">Performance Lab</a>
     </nav>
     <button class="menub" id="menub" aria-label="Menu"><svg viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/></svg></button>
   </div>
@@ -505,7 +505,7 @@ footer a:hover{text-decoration:underline}
   <a href="#/banking" data-p="banking">Banking<small>Balances, expenses &amp; every transaction</small></a>
   <a href="#/schedule" data-p="schedule">Schedule<small>Practices, games &amp; tournaments</small></a>
   <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag<small>Official Creed gear</small></a>
-  <a href="#/lab" data-p="lab">Performance Lab<small>Creed Milestone Program</small></a>
+  <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener" data-p="lab">Performance Lab<small>Creed Milestone Program</small></a>
 </div>
 
 <main>
@@ -520,7 +520,7 @@ footer a:hover{text-decoration:underline}
       <a class="btn" href="#/banking">Banking</a>
       <a class="btn" href="#/schedule">Schedule</a>
       <a class="btn" href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a>
-      <a class="btn" href="#/lab">Performance Lab</a>
+      <a class="btn" href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">Performance Lab</a>
     </div>
     <div class="scrollcue">Scroll</div>
   </div>
@@ -559,7 +559,7 @@ footer a:hover{text-decoration:underline}
         <div><h3>Swag.</h3><p>Hoodies, dri-fits, shorts and sleeves. Rep the Creed.</p><div class="go">Shop gear ›</div></div>
         <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".5" stroke-linejoin="round"><path d="M70 30 L40 46 L20 90 L44 102 L52 86 L52 180 L148 180 L148 86 L156 102 L180 90 L160 46 L130 30 C124 46 112 54 100 54 C88 54 76 46 70 30 Z"/></svg></div>
       </a>
-      <a class="door d4" href="#/lab">
+      <a class="door d4" href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">
         <div><h3>Performance Lab.</h3><p>The Creed Milestone Program. Every player versus yesterday's version of themselves.</p><div class="go">Enter the lab ›</div></div>
         <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".55" stroke-linecap="round"><polyline points="20,160 60,130 95,140 130,90 175,50"/><circle cx="175" cy="50" r="8" fill="#76C9F2"/><line x1="20" y1="180" x2="185" y2="180" opacity=".5"/></svg></div>
       </a>
@@ -730,26 +730,12 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
-<!-- ================= PERFORMANCE LAB ================= -->
-<section class="page" data-page="lab">
-  <div class="lnav"><div class="lnav-in"><h2>Performance Lab</h2><div class="sub" id="labTabs">
-    <button data-tab="overview" class="on">Overview</button><button data-tab="new" class="hidden">New Assessment</button><button data-tab="players">Players</button><button data-tab="history" class="hidden">History</button><button data-tab="protocols">Protocols</button>
-  </div></div></div>
-  <div class="hero">
-    <div class="eyebrow">Creed Milestone Program</div>
-    <h1 class="h-l">Creed <span class="grad">Performance Lab.</span></h1>
-    <p class="lede">Track Progress. Build Confidence. Develop Ballplayers.<br><span style="color:var(--ink3);font-size:.85em">Every player versus yesterday's version of themselves.</span></p>
-  </div>
-  <div class="wrap narrow" id="labRoot">
-    <div class="labgate" id="labWait"><h3 class="h-m">Connecting…</h3><p>Loading saved assessments.</p></div>
-  </div>
-</section>
 
 </main>
 
 <footer><div class="wrap">
   <span>Texas Creed · 7U · Houston, TX</span>
-  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="#/lab">Performance Lab</a></span>
+  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">Performance Lab</a></span>
   <span>Questions go to your team treasurer</span>
 </div></footer>
 </div>
@@ -1173,16 +1159,16 @@ const isoToday = () => { const t=new Date(); return t.getFullYear()+'-'+String(t
 function evRange(e){ const s=D(e.start), en=D(e.end||e.start); return md(s)+(en>s?'–'+md(en):''); }
 
 /* ================= ROUTER ================= */
-const PAGES=['home','banking','schedule','lab'];
+const PAGES=['home','banking','schedule'];
 function route(){
   const p=(location.hash.match(/^#\/(\w+)/)||[])[1];
   if(p==='swag'){ location.href='https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball'; return; }
+  if(p==='lab'){ location.href='https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG'; return; }
   const page=PAGES.includes(p)?p:'home';
   $$('.page').forEach(s=>s.classList.toggle('on',s.dataset.page===page));
   $$('#glinks a,#sheet a').forEach(a=>a.classList.toggle('on',a.dataset.p===page));
   $('#sheet').classList.remove('on');
   window.scrollTo(0,0);
-  if(page==='lab') Lab.enter();
 }
 window.addEventListener('hashchange',route);
 $('#menub').addEventListener('click',()=>$('#sheet').classList.toggle('on'));
@@ -1305,483 +1291,6 @@ function renderSwag(){
   });
   $$('#swagJump button').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.to); if(el) window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});}));
 }
-
-/* ================= PERFORMANCE LAB ================= */
-const TESTS = {
-  h1:{cat:'Speed',name:'Home → 1st',kind:'time',max:3,proto:[['dist','Base path (ft)'],['start','Clock starts at',['First movement','Simulated contact']],['surface','Surface']]},
-  h2:{cat:'Speed',name:'Home → 2nd',kind:'time',max:2,proto:[['dist','Distance (ft)'],['start','Clock starts at',['First movement','Simulated contact']],['surface','Surface']]},
-  h3:{cat:'Speed',name:'Home → 3rd',kind:'time',max:2,proto:[['dist','Distance (ft)'],['start','Clock starts at',['First movement','Simulated contact']],['surface','Surface']]},
-  hh:{cat:'Speed',name:'Home → Home',kind:'time',max:2,proto:[['dist','Distance (ft)'],['start','Clock starts at',['First movement','Simulated contact']],['surface','Surface']]},
-  s10:{cat:'Speed',name:'10-yard sprint',kind:'time',max:2,proto:[['start','Clock starts at',['First movement','Coach signal']],['surface','Surface']]},
-  tv:{cat:'Throwing',name:'Throwing velocity',kind:'mph',max:10,proto:[['ball','Ball'],['dist','Throw distance (ft)'],['radar','Radar device & placement']]},
-  ta:{cat:'Throwing',name:'Target accuracy',kind:'hitmiss',max:10,proto:[['dist','Distance (ft)'],['target','Target']]},
-  bs:{cat:'Hitting',name:'Bat speed',kind:'mph',max:10,proto:[['bat','Bat (make/model/length/weight)'],['sensor','Sensor'],['setup','Setup',['Tee','Front toss','Machine']]]},
-  ev:{cat:'Hitting',name:'Exit velocity',kind:'mph',max:10,proto:[['bat','Bat'],['setup','Setup',['Tee','Front toss','Machine']],['ball','Ball'],['radar','Measurement device']]},
-  mc:{cat:'Hitting',name:'Machine / tee contact',kind:'contact',max:10,proto:[['setup','Setup',['Tee','Front toss','Machine']],['speed','Machine speed / distance']]},
-  gb:{cat:'Fielding',name:'Ground balls + throw to 1st',kind:'grounders',max:5,proto:[['delivery','Delivery'],['dist','Distance (ft)']]},
-  fb:{cat:'Fielding',name:'Fly balls',kind:'fly',max:5,proto:[['delivery','Delivery'],['dist','Distance (ft)']]},
-  rc:{cat:'Catching',name:'Routine throws',kind:'catch',max:10,proto:[['dist','Distance (ft)']]},
-  iq:{cat:'Baseball IQ',name:'Game situations',kind:'iq',max:5,proto:[]},
-  me:{cat:'Fundamentals',name:'Mechanics',kind:'rubric',proto:[],skills:[['throw','Throwing mechanics','Steps toward target, elbow up, follows through'],['swing','Swing mechanics','Balanced stance, eyes on ball, finishes swing'],['ready','Fielding ready position','Glove down, knees bent, moves feet to ball'],['run','Base running form','Runs through first, touches bases, looks to coach']]},
-  co:{cat:'Coachability',name:'Coachability',kind:'rubric',proto:[],skills:[['effort','Effort','Hustles on and off the field'],['listen','Listening','Eyes on coach, follows instructions'],['team','Teamwork','Encourages teammates, shares equipment'],['resp','Response to correction','Tries the adjustment without frustration']]},
-};
-const IQ_SCEN=['Force play','Running through first','Touching / tagging base','Fly-ball communication','Baserunning decision'];
-const CATS=['Speed','Throwing','Hitting','Fielding','Catching','Baseball IQ','Fundamentals','Coachability'];
-const RUBRIC_ANCHORS=['Needs frequent guidance','Emerging with support','Demonstrates intermittently','Demonstrates consistently','Independent and reliable'];
-const CADENCE_DAYS=42;
-
-function nums(arr){return arr.filter(x=>x&&x.ok!==false&&typeof x.v==='number'&&isFinite(x.v)).map(x=>x.v);}
-function rate(n,d){return d>0?{num:n,den:d,val:n/d*100}:{num:n,den:d,val:null};}
-// Returns metric list for an assessment
-function metrics(a){
-  const T=TESTS[a.test]; const A=a.attempts||[];
-  if(T.kind==='time'){const v=nums(A); if(!v.length) return [];
-    return [{k:'best',l:'Best time',u:'s',val:Math.min(...v),pol:'low',sc:'s'},{k:'avg',l:'Average',u:'s',val:v.reduce((s,x)=>s+x,0)/v.length,pol:'low',sc:'s'}];}
-  if(T.kind==='mph'){const v=nums(A); if(!v.length) return []; const s=[...v].sort((x,y)=>y-x);
-    const m=[{k:'peak',l:'Peak',u:'mph',val:s[0],pol:'high',sc:'mph'}];
-    if(v.length>=3) m.push({k:'top3',l:'Top-3 average',u:'mph',val:(s[0]+s[1]+s[2])/3,pol:'high',sc:'mph'});
-    m.push({k:'avg',l:'Average',u:'mph',val:v.reduce((x,y)=>x+y,0)/v.length,pol:'high',sc:'mph'}); return m;}
-  if(T.kind==='hitmiss'){const h=A.filter(x=>x&&x.r==='hit').length, d=A.filter(x=>x&&(x.r==='hit'||x.r==='miss')).length; return [{k:'acc',l:'Accuracy',...rate(h,d),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='contact'){const rec=A.filter(x=>x&&x.r); const c=rec.filter(x=>x.r==='contact'||x.r==='solid').length, s=rec.filter(x=>x.r==='solid').length;
-    return [{k:'contact',l:'Contact rate',...rate(c,rec.length),u:'%',pol:'high',sc:'pct'},{k:'solid',l:'Solid / contact',...rate(s,c),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='grounders'){const rec=A.filter(x=>x&&x.rec); const n=rec.length; const clean=rec.filter(x=>x.clean).length, thr=rec.filter(x=>x.thr).length, acc=rec.filter(x=>x.thr&&x.acc).length, comp=rec.filter(x=>x.clean&&x.thr&&x.acc).length;
-    return [{k:'clean',l:'Clean fields',...rate(clean,n),u:'%',pol:'high',sc:'pct'},{k:'acc',l:'Accurate throws / all',...rate(acc,n),u:'%',pol:'high',sc:'pct'},{k:'accAtt',l:'Accurate / attempted',...rate(acc,thr),u:'%',pol:'high',sc:'pct'},{k:'comp',l:'Completed plays',...rate(comp,n),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='fly'){const rec=A.filter(x=>x&&x.rec); const n=rec.length;
-    return [{k:'catch',l:'Catches',...rate(rec.filter(x=>x.c).length,n),u:'%',pol:'high',sc:'pct'},{k:'fs',l:'Good first step',...rate(rec.filter(x=>x.fs).length,n),u:'%',pol:'high',sc:'pct'},{k:'call',l:'Called the ball',...rate(rec.filter(x=>x.call).length,n),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='catch'){const c=A.filter(x=>x&&x.r==='caught').length, d=A.filter(x=>x&&(x.r==='caught'||x.r==='dropped')).length; return [{k:'catch',l:'Caught / catchable',...rate(c,d),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='iq'){const rec=A.filter(x=>x&&typeof x.r==='boolean'); return [{k:'iq',l:'Correct decisions',...rate(rec.filter(x=>x.r).length,rec.length),u:'%',pol:'high',sc:'pct'}];}
-  if(T.kind==='rubric'){const sc=a.scores||{}; return T.skills.filter(([k])=>typeof sc[k]==='number').map(([k,l])=>({k,l,val:sc[k],u:'pts',pol:'high',sc:'rubric'}));}
-  return [];
-}
-function protoKey(a){const T=TESTS[a.test]; return T.proto.map(([k])=>String((a.proto||{})[k]||'').trim().toLowerCase()).join('|');}
-function showVal(m){ if(m.val==null) return '—';
-  if(m.sc==='s') return m.val.toFixed(2)+' s';
-  if(m.sc==='mph') return m.val.toFixed(1)+' mph';
-  if(m.sc==='pct') return `${Math.round(m.val)}% <small style="color:var(--ink3);font-weight:500">${m.num}/${m.den}</small>`;
-  if(m.sc==='rubric') return m.val+' / 5'; return m.val; }
-function showChange(base,latest){
-  if(base==null||latest==null||base.val==null||latest.val==null) return {t:'',c:''};
-  const d=latest.val-base.val;
-  if(latest.sc==='s'){ if(base.val<=0) return {t:'',c:''}; const pct=(base.val-latest.val)/base.val*100; return {t:`${d<=0?'−':'+'}${Math.abs(d).toFixed(2)} s · ${Math.abs(pct).toFixed(1)}% ${pct>=0?'faster':'slower'}`,c:pct>0?'up':pct<0?'down':''}; }
-  if(latest.sc==='mph'){ const pct=base.val>0?d/base.val*100:null; return {t:`${d>=0?'+':'−'}${Math.abs(d).toFixed(1)} mph${pct!=null?` · ${d>=0?'+':'−'}${Math.abs(pct).toFixed(1)}%`:''}`,c:d>0?'up':d<0?'down':''}; }
-  if(latest.sc==='pct') return {t:`${d>=0?'+':'−'}${Math.abs(d).toFixed(0)} pts`,c:d>0?'up':d<0?'down':''};
-  if(latest.sc==='rubric') return {t:`${d>=0?'+':'−'}${Math.abs(d)} rating pt${Math.abs(d)===1?'':'s'}`,c:d>0?'up':d<0?'down':''};
-  return {t:'',c:''};
-}
-const better=(m,a,b)=>m.pol==='low'?a<b:a>b;
-
-const Lab = (()=>{
-  let db=null, user=null, me=null, rows=[], ready=false, started=false, tab='overview', unsub=null, canWrite=false, nextDue=null;
-  let draft2=null; // second draft when two tests share one entry screen (throwing: velocity + accuracy)
-  const PAIR={tv:'ta', mc:'ev'};
-  const PAIR_INFO={tv:{chip:'Throwing: velocity + accuracy',title:'Throwing — velocity + accuracy',cap:'each throw: enter mph, then tap Hit or Miss',none:'Enter throwing velocity, accuracy, or both.'},
-                   mc:{chip:'Contact + exit velo',title:'Hitting — contact + exit velocity',cap:'each pitch: tap the result, then enter exit velo on contact',none:'Record at least one pitch.'}};
-  const PAIR_OF={ta:'tv', ev:'mc'};
-  let draft=null, selPlayer=ROSTER[0], selTest='h1', overviewTest='h1', sw={on:false,t0:0,raf:0};
-  const root=()=>$('#labRoot');
-
-  function normalize(snap){
-    let arr = Array.isArray(snap)?snap:(snap&&(snap.docs||snap.items||snap.results))||[];
-    return arr.map(d=>{ const data = typeof d.data==='function'?d.data():(d.data!==undefined?d.data:d); return {...data, id:d.id||data.id}; });
-  }
-  async function start(){
-    if(started) return; started=true;
-    try{
-      if(!window.claude||!window.claude.use){ return gate('unavailable'); }
-      [db,user]=await Promise.all([window.claude.use('db'),window.claude.use('user')]);
-      if(!db){ return gate('signin'); }
-      try{ me = user? await user.id():null; }catch(e){}
-      try{ canWrite = user? (await user.canEdit())===true : false; }catch(e){}
-      // Coach-only tools: hidden for everyone else (data rules also block non-coaches server-side)
-      $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.toggle('hidden',!canWrite));
-      try{ const s=await db.doc('settings/lab').get(); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
-      const col=db.collection('assessments');
-      const onData=s=>{ rows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); ready=true; render(); };
-      if(typeof col.onSnapshot==='function'){
-        unsub=col.onSnapshot(onData, err=>{ gate('denied'); });
-      } else { onData(await col.get()); }
-      setTimeout(()=>{ if(!ready) col.get().then(onData).catch(()=>gate('denied')); },4000);
-    }catch(e){ gate('denied'); }
-  }
-  function gate(kind){
-    const msg={unavailable:['Open in Claude','The Performance Lab saves assessments to the team\'s secure database. Open this page from claude.ai to use it.'],
-      signin:['Sign in required','Sign in to claude.ai with a coach account to view and record assessments.'],
-      denied:['Coaches only','Player assessments are visible only to coaches with edit access to this site. Ask the head coach to add you as an editor.']}[kind];
-    root().innerHTML=`<div class="labgate"><h3 class="h-m">${msg[0]}</h3><p>${msg[1]}</p></div>`+protocolsHTML();
-  }
-  function enter(){ start(); if(ready) render(); }
-
-  function byPlayer(p,t){ return rows.filter(r=>r.player===p&&(!t||r.test===t)); }
-  function lastSession(){ return rows.length?rows[rows.length-1].date:null; }
-  function dueDate(){ if(nextDue) return D(nextDue); const last=lastSession(); if(!last) return null; const d=D(last); d.setDate(d.getDate()+CADENCE_DAYS); return d; }
-
-  function render(){
-    if(!ready) return;
-    if(!canWrite&&(tab==='new'||tab==='history')) tab='overview';
-    $$('#labTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
-    if((tab==='new'||tab==='history')&&!coachOk()){ coachGate(); return; }
-    const r=root();
-    if(tab==='overview') r.innerHTML=overviewHTML();
-    else if(tab==='new') { r.innerHTML=newHTML(); wireNew(); return; }
-    else if(tab==='players') r.innerHTML=playersHTML();
-    else if(tab==='history') r.innerHTML=historyHTML();
-    else r.innerHTML=protocolsHTML();
-    wire();
-  }
-
-  /* ---- coach password (second lock on data entry; stored only as a SHA-256 hash) ---- */
-  const COACH_HASH='cea13a0efe90bce8ba0e211693bec82eaf01083ff97894346b61dfc386fa5085';
-  let coachMem=false;
-  function coachOk(){ if(coachMem) return true; try{ return sessionStorage.getItem('creed_coach')===COACH_HASH; }catch(e){ return false; } }
-  async function sha(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
-  function coachGate(){
-    root().innerHTML=`<div class="labgate"><h3 class="h-m">Coach password</h3><p>Enter the coach password to record or remove assessments.</p>
-      <div style="max-width:320px;margin:20px auto 0"><input class="inp" type="password" id="coachPw" placeholder="Coach password" autocomplete="off" aria-label="Coach password" style="text-align:center">
-      <button class="btn" id="coachGo" style="width:100%;justify-content:center;margin-top:10px">Unlock</button>
-      <div class="gate-error" id="coachErr"></div></div></div>`;
-    const inp=$('#coachPw'), go=async()=>{
-      let h=''; try{ h=await sha(inp.value); }catch(e){ $('#coachErr').textContent='This browser can\'t check the password.'; return; }
-      if(h===COACH_HASH){ coachMem=true; try{ sessionStorage.setItem('creed_coach',COACH_HASH); }catch(e){} render(); }
-      else { $('#coachErr').textContent='Incorrect password — try again.'; inp.value=''; inp.focus(); }
-    };
-    $('#coachGo').onclick=go; inp.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); }); inp.focus();
-  }
-
-  /* ---- overview ---- */
-  function overviewHTML(){
-    const players=new Set(rows.map(r=>r.player)); const sessions=new Set(rows.map(r=>r.date));
-    const last=lastSession(); const dd=dueDate(); const due=dd?md(dd):'—';
-    const isToday=dd&&dd.getTime()===today0().getTime();
-    const k=`<div class="kpis">
-      <div class="kpi"><div class="l">Assessments</div><div class="v">${rows.length}</div><div class="s">${sessions.size} session day${sessions.size===1?'':'s'}</div></div>
-      <div class="kpi"><div class="l">Players assessed</div><div class="v">${players.size}<span style="font-size:18px;color:var(--ink3)">/${ROSTER.length}</span></div><div class="s">Current roster</div></div>
-      <div class="kpi"><div class="l">Last session</div><div class="v" style="font-size:24px">${last?md(D(last)):'—'}</div><div class="s">${last?D(last).getFullYear():'No data yet'}</div></div>
-      <div class="kpi"><div class="l">Next assessment</div><div class="v" style="font-size:24px${isToday?';color:var(--blue)':''}">${isToday?'Today':due}</div><div class="s">${nextDue?'Set by coach':'Every '+CADENCE_DAYS/7+' weeks'}</div>${canWrite?`<input type="date" class="inp" id="dueInp" value="${nextDue||''}" style="margin-top:8px;padding:6px 8px;font-size:13px" aria-label="Set next assessment date">`:''}</div></div>`;
-    if(!rows.length) return k+`<div class="panel" style="margin-top:14px;text-align:center;padding:40px 22px"><h3>No assessments yet.</h3><p class="cap" style="margin:6px auto 18px;max-width:460px">This page starts empty on purpose — nothing here is sample data. Record the first session at the field and every player's baseline is established automatically.</p><button class="btn" data-go="new">Start an assessment</button></div>`+(canWrite?'':roNote());
-    const m=`<div class="panel" style="margin-top:14px"><h3>Testing completion</h3><p class="cap">Assessments recorded per player and category. Participation only — not a ranking.</p><div class="matrix"><table><tr><th>Player</th>${CATS.map(c=>`<th>${c.replace('Baseball ','')}</th>`).join('')}</tr>${ROSTER.map(p=>`<tr><td>${esc(p)}</td>${CATS.map(c=>{const n=rows.filter(r=>r.player===p&&TESTS[r.test].cat===c).length;return `<td><span class="mc ${n?'y':'n'}">${n||'·'}</span></td>`}).join('')}</tr>`).join('')}</table></div></div>`;
-    return k+leaderHTML()+m+trendsHTML()+(canWrite?'':roNote());
-  }
-  /* ---- team records (coach-only) + team trends ---- */
-  const LEAD_KEY={gb:'comp'};
-  function leadMetric(r){ const ms=metrics(r); const k=LEAD_KEY[r.test]; return (k&&ms.find(m=>m.k===k))||ms[0]; }
-  function leaderHTML(){
-    const cards=[];
-    CATS.forEach(cat=>{
-      Object.entries(TESTS).filter(([,t])=>t.cat===cat&&t.kind!=='rubric').forEach(([key,T])=>{
-        const cand=rows.filter(r=>r.test===key).map(r=>({r,m:leadMetric(r)})).filter(x=>x.m&&x.m.val!=null&&(x.m.den==null||x.m.den>0));
-        if(!cand.length) return;
-        let best=cand[0]; cand.forEach(x=>{ if(better(x.m,x.m.val,best.m.val)) best=x; });
-        const tied=cand.filter(x=>Math.abs(x.m.val-best.m.val)<1e-9);
-        const names=[...new Set(tied.map(x=>x.r.player))];
-        const first=tied.map(x=>x.r.date).sort()[0];
-        const val=best.m.sc==='pct'?`${Math.round(best.m.val)}%`:fmtM(best.m.val,best.m.sc);
-        cards.push(`<div class="lb"><div class="lb-c">${esc(cat)}</div><div class="lb-t">${esc(T.name)}<span> · ${esc(best.m.l.toLowerCase())}</span></div>
-          <div class="lb-v">${val}${best.m.sc==='pct'?`<small> ${best.m.num}/${best.m.den}</small>`:''}</div>
-          <div class="lb-p">${esc(names.slice(0,2).join(', '))}${names.length>2?` <small>+${names.length-2} more</small>`:''}</div><div class="lb-d">${md(D(first),{month:'short',day:'numeric',year:'numeric'})}</div></div>`);
-      });
-    });
-    if(!cards.length) return '';
-    return `<div class="panel" style="margin-top:14px"><h3>Team records</h3><p class="cap">Best result recorded for each test, all sessions. Coach view only — never shown on family reports.</p><div class="lbgrid">${cards.join('')}</div></div>`;
-  }
-  function trendsHTML(){
-    const cw=root().clientWidth||640, two=cw>=700, w=Math.round(two?(cw-14)/2-46:cw-46);
-    const out=[];
-    CATS.forEach(cat=>{
-      const tests=Object.entries(TESTS).filter(([k,t])=>t.cat===cat&&t.kind!=='rubric'&&rows.some(r=>r.test===k));
-      if(!tests.length) return;
-      const cards=tests.map(([key,T])=>{
-        const tr=rows.filter(r=>r.test===key); const dates=[...new Set(tr.map(r=>r.date))].sort();
-        let sc=null,label='';
-        const pts=dates.map(d=>{const v=tr.filter(r=>r.date===d).map(leadMetric).filter(m=>m&&m.val!=null); if(!v.length) return null; sc=v[0].sc; label=v[0].l;
-          const s=v.map(x=>x.val).sort((a,b)=>a-b); const med=s.length%2?s[(s.length-1)/2]:(s[s.length/2-1]+s[s.length/2])/2;
-          return {date:d,val:med,n:s.length,label:`${d}: median ${fmtM(med,sc)} · ${s.length} player${s.length===1?'':'s'} · range ${fmtM(s[0],sc)}–${fmtM(s[s.length-1],sc)}`};}).filter(Boolean);
-        if(!pts.length) return '';
-        const lastN=pts[pts.length-1].n;
-        return `<div class="trend"><div class="lb-t">${esc(T.name)}<span> · team median ${esc(label.toLowerCase())}</span></div>
-          <div class="cap" style="margin:2px 0 6px">${pts.length} session${pts.length===1?'':'s'} · ${lastN} player${lastN===1?'':'s'} tested last time</div>${chartSVG(pts,[],null,sc,true,w)}</div>`;
-      }).join('');
-      out.push(`<div class="cathd" style="margin-top:14px">${esc(cat)}</div><div class="trgrid">${cards}</div>`);
-    });
-    if(!out.length) return '';
-    return `<div class="panel" style="margin-top:14px"><h3>Team trends</h3><p class="cap">Team median for each test by session date. Hover or tap a point for the number of players tested and the range.</p>${out.join('')}</div>`;
-  }
-  function roNote(){return `<p class="samplebar">You have view access. Editors can record and remove assessments.</p>`;}
-  function teamPanel(){
-    const T=TESTS[overviewTest]; const tr=rows.filter(r=>r.test===overviewTest);
-    const opts=Object.entries(TESTS).filter(([k,t])=>t.kind!=='rubric').map(([k,t])=>`<option value="${k}"${k===overviewTest?' selected':''}>${t.cat} · ${t.name}</option>`).join('');
-    let body='<p class="cap">No sessions recorded for this test yet.</p>';
-    if(tr.length){
-      const dates=[...new Set(tr.map(r=>r.date))].sort();
-      const pts=dates.map(d=>{const vals=tr.filter(r=>r.date===d).map(r=>metrics(r)[0]).filter(m=>m&&m.val!=null); const v=vals.map(x=>x.val).sort((a,b)=>a-b);
-        const med=v.length?(v.length%2?v[(v.length-1)/2]:(v[v.length/2-1]+v[v.length/2])/2):null; return {date:d,val:med,n:v.length,sc:vals[0]&&vals[0].sc,min:v[0],max:v[v.length-1]};}).filter(p=>p.val!=null);
-      if(pts.length){ const m0=metrics(tr[0])[0];
-        body=`<p class="cap">Team median of <b>${m0.l.toLowerCase()}</b> per session date, with the number of players tested. Players are never ranked or named here.</p>`+chartSVG(pts.map(p=>({date:p.date,val:p.val,label:`median ${fmtM(p.val,p.sc)} · n=${p.n} · range ${fmtM(p.min,p.sc)}–${fmtM(p.max,p.sc)}`,n:p.n})),[],p0=>p0,m0.sc,true)+
-          `<details class="more"><summary>Show table ›</summary><div class="table-wrap" style="margin-top:10px"><table class="dt"><thead><tr><th>Date</th><th class="num">Median</th><th class="num">Range</th><th class="num">Players</th></tr></thead><tbody>${pts.map(p=>`<tr><td>${p.date}</td><td class="num">${fmtM(p.val,p.sc)}</td><td class="num">${fmtM(p.min,p.sc)}–${fmtM(p.max,p.sc)}</td><td class="num">${p.n}</td></tr>`).join('')}</tbody></table></div></details>`;}
-    }
-    return `<div class="panel" style="margin-top:14px"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><h3>Team trend</h3><select class="inp" id="ovTest" style="width:auto;font-size:14px;padding:8px 12px">${opts}</select></div>${body}</div>`;
-  }
-  function fmtM(v,sc){ if(v==null) return '—'; return sc==='s'?v.toFixed(2)+'s':sc==='mph'?v.toFixed(1)+' mph':sc==='pct'?Math.round(v)+'%':String(v); }
-
-  /* ---- chart ---- */
-  // pts: [{date,val,label,alt}] ; raws: [{date,val}]
-  function chartSVG(pts,raws,_,sc,team,wOv){
-    const W=wOv||Math.round(Math.max(320,Math.min(720,(root().clientWidth||640)-44))),H=wOv?190:Math.round(W<480?220:240),L=44,R=14,Tp=18,B=30;
-    const ds=[...pts.map(p=>p.date),...raws.map(r=>r.date)].map(d=>D(d).getTime());
-    let x0=Math.min(...ds), x1=Math.max(...ds); if(x0===x1){x0-=864e5*7;x1+=864e5*7;}
-    let y0,y1; const vs=[...pts.map(p=>p.val),...raws.map(r=>r.val)];
-    if(sc==='pct'){y0=0;y1=100;} else if(sc==='rubric'){y0=1;y1=5;} else { const lo=Math.min(...vs),hi=Math.max(...vs),pad=Math.max((hi-lo)*.2,sc==='s'?.2:1); y0=Math.max(0,lo-pad); y1=hi+pad; }
-    const X=d=>L+(D(d).getTime()-x0)/(x1-x0)*(W-L-R), Y=v=>Tp+(1-(v-y0)/(y1-y0))*(H-Tp-B);
-    const ticks=sc==='pct'?[0,25,50,75,100]:sc==='rubric'?[1,2,3,4,5]:[0,1,2,3,4].map(i=>y0+(y1-y0)*i/4);
-    let g=ticks.map(v=>`<line class="ax" x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" opacity=".5"/><text class="tk" x="${L-6}" y="${Y(v)+3}" text-anchor="end">${sc==='pct'?v+'%':sc==='rubric'?v:sc==='s'?v.toFixed(y1-y0<1.2?2:1):(y1-y0<8?v.toFixed(1):Math.round(v))}</text>`).join('');
-    const unit=sc==='s'?'seconds (lower is better)':sc==='mph'?'mph':sc==='pct'?'percent':'rating 1–5';
-    g+=`<text class="tk" x="${L}" y="10">${unit}</text>`;
-    g+=raws.map(r=>`<circle class="raw" cx="${X(r.date)}" cy="${Y(r.val)}" r="3"><title>${r.date}: attempt ${fmtM(r.val,sc)}</title></circle>`).join('');
-    // segments: break line when protocol group changes
-    let seg=[],segs=[]; pts.forEach((p,i)=>{ if(i&&p.grp!==pts[i-1].grp){segs.push(seg);seg=[];} seg.push(p); }); if(seg.length) segs.push(seg);
-    g+=segs.map(s=>s.length>1?`<polyline class="ln" points="${s.map(p=>X(p.date)+','+Y(p.val)).join(' ')}"/>`:'').join('');
-    g+=pts.map(p=>`<circle class="pt${p.alt?' alt':''}" cx="${X(p.date)}" cy="${Y(p.val)}" r="5.5"><title>${esc(p.label||'')}</title></circle>`).join('');
-    if(pts.length<=8) g+=pts.map(p=>`<text class="vl" x="${X(p.date)}" y="${Y(p.val)-10}">${fmtM(p.val,sc)}</text>`).join('');
-    const dts=[...new Set(pts.map(p=>p.date))]; const step=Math.ceil(dts.length/6);
-    g+=dts.filter((_,i)=>i%step===0).map(d=>`<text class="tk" x="${X(d)}" y="${H-8}" text-anchor="middle">${md(D(d))}</text>`).join('');
-    return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Trend chart">${g}</svg></div>`;
-  }
-
-  /* ---- players ---- */
-  function playersHTML(){
-    const chips=ROSTER.map(p=>{const n=byPlayer(p).length;return `<button class="chip${p===selPlayer?' on':''}" data-player="${esc(p)}">${esc(p)}${n?`<small>${n}</small>`:''}</button>`}).join('');
-    const mine=byPlayer(selPlayer);
-    let body='';
-    if(!mine.length) body=`<div class="panel" style="text-align:center;padding:36px 22px"><h3>No assessments for ${esc(selPlayer)} yet.</h3><p class="cap" style="margin-top:6px">Their first recorded test establishes the baseline.</p></div>`;
-    else{
-      const tests=[...new Set(mine.map(r=>r.test))]; if(!tests.includes(selTest)) selTest=tests[0];
-      const tchips=CATS.map(c=>{const ts=tests.filter(t=>TESTS[t].cat===c); if(!ts.length) return ''; return ts.map(t=>`<button class="chip${t===selTest?' on':''}" data-ptest="${t}">${esc(TESTS[t].name)}<small>${mine.filter(r=>r.test===t).length}</small></button>`).join('');}).join('');
-      body=`<div class="chips" style="margin-bottom:14px">${tchips}</div>`+testDetail(mine.filter(r=>r.test===selTest));
-    }
-    return `<div class="chips noprint" style="margin-bottom:18px">${chips}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap"><h3 class="h-m">${esc(selPlayer)}</h3>${mine.length?'<button class="btn dark sm noprint" id="printBtn">Print this view</button>':''}</div>${body}`;
-  }
-  function testDetail(list){
-    const T=TESTS[list[0].test]; const latest=list[list.length-1]; const lk=protoKey(latest);
-    const comp=list.filter(r=>protoKey(r)===lk); const excluded=list.length-comp.length;
-    const mList=metrics(latest); if(!mList.length) return '<p class="cap">No valid attempts recorded.</p>';
-    const badges=[]; if(list.length===1) badges.push('<span class="badge base">Baseline established</span>');
-    const dd=dueDate(); if(dd&&dd<=today0()&&D(latest.date)<dd) badges.push('<span class="badge due">Next assessment due</span>');
-    let panels='';
-    mList.forEach(m0=>{
-      const series=comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null);
-      const allSeries=list.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null);
-      if(!series.length) return;
-      const base=series[0].m, last=series[series.length-1].m;
-      let pr=series[0]; series.forEach(s=>{ if(better(m0,s.m.val,pr.m.val)) pr=s; });
-      const isNewPB=series.length>1&&pr===series[series.length-1]&&better(m0,pr.m.val,series[0].m.val);
-      if(isNewPB&&m0===mList[0]) badges.push('<span class="badge pb">New personal best</span>');
-      const ch=series.length>1?showChange(base,last):{t:'',c:''};
-      const raws=(T.kind==='time'||T.kind==='mph')&&m0===mList[0]?allSeries.flatMap(s=>nums(s.r.attempts||[]).map(v=>({date:s.r.date,val:v}))):[];
-      const pts=allSeries.map(s=>({date:s.r.date,val:s.m.val,grp:protoKey(s.r),alt:protoKey(s.r)!==lk,label:`${s.r.date}: ${fmtM(s.m.val,s.m.sc)}${s.m.den!=null?` (${s.m.num}/${s.m.den})`:''}${protoKey(s.r)!==lk?' · different protocol':''}`}));
-      panels+=`<div class="panel"><h3>${esc(m0.l)}</h3><p class="cap">${esc(T.cat)} · ${esc(T.name)}${m0.sc==='rubric'?' · coach rating, not a measurement':''}</p>
-        <div class="sumgrid">
-          <div class="smc"><div class="l">Baseline</div><div class="v">${showVal(base)}</div><div class="s">${md(D(series[0].r.date),{month:'short',day:'numeric',year:'numeric'})}</div></div>
-          <div class="smc"><div class="l">Latest</div><div class="v">${showVal(last)}</div><div class="s ${ch.c}">${ch.t||md(D(series[series.length-1].r.date),{month:'short',day:'numeric',year:'numeric'})}</div></div>
-          <div class="smc"><div class="l">Personal best</div><div class="v">${showVal(pr.m)}</div><div class="s">${md(D(pr.r.date))}</div></div>
-          <div class="smc"><div class="l">Sessions</div><div class="v">${series.length}</div><div class="s">${m0.sc==='pct'?'change in % points':m0.sc==='rubric'?'change in rating points':'comparable sessions'}</div></div>
-        </div>
-        ${chartSVG(pts,raws,null,m0.sc)}
-        <div class="legend"><span><i style="background:var(--blue)"></i>${m0.l}</span>${raws.length?'<span><i style="background:rgba(245,247,250,.28)"></i>Individual valid attempts</span>':''}${excluded?'<span><i style="background:var(--amber)"></i>Different protocol</span>':''}</div>
-        <details class="more"><summary>Show table ›</summary><div class="table-wrap" style="margin-top:10px"><table class="dt"><thead><tr><th>Date</th><th class="num">${esc(m0.l)}</th><th>Protocol</th></tr></thead><tbody>${allSeries.map(s=>`<tr><td>${s.r.date}</td><td class="num">${showVal(s.m)}</td><td>${esc(protoText(s.r))||'—'}</td></tr>`).join('')}</tbody></table></div></details>
-      </div>`;
-    });
-    const warn=excluded?`<div class="warn">${excluded} earlier session${excluded===1?'':'s'} used a different setup (${esc(T.proto.map(p=>p[1]).join(', ').toLowerCase())}). ${excluded===1?'It is':'They are'} shown in amber but left out of baseline, best and change.</div>`:'';
-    const notes=list.filter(r=>r.notes).slice(-3).reverse().map(r=>`<div class="note-box blue"><b>${md(D(r.date))}:</b> ${esc(r.notes)}</div>`).join('');
-    return `<div>${badges.join('')}</div>${warn}${panels}${notes?`<div class="panel"><h3>Coach notes</h3><p class="cap">Internal — not shared with families.</p>${notes}</div>`:''}`;
-  }
-  function protoText(r){const T=TESTS[r.test]; return T.proto.map(([k,l])=>(r.proto||{})[k]?`${l}: ${r.proto[k]}`:'').filter(Boolean).join(' · ');}
-
-  /* ---- history ---- */
-  function historyHTML(){
-    if(!rows.length) return `<div class="panel" style="text-align:center;padding:36px"><h3>Nothing recorded yet.</h3></div>`;
-    const list=[...rows].reverse();
-    return `<div class="panel"><h3>All assessments</h3><p class="cap">Newest first. Removing an entry is logged with who removed it and what it held.</p><div class="hist">${list.map(r=>{const m=metrics(r)[0];
-      return `<div class="hrow"><div class="d">${r.date}</div><div class="w">${esc(r.player)}<small>${esc(TESTS[r.test].cat)} · ${esc(TESTS[r.test].name)}${r.location?' · '+esc(r.location):''}</small></div><div class="v">${m?fmtM(m.val,m.sc):'—'}</div>${canWrite?`<button data-del="${esc(r.id)}">Remove</button>`:'<span></span>'}</div>`}).join('')}</div></div>`;
-  }
-
-  /* ---- protocols ---- */
-  function protocolsHTML(){
-    return `<div class="proto" style="margin-top:14px">
-      <div class="panel"><h3>Running</h3><p>Two timed attempts per distance (three for home to first). Record the actual base-path length, surface, and whether the clock starts at first movement or simulated contact. Times from different distances or start methods are never compared as equal.</p></div>
-      <div class="panel"><h3>Throwing</h3><p>Comfortable fielding throws — never max-effort pitching. Same ball, distance, radar placement and warm-up each session. Up to 10 throws; fewer is fine. Stop for pain, fatigue or discomfort and mark it skipped.</p></div>
-      <div class="panel"><h3>Hitting</h3><p>Record bat make/model/length/weight, sensor and setup (tee, front toss or machine). A change in bat or setup is flagged and kept separate from earlier results.</p></div>
-      <div class="panel"><h3>Ground balls</h3><p>Five balls, same delivery and distance, throw to first. A play is complete only if fielded cleanly <b>and</b> thrown accurately. Accuracy is shown two ways: per opportunity and per attempted throw.</p></div>
-      <div class="panel"><h3>Fly balls &amp; catching</h3><p>Consistent delivery and distance. Mark an uncatchable throw invalid — it never counts against the player.</p></div>
-      <div class="panel"><h3>Baseball IQ</h3><p>Fixed five scenarios:</p><ul>${IQ_SCEN.map(s=>`<li>${s}</li>`).join('')}</ul></div>
-      <div class="panel" style="grid-column:1/-1"><h3>Coach rating rubric (1–5)</h3><p>Mechanics and coachability are subjective observations, not measurements. Changes are shown in rating points only.</p><ul>${RUBRIC_ANCHORS.map((a,i)=>`<li><b>${i+1}</b> — ${a}</li>`).join('')}</ul></div>
-      <div class="panel" style="grid-column:1/-1"><h3>Calculation rules</h3><ul><li>Skipped or invalid attempts are excluded — never counted as zero.</li><li>Times: lower is better. Improvement = (baseline − latest) ÷ baseline.</li><li>MPH: peak, top-3 average (only with 3+ valid throws/swings), and overall average.</li><li>Rates show the count and the percentage; change is in percentage points.</li><li>No rankings, leaderboards, composite scores or benchmarks.</li></ul></div>
-    </div>`;
-  }
-
-  /* ---- new assessment ---- */
-  function blankDraft(keep,test){
-    test=test||selTest;
-    const T=TESTS[test]; const d={date:keep?keep.date:isoToday(),location:keep?keep.location:'Pecan',player:selPlayer,test:test,proto:{},notes:''};
-    if(keep&&keep.test===test) d.proto={...keep.proto};
-    if(T.kind==='time'||T.kind==='mph') d.attempts=Array.from({length:T.max},()=>({v:null,ok:true}));
-    else if(T.kind==='grounders'||T.kind==='fly') d.attempts=Array.from({length:T.max},()=>({rec:true}));
-    else if(T.kind==='iq') d.attempts=IQ_SCEN.map(()=>({r:null}));
-    else if(T.kind==='rubric') d.scores={};
-    else d.attempts=Array.from({length:T.max},()=>({r:null}));
-    return d;
-  }
-  function newHTML(){
-    if(!canWrite) return `<div class="labgate"><h3 class="h-m">View only</h3><p>Only coaches with edit access can record assessments.</p></div>`;
-    if(PAIR_OF[selTest]) selTest=PAIR_OF[selTest];
-    if(!draft||draft.test!==selTest||draft.player!==selPlayer) draft=blankDraft(draft);
-    const pairT=PAIR[selTest];
-    if(pairT){ if(!draft2||draft2.test!==pairT||draft2.player!==selPlayer) draft2=blankDraft(draft2,pairT); draft2.date=draft.date; draft2.location=draft.location; } else draft2=null;
-    const T=TESTS[selTest];
-    const doneTests=[selTest].concat(pairT?[pairT]:[]);
-    const pchips=ROSTER.map(p=>{const done=rows.some(r=>r.player===p&&doneTests.includes(r.test)&&r.date===draft.date);return `<button class="chip${p===selPlayer?' on':''}" data-np="${esc(p)}">${esc(p)}${done?'<small>✓</small>':''}</button>`}).join('');
-    const tchips=CATS.map(c=>`<div class="cathd">${c}</div><div class="chips">${Object.entries(TESTS).filter(([k,t])=>t.cat===c&&!Object.values(PAIR).includes(k)).map(([k,t])=>`<button class="chip${k===selTest?' on':''}" data-nt="${k}">${PAIR[k]?esc(PAIR_INFO[k].chip):esc(t.name)}</button>`).join('')}</div>`).join('');
-    const protoFields=(TT,d,attr)=>TT.proto.length?`<div class="fgrid" style="margin-top:4px">${TT.proto.map(([k,l,opts])=>`<div class="field"><label>${esc(l)}</label>${opts?`<select class="inp" ${attr}="${k}"><option value="">—</option>${opts.map(o=>`<option${d.proto[k]===o?' selected':''}>${o}</option>`).join('')}</select>`:`<input class="inp" ${attr}="${k}" value="${esc(d.proto[k]||'')}" ${k==='dist'?'inputmode="decimal"':''}>`}</div>`).join('')}</div><p class="cap" style="margin-top:8px">Keep these identical between sessions so results stay comparable.</p>`:'';
-    const protoF=protoFields(T,draft,'data-proto');
-    const pairPanel='';
-    const pairProto=pairT?`<div class="cathd" style="margin-top:16px">${esc(TESTS[pairT].name)} setup</div>${protoFields(TESTS[pairT],draft2,'data-proto2')}`:'';
-    return `
-      <div class="panel"><h3>Session</h3><div class="fgrid" style="margin-top:12px">
-        <div class="field"><label>Date</label><input class="inp" type="date" id="nDate" value="${draft.date}"></div>
-        <div class="field"><label>Location / station</label><input class="inp" id="nLoc" value="${esc(draft.location)}"></div></div></div>
-      <div class="panel"><h3>Player</h3><p class="cap">✓ = already recorded for this test today.</p><div class="chips">${pchips}</div></div>
-      <div class="panel"><h3>Test</h3>${tchips}</div>
-      <div class="panel"><h3>${pairT?esc(PAIR_INFO[selTest].title):esc(T.name)}</h3><p class="cap">${esc(selPlayer)} · ${esc(T.cat)}${pairT?' · '+esc(PAIR_INFO[selTest].cap):''}</p>${pairT?`<div class="cathd">${esc(T.name)} setup</div>`:''}${protoF}${pairProto}<div style="margin-top:14px">${attemptsHTML(T)}</div>
-        ${pairT?'':`<div class="field" style="margin-top:14px"><label>Coach note (internal)</label><textarea class="inp" id="nNotes" rows="2" placeholder="Optional — observable behavior only, no medical detail">${esc(draft.notes)}</textarea></div>`}</div>
-      ${pairPanel}
-      ${pairT?`<div class="panel"><div class="field"><label>Coach note (internal)</label><textarea class="inp" id="nNotes" rows="2" placeholder="Optional — observable behavior only, no medical detail">${esc(draft.notes)}</textarea></div><p class="cap" style="margin-top:8px">Velocity and accuracy save as two results so each gets its own progress chart. If you only record one, the other is skipped — never saved as zero.</p></div>`:''}
-      <div class="savebar"><span class="msg" id="nMsg">Nothing saves until you tap Save.</span><button class="btn dark" id="nSave">Save</button><button class="btn" id="nNext">Save &amp; next player</button></div>`;
-  }
-  function attemptsHTML(T,d,dn){
-    d=d||draft; const A=d.attempts;
-    if(T.kind==='time'||T.kind==='mph'){
-      const watch=T.kind==='time'?`<div class="watch"><div class="tm" id="swT">0.00</div><button id="swB">Start</button></div><p class="cap">Stopwatch fills the next empty attempt. You can also type a time from another watch.</p>`:'';
-      const acc=(T.kind==='mph'&&!dn&&draft2&&draft2.test==='ta')?draft2.attempts:null;
-      return watch+A.map((a,i)=>{const r=acc&&acc[i]?acc[i].r:null;
-        const hm=acc?`<button class="tog${r==='hit'?' ok':''}" data-cy="${i}" data-val="hit" data-d="2">Hit</button><button class="tog${r==='miss'?' on':''}" data-cy="${i}" data-val="miss" data-d="2">Miss</button>`:'';
-        return `<div class="att${acc?' att3':''}"><div class="ix">#${i+1}</div><input class="inp" inputmode="decimal" data-av="${i}" placeholder="${T.kind==='time'?'sec':'mph'}" value="${a.v==null?'':a.v}" ${a.ok?'':'disabled'}><div class="attb"><button class="tog${a.ok?'':' on'}" data-skip="${i}">${a.ok?'Valid':'Skipped'}</button>${hm}</div></div>`}).join('')+(acc?'<p class="cap" style="margin-top:8px">Skip the mph on a throw that missed the radar — its Hit/Miss still counts toward accuracy.</p>':'');
-    }
-    if(T.kind==='hitmiss') return cyc(A,[['hit','Hit','ok'],['miss','Miss','on']],'Throw',dn);
-    if(T.kind==='catch') return cyc(A,[['caught','Caught','ok'],['dropped','Dropped','on'],['invalid','Uncatchable','amb']],'Throw');
-    if(T.kind==='contact'&&!dn&&draft2&&draft2.test==='ev'){
-      const EV=draft2.attempts; const states=[['none','No swing',''],['miss','Miss','on'],['contact','Contact','mid'],['solid','Solid','ok']];
-      return A.map((a,i)=>{const hit=a.r==='contact'||a.r==='solid'; const e=EV[i]||{};
-        return `<div class="att4"><div class="ix">#${i+1}</div><div class="attb">${states.map(([v,l,c])=>`<button class="tog${a.r===v?' '+(c||'mid'):''}" data-cy="${i}" data-val="${v}">${l}</button>`).join('')}</div>
-          <input class="inp" inputmode="decimal" data-av2="${i}" placeholder="${hit?'exit mph':'—'}" value="${hit&&e.v!=null?e.v:''}" ${hit?'':'disabled'} aria-label="Exit velocity pitch ${i+1}"></div>`}).join('')+
-        '<p class="cap" style="margin-top:8px">Exit velo opens once a pitch is marked Contact or Solid. Leave it blank if the radar missed it — the contact still counts.</p>';
-    }
-    if(T.kind==='contact') return cyc(A,[['none','No swing',''],['miss','Miss','on'],['contact','Contact','mid'],['solid','Solid','ok']],'Pitch');
-    if(T.kind==='iq') return A.map((a,i)=>`<div class="att"><div class="ix">#${i+1}</div><div style="font-weight:600">${IQ_SCEN[i]}</div><div style="display:flex;gap:6px"><button class="tog${a.r===true?' ok':''}" data-iq="${i}" data-val="1">Correct</button><button class="tog${a.r===false?' on':''}" data-iq="${i}" data-val="0">Not yet</button></div></div>`).join('');
-    if(T.kind==='grounders'||T.kind==='fly'){
-      const cols=T.kind==='grounders'?[['clean','Clean field'],['thr','Threw'],['acc','Accurate']]:[['c','Caught'],['fs','First step'],['call','Called it']];
-      return `<div class="multi"><div></div>${cols.map(c=>`<div class="h">${c[1]}</div>`).join('')}</div>`+A.map((a,i)=>`<div class="multi"><div class="ix" style="font-family:var(--m);color:var(--ink3)">#${i+1}</div>${cols.map(([k])=>`<button class="tog${a[k]?' ok':''}" data-mt="${i}" data-k="${k}">${a[k]?'Yes':'No'}</button>`).join('')}</div>`).join('')+(T.kind==='grounders'?'<p class="cap" style="margin-top:8px">Complete play = clean field + accurate throw. "Accurate" only counts when a throw was made.</p>':'');
-    }
-    if(T.kind==='rubric') return T.skills.map(([k,l,h])=>`<div class="rub"><div class="sk">${l}<small>${h}</small></div><div class="sc">${[1,2,3,4,5].map(n=>`<button class="${draft.scores[k]===n?'on':''}" data-rb="${k}" data-n="${n}" title="${RUBRIC_ANCHORS[n-1]}">${n}</button>`).join('')}</div></div>`).join('')+`<p class="cap" style="margin-top:8px">${RUBRIC_ANCHORS.map((a,i)=>`${i+1} ${a}`).join(' · ')}</p>`;
-    return '';
-  }
-  function cyc(A,states,lbl,dn){
-    return A.map((a,i)=>`<div class="att"><div class="ix">#${i+1}</div><div style="color:var(--ink3);font-size:13px">${lbl} ${i+1}</div><div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${states.map(([v,l,c])=>`<button class="tog${a.r===v?' '+(c||'mid'):''}" data-cy="${i}" data-val="${v}"${dn?` data-d="${dn}"`:''}>${l}</button>`).join('')}</div></div>`).join('');
-  }
-  function readDraft(){
-    draft.date=$('#nDate').value||isoToday(); draft.location=$('#nLoc').value.trim(); draft.notes=($('#nNotes')||{}).value||'';
-    $$('[data-proto]').forEach(el=>draft.proto[el.dataset.proto]=el.value.trim());
-    if(draft2){ draft2.date=draft.date; draft2.location=draft.location; draft2.notes=draft.notes; $$('[data-proto2]').forEach(el=>draft2.proto[el.dataset.proto2]=el.value.trim());
-      $$('[data-av2]').forEach(el=>{const i=+el.dataset.av2; const v=parseFloat(el.value); if(draft2.attempts[i]) draft2.attempts[i].v=isFinite(v)&&v>0?v:null;});
-      if(draft2.test==='ev') draft.attempts.forEach((a,i)=>{ const hit=a.r==='contact'||a.r==='solid'; if(!hit&&draft2.attempts[i]) draft2.attempts[i].v=null; }); }
-    $$('[data-av]').forEach(el=>{const i=+el.dataset.av; const v=parseFloat(el.value); draft.attempts[i].v=isFinite(v)&&v>0?v:null;});
-  }
-  function wireNew(){
-    $$('#labTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab==='new'));
-    if(!canWrite) return;
-    const rer=()=>{ const y=window.scrollY; readDraft(); root().innerHTML=newHTML(); wireNew(); window.scrollTo(0,y); };
-    $$('[data-np]').forEach(b=>b.onclick=()=>{readDraft(); const keep=draft; selPlayer=b.dataset.np; draft=blankDraft(keep); rer2();});
-    $$('[data-nt]').forEach(b=>b.onclick=()=>{readDraft(); const keep=draft; selTest=b.dataset.nt; draft=blankDraft(keep); rer2();});
-    function rer2(){ const y=window.scrollY; root().innerHTML=newHTML(); wireNew(); window.scrollTo(0,y); }
-    $$('[data-skip]').forEach(b=>b.onclick=()=>{readDraft(); const a=draft.attempts[+b.dataset.skip]; a.ok=!a.ok; if(!a.ok)a.v=null; rer2();});
-    $$('[data-cy]').forEach(b=>b.onclick=()=>{readDraft(); const a=(b.dataset.d==='2'?draft2:draft).attempts[+b.dataset.cy]; a.r=a.r===b.dataset.val?null:b.dataset.val; rer2();});
-    $$('[data-iq]').forEach(b=>b.onclick=()=>{readDraft(); const a=draft.attempts[+b.dataset.iq]; const v=b.dataset.val==='1'; a.r=a.r===v?null:v; rer2();});
-    $$('[data-mt]').forEach(b=>b.onclick=()=>{readDraft(); const a=draft.attempts[+b.dataset.mt]; a[b.dataset.k]=!a[b.dataset.k]; if(b.dataset.k==='thr'&&!a.thr) a.acc=false; if(b.dataset.k==='acc'&&a.acc) a.thr=true; rer2();});
-    $$('[data-rb]').forEach(b=>b.onclick=()=>{readDraft(); const k=b.dataset.rb,n=+b.dataset.n; draft.scores[k]=draft.scores[k]===n?undefined:n; rer2();});
-    const swB=$('#swB');
-    if(swB){
-      const paint=()=>{ $('#swT').textContent=((performance.now()-sw.t0)/1000).toFixed(2); sw.raf=requestAnimationFrame(paint); };
-      if(sw.on){ swB.textContent='Stop'; swB.classList.add('stop'); paint(); }
-      swB.onclick=()=>{
-        if(!sw.on){ sw.on=true; sw.t0=performance.now(); swB.textContent='Stop'; swB.classList.add('stop'); paint(); }
-        else { sw.on=false; cancelAnimationFrame(sw.raf); const v=+((performance.now()-sw.t0)/1000).toFixed(2); $('#swT').textContent=v.toFixed(2);
-          readDraft(); const slot=draft.attempts.find(a=>a.ok&&a.v==null); if(slot) slot.v=v; rer2(); }
-      };
-    }
-    $('#nSave').onclick=()=>save(false);
-    $('#nNext').onclick=()=>save(true);
-  }
-  function validate(d){
-    const T=TESTS[d.test];
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(d.date)) return 'Pick a date.';
-    if(T.kind==='time'){ const v=nums(d.attempts); if(!v.length) return 'Enter at least one valid time.'; if(v.some(x=>x>120)) return 'A time looks too long — check the entry.'; }
-    if(T.kind==='mph'){ const v=nums(d.attempts); if(!v.length) return 'Enter at least one valid reading.'; if(v.some(x=>x>120)) return 'A reading looks too high — check the entry.'; }
-    if(T.kind==='rubric'&&!Object.values(d.scores).some(v=>typeof v==='number')) return 'Rate at least one skill.';
-    if(!['time','mph','rubric'].includes(T.kind)&&!metrics(d).some(m=>m.den>0)) return 'Record at least one attempt.';
-    return null;
-  }
-  function hasEntries(d){ const T=TESTS[d.test];
-    if(T.kind==='time'||T.kind==='mph') return d.attempts.some(a=>a.v!=null||a.ok===false);
-    if(T.kind==='rubric') return Object.values(d.scores).some(v=>typeof v==='number');
-    return metrics(d).some(m=>m.den>0); }
-  function toDoc(d,id,created){
-    const doc={id,date:d.date,location:d.location,player:d.player,test:d.test,proto:d.proto,notes:(d.notes||'').trim(),by:me||null,created,v:1};
-    if(d.attempts) doc.attempts=d.attempts.map(a=>{const o={...a}; Object.keys(o).forEach(k=>o[k]===undefined&&delete o[k]); return o;});
-    if(d.scores){ doc.scores={}; Object.entries(d.scores).forEach(([k,v])=>{ if(typeof v==='number') doc.scores[k]=v; }); }
-    return doc; }
-  async function save(next){
-    readDraft(); const msg=$('#nMsg');
-    let list=[draft];
-    if(draft2){ list=[draft,draft2].filter(hasEntries); if(!list.length){ msg.textContent=PAIR_INFO[draft.test].none; msg.className='msg err'; return; } }
-    for(const d of list){ const err=validate(d); if(err){ msg.textContent=(draft2?TESTS[d.test].name+': ':'')+err; msg.className='msg err'; return; } }
-    msg.textContent='Saving…'; msg.className='msg';
-    const saved=[];
-    try{
-      for(const d of list){
-        const id='a'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-        const doc=toDoc(d,id,Date.now()+saved.length);
-        await db.doc('assessments/'+id).set(doc);
-        try{ await db.doc('audit/'+id+'-c').set({action:'create',assessment:id,by:me||null,at:Date.now()}); }catch(e){}
-        if(!rows.some(r=>r.id===id)){ rows.push(doc); rows.sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); }
-        saved.push(TESTS[d.test].name);
-      }
-      const keep=draft, keep2=draft2, who=draft.player;
-      if(next){ const i=ROSTER.indexOf(selPlayer); selPlayer=ROSTER[(i+1)%ROSTER.length]; }
-      draft=blankDraft(keep); if(keep2) draft2=blankDraft(keep2,keep2.test);
-      root().innerHTML=newHTML(); wireNew();
-      const m2=$('#nMsg'); m2.textContent=`Saved ${who} · ${saved.join(' + ')}.${next?' Next up: '+selPlayer+'.':''}`; m2.className='msg ok';
-    }catch(e){ msg.textContent=(saved.length?`Saved ${saved.join(' + ')}, but the rest failed`:'Could not save')+' — check your connection and edit access, then try again.'; msg.className='msg err'; }
-  }
-  async function remove(id){
-    const r=rows.find(x=>x.id===id); if(!r) return;
-    if(!confirm(`Remove ${r.player} · ${TESTS[r.test].name} from ${r.date}? This is logged.`)) return;
-    try{
-      await db.doc('audit/'+id+'-d'+Date.now()).set({action:'delete',assessment:id,by:me||null,at:Date.now(),before:r});
-      await db.doc('assessments/'+id).delete();
-      rows=rows.filter(x=>x.id!==id); render();
-    }catch(e){ alert('Could not remove this entry.'); }
-  }
-  function wire(){
-    $$('[data-go]').forEach(b=>b.onclick=()=>{tab=b.dataset.go;render();});
-    $$('[data-player]').forEach(b=>b.onclick=()=>{selPlayer=b.dataset.player;render();});
-    $$('[data-ptest]').forEach(b=>b.onclick=()=>{selTest=b.dataset.ptest;render();});
-    $$('[data-del]').forEach(b=>b.onclick=()=>remove(b.dataset.del));
-    const ov=$('#ovTest'); if(ov) ov.onchange=()=>{overviewTest=ov.value;render();};
-    const pb=$('#printBtn'); if(pb) pb.onclick=()=>window.print();
-    const di=$('#dueInp'); if(di) di.onchange=async()=>{ const v=di.value; if(!/^\d{4}-\d{2}-\d{2}$/.test(v)) return;
-      try{ await db.doc('settings/lab').set({nextDue:v,by:me||null,at:Date.now()}); nextDue=v; render(); }catch(e){ alert('Could not save the date.'); } };
-  }
-  $$('#labTabs button').forEach(b=>b.addEventListener('click',()=>{ tab=b.dataset.tab; if(ready) render(); else $$('#labTabs button').forEach(x=>x.classList.toggle('on',x===b)); const y=$('#labRoot').getBoundingClientRect().top+window.scrollY-120; if(window.scrollY>y) window.scrollTo({top:y}); }));
-  return {enter, start, count:()=>rows.length};
-})();
 
 /* ================= BOOT ================= */
 renderHome(); renderBanking(); renderSchedule(); renderSwag();
