@@ -592,8 +592,6 @@ const IQ_SCEN=['Force play','Running through first','Touching / tagging base','F
 const CATS=['Speed','Throwing','Hitting','Fielding','Catching','Baseball IQ','Fundamentals','Coachability'];
 const RUBRIC_ANCHORS=['Needs frequent guidance','Emerging with support','Demonstrates intermittently','Demonstrates consistently','Independent and reliable'];
 const CADENCE_DAYS=42;
-/* Direct link to the team sheet, shown to coaches behind the coach password. */
-const SHEET_EDIT = "PASTE_SHEET_EDIT_URL";
 
 function nums(arr){return arr.filter(x=>x&&x.ok!==false&&typeof x.v==='number'&&isFinite(x.v)).map(x=>x.v);}
 function rate(n,d){return d>0?{num:n,den:d,val:n/d*100}:{num:n,den:d,val:null};}
@@ -645,120 +643,6 @@ const Lab = (()=>{
   let draft=null, selPlayer=ROSTER[0], selTest='h1', overviewTest='h1', sw={on:false,t0:0,raf:0};
   const root=()=>$('#labRoot');
 
-
-  /* ---- Google Sheet reader -------------------------------------------------
-     SHEET_CSV is a "Publish to web > CSV" link from the team's Google Sheet.
-     Columns: Date | Player | Test | Location | A1..A10 | Notes
-     What A1..A10 hold depends on the test (see the Reference tab in the Sheet).
-     -------------------------------------------------------------------------- */
-  const SHEET_CSV = "PASTE_PUBLISHED_CSV_URL";
-
-  function parseCSV(text){
-    const out=[]; let row=[], f='', q=false;
-    for(let i=0;i<text.length;i++){
-      const c=text[i];
-      if(q){
-        if(c==='"'){ if(text[i+1]==='"'){ f+='"'; i++; } else q=false; }
-        else f+=c;
-      } else if(c==='"') q=true;
-      else if(c===','){ row.push(f); f=''; }
-      else if(c==='\n'){ row.push(f); f=''; out.push(row); row=[]; }
-      else if(c!=='\r') f+=c;
-    }
-    if(f.length||row.length){ row.push(f); out.push(row); }
-    return out.filter(r=>r.some(x=>String(x).trim()!==''));
-  }
-
-  function normDate(s){
-    s=String(s||'').trim();
-    if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-    const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-    if(m){ let y=+m[3]; if(y<100) y+=2000;
-      return y+'-'+String(+m[1]).padStart(2,'0')+'-'+String(+m[2]).padStart(2,'0'); }
-    return '';
-  }
-  const TESTBYNAME=(()=>{ const m={};
-    Object.entries(TESTS).forEach(([k,T])=>{ m[k.toLowerCase()]=k; m[T.name.toLowerCase().replace(/\s+/g,' ')]=k; });
-    m['home to first']='h1'; m['home to 1st']='h1'; m['home-1st']='h1';
-    m['home to second']='h2'; m['home to third']='h3'; m['home to home']='hh';
-    return m; })();
-  function testKey(s){
-    s=String(s||'').trim().toLowerCase().replace(/[→>]/g,'to').replace(/\s+/g,' ');
-    return TESTBYNAME[s]||TESTBYNAME[s.replace(/\s/g,'')]||null;
-  }
-
-  function cellsToEntry(T, cells){
-    const V=cells.map(c=>String(c==null?'':c).trim());
-    const num=s=>{ const v=parseFloat(s); return isFinite(v)&&v>0?v:null; };
-    const code=s=>s.toUpperCase();
-    if(T.kind==='time'||T.kind==='mph'){
-      const a=V.slice(0,T.max).map(s=>({v:num(s),ok:true}));
-      return a.some(x=>x.v!=null)?{attempts:a}:null;
-    }
-    if(T.kind==='rubric'){
-      const sc={}; T.skills.forEach(([k],i)=>{ const v=parseInt(V[i],10); if(v>=1&&v<=5) sc[k]=v; });
-      return Object.keys(sc).length?{scores:sc}:null;
-    }
-    if(T.kind==='hitmiss'){
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>({r:code(s)[0]==='H'?'hit':'miss'}));
-      return a.length?{attempts:a}:null;
-    }
-    if(T.kind==='catch'){
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>({r:code(s)[0]==='C'?'caught':'dropped'}));
-      return a.length?{attempts:a}:null;
-    }
-    if(T.kind==='contact'){
-      const M={N:'none',M:'miss',C:'contact',S:'solid'};
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>({r:M[code(s)[0]]||'none'}));
-      return a.length?{attempts:a}:null;
-    }
-    if(T.kind==='iq'){
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>({r:/^[1YT]/.test(code(s))}));
-      return a.length?{attempts:a}:null;
-    }
-    if(T.kind==='grounders'){ // letters: C clean, T threw, A accurate
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>{const c=code(s);
-        return {rec:true, clean:c.includes('C'), thr:c.includes('T'), acc:c.includes('A')};});
-      return a.length?{attempts:a}:null;
-    }
-    if(T.kind==='fly'){ // letters: C caught, F first step, L called
-      const a=V.slice(0,T.max).filter(s=>s).map(s=>{const c=code(s);
-        return {rec:true, c:c.includes('C'), fs:c.includes('F'), call:c.includes('L')};});
-      return a.length?{attempts:a}:null;
-    }
-    return null;
-  }
-
-  async function loadSheet(){
-    if(/PASTE_/.test(SHEET_CSV)) throw new Error('Sheet URL not configured');
-    const url = SHEET_CSV + (SHEET_CSV.includes('?')?'&':'?') + 'cb=' + Date.now();
-    const res = await fetch(url, {cache:'no-store'});
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const grid = parseCSV(await res.text());
-    if(!grid.length) return [];
-    const head = grid[0].map(h=>String(h).trim().toLowerCase());
-    const ix = n => head.indexOf(n);
-    const cDate=ix('date'), cPlayer=ix('player'), cTest=ix('test'),
-          cLoc=ix('location'), cNotes=ix('notes');
-    const cA=[]; for(let i=1;i<=10;i++){ const j=ix('a'+i); if(j>=0) cA.push(j); }
-    const out=[];
-    grid.slice(1).forEach((r,n)=>{
-      const date=normDate(r[cDate]); const player=String(r[cPlayer]||'').trim();
-      const key=testKey(r[cTest]);
-      if(!date||!player||!key) return;
-      const T=TESTS[key];
-      const e=cellsToEntry(T, cA.map(j=>r[j]));
-      if(!e) return;
-      out.push(Object.assign({
-        id:'s'+n, date, player, test:key,
-        location:String(r[cLoc]||'').trim(), notes:String(r[cNotes]||'').trim(),
-        proto:{}, by:null, created:n, v:1
-      }, e));
-    });
-    return out.filter(r=>TESTS[r.test]&&r.player)
-      .sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0));
-  }
-
   function normalize(snap){
     let arr = Array.isArray(snap)?snap:(snap&&(snap.docs||snap.items||snap.results))||[];
     return arr.map(d=>{ const data = typeof d.data==='function'?d.data():(d.data!==undefined?d.data:d); return {...data, id:d.id||data.id}; });
@@ -766,16 +650,25 @@ const Lab = (()=>{
   async function start(){
     if(started) return; started=true;
     try{
-      canWrite=true;
-      $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.remove('hidden'));
-      rows = await loadSheet();
-      ready=true; render(); return;
-    }catch(e){ console.error(e); gate('denied'); }
+      if(!window.CREED||!window.CREED.db){ return gate('unavailable'); }
+      db=window.CREED.db;
+      me = window.CREED.uid();
+      canWrite = !!me;
+      // Coach-only tools: hidden for everyone else (data rules also block non-coaches server-side)
+      $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.toggle('hidden',!canWrite));
+      try{ const s=await db.doc('settings/lab').get(); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
+      const col=db.collection('assessments');
+      const onData=s=>{ rows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); ready=true; render(); };
+      if(typeof col.onSnapshot==='function'){
+        unsub=col.onSnapshot(onData, err=>{ gate('denied'); });
+      } else { onData(await col.get()); }
+      setTimeout(()=>{ if(!ready) col.get().then(onData).catch(()=>gate('denied')); },4000);
+    }catch(e){ gate('denied'); }
   }
   function gate(kind){
-    const msg={unavailable:['Not connected yet','The team assessment sheet hasn\u2019t been linked to this page yet.'],
-      signin:['Not connected yet','The team assessment sheet hasn\u2019t been linked to this page yet.'],
-      denied:['Couldn\u2019t load the data','The team assessment sheet didn\u2019t load. Check your connection and refresh \u2014 the protocols below are readable either way.']}[kind];
+    const msg={unavailable:['Can\u2019t reach the database','The Performance Lab couldn\u2019t load the team\u2019s assessment data. Check your connection and refresh \u2014 the protocols below are still readable offline.'],
+      signin:['Can\u2019t reach the database','The Performance Lab couldn\u2019t load the team\u2019s assessment data. Check your connection and refresh.'],
+      denied:['Data unavailable','Couldn\u2019t load saved assessments right now. Refresh to try again.']}[kind];
     root().innerHTML=`<div class="labgate"><h3 class="h-m">${msg[0]}</h3><p>${msg[1]}</p></div>`+protocolsHTML();
   }
   function enter(){ start(); if(ready) render(); }
@@ -791,7 +684,7 @@ const Lab = (()=>{
     if((tab==='new'||tab==='history')&&!coachOk()){ coachGate(); return; }
     const r=root();
     if(tab==='overview') r.innerHTML=overviewHTML();
-    else if(tab==='new') { r.innerHTML=newHTML(); wire(); return; }
+    else if(tab==='new') { r.innerHTML=newHTML(); wireNew(); return; }
     else if(tab==='players') r.innerHTML=playersHTML();
     else if(tab==='history') r.innerHTML=historyHTML();
     else r.innerHTML=protocolsHTML();
@@ -799,19 +692,24 @@ const Lab = (()=>{
   }
 
   /* ---- coach password (second lock on data entry; stored only as a SHA-256 hash) ---- */
-  const COACH_HASH='cea13a0efe90bce8ba0e211693bec82eaf01083ff97894346b61dfc386fa5085';
-  let coachMem=false;
-  function coachOk(){ if(coachMem) return true; try{ return sessionStorage.getItem('creed_coach')===COACH_HASH; }catch(e){ return false; } }
-  async function sha(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+  function coachOk(){ return !!window.CREED && !!window.CREED.uid(); }
   function coachGate(){
-    root().innerHTML=`<div class="labgate"><h3 class="h-m">Coach password</h3><p>Enter the coach password to open the recording sheet.</p>
+    root().innerHTML=`<div class="labgate"><h3 class="h-m">Coach password</h3><p>Enter the coach password to record or remove assessments.</p>
       <div style="max-width:320px;margin:20px auto 0"><input class="inp" type="password" id="coachPw" placeholder="Coach password" autocomplete="off" aria-label="Coach password" style="text-align:center">
       <button class="btn" id="coachGo" style="width:100%;justify-content:center;margin-top:10px">Unlock</button>
       <div class="gate-error" id="coachErr"></div></div></div>`;
-    const inp=$('#coachPw'), go=async()=>{
-      let h=''; try{ h=await sha(inp.value); }catch(e){ $('#coachErr').textContent='This browser can\'t check the password.'; return; }
-      if(h===COACH_HASH){ coachMem=true; try{ sessionStorage.setItem('creed_coach',COACH_HASH); }catch(e){} render(); }
-      else { $('#coachErr').textContent='Incorrect password — try again.'; inp.value=''; inp.focus(); }
+    const inp=$('#coachPw'), btn=()=>$('#coachGo'), go=async()=>{
+      const b=btn(); if(b.disabled) return; b.disabled=true; b.textContent='Checking\u2026'; $('#coachErr').textContent='';
+      try{
+        await window.CREED.signIn(inp.value);
+        me=window.CREED.uid(); canWrite=true;
+        $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(x=>x.classList.remove('hidden'));
+        render();
+      }catch(e){
+        const net=/network|unavailable/i.test(e&&e.code||'');
+        $('#coachErr').textContent = net ? 'No connection \u2014 try again.' : 'Incorrect password \u2014 try again.';
+        inp.value=''; const b2=btn(); if(b2){ b2.disabled=false; b2.textContent='Unlock'; } inp.focus();
+      }
     };
     $('#coachGo').onclick=go; inp.addEventListener('keydown',e=>{ if(e.key==='Enter') go(); }); inp.focus();
   }
@@ -825,7 +723,7 @@ const Lab = (()=>{
       <div class="kpi"><div class="l">Assessments</div><div class="v">${rows.length}</div><div class="s">${sessions.size} session day${sessions.size===1?'':'s'}</div></div>
       <div class="kpi"><div class="l">Players assessed</div><div class="v">${players.size}<span style="font-size:18px;color:var(--ink3)">/${ROSTER.length}</span></div><div class="s">Current roster</div></div>
       <div class="kpi"><div class="l">Last session</div><div class="v" style="font-size:24px">${last?md(D(last)):'—'}</div><div class="s">${last?D(last).getFullYear():'No data yet'}</div></div>
-      <div class="kpi"><div class="l">Next assessment</div><div class="v" style="font-size:24px${isToday?';color:var(--blue)':''}">${isToday?'Today':due}</div><div class="s">${nextDue?'Set by coach':'Every '+CADENCE_DAYS/7+' weeks'}</div></div></div>`;
+      <div class="kpi"><div class="l">Next assessment</div><div class="v" style="font-size:24px${isToday?';color:var(--blue)':''}">${isToday?'Today':due}</div><div class="s">${nextDue?'Set by coach':'Every '+CADENCE_DAYS/7+' weeks'}</div>${canWrite?`<input type="date" class="inp" id="dueInp" value="${nextDue||''}" style="margin-top:8px;padding:6px 8px;font-size:13px" aria-label="Set next assessment date">`:''}</div></div>`;
     if(!rows.length) return k+`<div class="panel" style="margin-top:14px;text-align:center;padding:40px 22px"><h3>No assessments yet.</h3><p class="cap" style="margin:6px auto 18px;max-width:460px">This page starts empty on purpose — nothing here is sample data. Record the first session at the field and every player's baseline is established automatically.</p></div>`+(canWrite?'':roNote());
     const m=`<div class="panel" style="margin-top:14px"><h3>Testing completion</h3><p class="cap">Assessments recorded per player and category. Participation only — not a ranking.</p><div class="matrix"><table><tr><th>Player</th>${CATS.map(c=>`<th>${c.replace('Baseball ','')}</th>`).join('')}</tr>${ROSTER.map(p=>`<tr><td>${esc(p)}</td>${CATS.map(c=>{const n=rows.filter(r=>r.player===p&&TESTS[r.test].cat===c).length;return `<td><span class="mc ${n?'y':'n'}">${n||'·'}</span></td>`}).join('')}</tr>`).join('')}</table></div></div>`;
     return k+leaderHTML()+m+trendsHTML()+(canWrite?'':roNote());
@@ -969,7 +867,7 @@ const Lab = (()=>{
   function historyHTML(){
     if(!rows.length) return `<div class="panel" style="text-align:center;padding:36px"><h3>Nothing recorded yet.</h3></div>`;
     const list=[...rows].reverse();
-    return `<div class="panel"><h3>All assessments</h3><p class="cap">Newest first. Newest first. Edit or remove entries in the team sheet.</p><div class="hist">${list.map(r=>{const m=metrics(r)[0];
+    return `<div class="panel"><h3>All assessments</h3><p class="cap">Newest first. Removing an entry is logged with who removed it and what it held.</p><div class="hist">${list.map(r=>{const m=metrics(r)[0];
       return `<div class="hrow"><div class="d">${r.date}</div><div class="w">${esc(r.player)}<small>${esc(TESTS[r.test].cat)} · ${esc(TESTS[r.test].name)}${r.location?' · '+esc(r.location):''}</small></div><div class="v">${m?fmtM(m.val,m.sc):'—'}</div>${canWrite?`<button data-del="${esc(r.id)}">Remove</button>`:'<span></span>'}</div>`}).join('')}</div></div>`;
   }
 
@@ -1000,14 +898,6 @@ const Lab = (()=>{
     return d;
   }
   function newHTML(){
-    return `<div class="panel" style="text-align:center;padding:36px 22px">
-      <h3>Record an assessment</h3>
-      <p class="cap" style="margin:8px auto 0;max-width:520px">Assessments are entered in the team sheet. Add one row per player, per test, per session day \u2014 this page picks the row up on the next refresh.</p>
-      <a class="btn" href="${SHEET_EDIT}" target="_blank" rel="noopener" style="margin-top:20px">Open the team sheet \u203a</a>
-      <p class="cap" style="margin-top:18px;font-size:12px;color:var(--ink3)">Column guide is on the sheet\u2019s Reference tab.</p>
-    </div>`;
-  }
-  function newHTML_unused(){
     if(!canWrite) return `<div class="labgate"><h3 class="h-m">View only</h3><p>Only coaches with edit access can record assessments.</p></div>`;
     if(PAIR_OF[selTest]) selTest=PAIR_OF[selTest];
     if(!draft||draft.test!==selTest||draft.player!==selPlayer) draft=blankDraft(draft);
@@ -1153,6 +1043,8 @@ const Lab = (()=>{
     $$('[data-del]').forEach(b=>b.onclick=()=>remove(b.dataset.del));
     const ov=$('#ovTest'); if(ov) ov.onchange=()=>{overviewTest=ov.value;render();};
     const pb=$('#printBtn'); if(pb) pb.onclick=()=>window.print();
+    const di=$('#dueInp'); if(di) di.onchange=async()=>{ const v=di.value; if(!/^\d{4}-\d{2}-\d{2}$/.test(v)) return;
+      try{ await db.doc('settings/lab').set({nextDue:v,by:me||null,at:Date.now()}); nextDue=v; render(); }catch(e){ toast('Could not save the date.',true); } };
   }
   $$('#labTabs button').forEach(b=>b.addEventListener('click',()=>{ tab=b.dataset.tab; if(ready) render(); else $$('#labTabs button').forEach(x=>x.classList.toggle('on',x===b)); const y=$('#labRoot').getBoundingClientRect().top+window.scrollY-120; if(window.scrollY>y) window.scrollTo({top:y}); }));
   return {enter, start, count:()=>rows.length};
@@ -1160,8 +1052,14 @@ const Lab = (()=>{
 
 
 window.Lab = Lab;
-Lab.enter();
+(function(){
+  var booted=false;
+  function boot(){ if(booted) return; booted=true; Lab.enter(); }
+  if(window.CREED) boot();
+  else { window.addEventListener('creed-ready', boot, {once:true}); setTimeout(boot, 8000); }
+})();
 </script>
+
 <script>
 (function(){
   const CREED_LEDGER_PASSWORD = "GoCreed26";
@@ -1170,13 +1068,81 @@ Lab.enter();
   function open(){ gate.classList.add('hidden'); app.classList.remove('hidden'); }
   function tryUnlock(){
     if(input.value===CREED_LEDGER_PASSWORD){ try{sessionStorage.setItem('creed_ledger_unlocked','yes');}catch(e){} open(); }
-    else { err.textContent='Incorrect password — try again.'; input.value=''; input.focus(); }
+    else { err.textContent='Incorrect password \u2014 try again.'; input.value=''; input.focus(); }
   }
   let ok=false; try{ ok=sessionStorage.getItem('creed_ledger_unlocked')==='yes'; }catch(e){}
   if(ok) open(); else input.focus();
   q('#gateSubmit').addEventListener('click',tryUnlock);
   input.addEventListener('keydown',e=>{ if(e.key==='Enter') tryUnlock(); });
 })();
+</script>
+
+<script type="module">
+/* ===========================================================================
+   FIREBASE CONFIG — paste the 6 values from your Firebase project here.
+   Firebase console > Project settings > General > Your apps > Web app > Config
+   =========================================================================== */
+const FIREBASE_CONFIG = {
+  apiKey:            "PASTE_API_KEY",
+  authDomain:        "PASTE_PROJECT_ID.firebaseapp.com",
+  projectId:         "PASTE_PROJECT_ID",
+  storageBucket:     "PASTE_PROJECT_ID.firebasestorage.app",
+  messagingSenderId: "PASTE_SENDER_ID",
+  appId:             "PASTE_APP_ID"
+};
+/* The coach account created in Firebase > Authentication > Users.
+   The coach password IS that account's password. */
+const COACH_EMAIL = "coach@txcreed.app";
+/* ======================================================================== */
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import { getFirestore, collection, doc, getDoc, getDocs, setDoc, deleteDoc, onSnapshot }
+  from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserSessionPersistence }
+  from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+
+let ready=false;
+function go(){ if(ready) return; ready=true; window.dispatchEvent(new Event('creed-ready')); }
+
+try{
+  const app  = initializeApp(FIREBASE_CONFIG);
+  const fs   = getFirestore(app);
+  const auth = getAuth(app);
+  try{ await setPersistence(auth, browserSessionPersistence); }catch(e){}
+
+  const snap = d => ({ id:d.id, data:()=>d.data() });
+  let CURRENT = null;
+
+  window.CREED = {
+    uid: () => CURRENT ? CURRENT.uid : null,
+    signIn: pw => signInWithEmailAndPassword(auth, COACH_EMAIL, pw),
+    db: {
+      doc(path){
+        const r = doc(fs, path);
+        return {
+          async get(){ const s = await getDoc(r); return { id:s.id, data:()=> s.exists() ? s.data() : null }; },
+          set:  v => setDoc(r, v),
+          delete: () => deleteDoc(r)
+        };
+      },
+      collection(path){
+        const c = collection(fs, path);
+        return {
+          async get(){ const s = await getDocs(c); return s.docs.map(snap); },
+          onSnapshot(cb, err){ return onSnapshot(c, s => cb(s.docs.map(snap)), err); }
+        };
+      }
+    }
+  };
+
+  // Resolve the first auth state before booting, so coach tabs appear immediately
+  // for a coach who already signed in this browser session.
+  onAuthStateChanged(auth, u => { CURRENT = u; go(); });
+  setTimeout(go, 4000);
+}catch(e){
+  console.error('Firebase init failed', e);
+  go(); // boot anyway; the Lab shows its own "can't reach the database" state
+}
 </script>
 
 </body></html>
