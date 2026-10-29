@@ -495,7 +495,7 @@ footer a:hover{text-decoration:underline}
       <a href="#/banking" data-p="banking">Banking</a>
       <a href="#/schedule" data-p="schedule">Schedule</a>
       <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag</a>
-      <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener" data-p="lab">Performance Lab</a>
+      <a href="lab.html" target="_blank" rel="noopener" data-p="lab">Performance Lab</a>
     </nav>
     <button class="menub" id="menub" aria-label="Menu"><svg viewBox="0 0 24 24"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/></svg></button>
   </div>
@@ -505,7 +505,7 @@ footer a:hover{text-decoration:underline}
   <a href="#/banking" data-p="banking">Banking<small>Balances, expenses &amp; every transaction</small></a>
   <a href="#/schedule" data-p="schedule">Schedule<small>Practices, games &amp; tournaments</small></a>
   <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag<small>Official Creed gear</small></a>
-  <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener" data-p="lab">Performance Lab<small>Creed Milestone Program</small></a>
+  <a href="lab.html" target="_blank" rel="noopener" data-p="lab">Performance Lab<small>Creed Milestone Program</small></a>
 </div>
 
 <main>
@@ -520,7 +520,7 @@ footer a:hover{text-decoration:underline}
       <a class="btn" href="#/banking">Banking</a>
       <a class="btn" href="#/schedule">Schedule</a>
       <a class="btn" href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a>
-      <a class="btn" href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">Performance Lab</a>
+      <a class="btn" href="lab.html" target="_blank" rel="noopener">Performance Lab</a>
     </div>
     <div class="scrollcue">Scroll</div>
   </div>
@@ -559,7 +559,7 @@ footer a:hover{text-decoration:underline}
         <div><h3>Swag.</h3><p>Hoodies, dri-fits, shorts and sleeves. Rep the Creed.</p><div class="go">Shop gear ›</div></div>
         <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".5" stroke-linejoin="round"><path d="M70 30 L40 46 L20 90 L44 102 L52 86 L52 180 L148 180 L148 86 L156 102 L180 90 L160 46 L130 30 C124 46 112 54 100 54 C88 54 76 46 70 30 Z"/></svg></div>
       </a>
-      <a class="door d4" href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">
+      <a class="door d4" href="lab.html" target="_blank" rel="noopener">
         <div><h3>Performance Lab.</h3><p>The Creed Milestone Program. Every player versus yesterday's version of themselves.</p><div class="go">Enter the lab ›</div></div>
         <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".55" stroke-linecap="round"><polyline points="20,160 60,130 95,140 130,90 175,50"/><circle cx="175" cy="50" r="8" fill="#76C9F2"/><line x1="20" y1="180" x2="185" y2="180" opacity=".5"/></svg></div>
       </a>
@@ -735,7 +735,7 @@ footer a:hover{text-decoration:underline}
 
 <footer><div class="wrap">
   <span>Texas Creed · 7U · Houston, TX</span>
-  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG" target="_blank" rel="noopener">Performance Lab</a></span>
+  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="lab.html" target="_blank" rel="noopener">Performance Lab</a></span>
   <span>Questions go to your team treasurer</span>
 </div></footer>
 </div>
@@ -1163,7 +1163,7 @@ const PAGES=['home','banking','schedule'];
 function route(){
   const p=(location.hash.match(/^#\/(\w+)/)||[])[1];
   if(p==='swag'){ location.href='https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball'; return; }
-  if(p==='lab'){ location.href='https://claude.ai/artifact/D1Ky9yU16z38ZBA5d7ckXG'; return; }
+  if(p==='lab'){ location.href='lab.html'; return; }
   const page=PAGES.includes(p)?p:'home';
   $$('.page').forEach(s=>s.classList.toggle('on',s.dataset.page===page));
   $$('#glinks a,#sheet a').forEach(a=>a.classList.toggle('on',a.dataset.p===page));
