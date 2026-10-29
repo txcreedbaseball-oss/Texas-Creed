@@ -657,8 +657,6 @@ const Lab = (()=>{
       // Coach tabs stay visible for everyone: tapping one is how a coach signs in.
       $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.remove('hidden'));
       void 0;
-      // Coach-only tools: hidden for everyone else (data rules also block non-coaches server-side)
-      $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.toggle('hidden',!canWrite));
       try{ const s=await db.doc('settings/lab').get(); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
       const col=db.collection('assessments');
       const onData=s=>{ rows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); ready=true; render(); };
