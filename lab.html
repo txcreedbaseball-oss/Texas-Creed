@@ -654,6 +654,9 @@ const Lab = (()=>{
       db=window.CREED.db;
       me = window.CREED.uid();
       canWrite = !!me;
+      // Coach tabs stay visible for everyone: tapping one is how a coach signs in.
+      $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.remove('hidden'));
+      void 0;
       // Coach-only tools: hidden for everyone else (data rules also block non-coaches server-side)
       $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.toggle('hidden',!canWrite));
       try{ const s=await db.doc('settings/lab').get(); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
@@ -679,7 +682,6 @@ const Lab = (()=>{
 
   function render(){
     if(!ready) return;
-    if(!canWrite&&(tab==='new'||tab==='history')) tab='overview';
     $$('#labTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
     if((tab==='new'||tab==='history')&&!coachOk()){ coachGate(); return; }
     const r=root();
@@ -772,7 +774,7 @@ const Lab = (()=>{
     if(!out.length) return '';
     return `<div class="panel" style="margin-top:14px"><h3>Team trends</h3><p class="cap">Team median for each test by session date. Hover or tap a point for the number of players tested and the range.</p>${out.join('')}</div>`;
   }
-  function roNote(){return `<p class="samplebar">You have view access. Editors can record and remove assessments.</p>`;}
+  function roNote(){return `<p class="samplebar">Viewing only. Coaches can record and remove assessments after signing in.</p>`;}
   function teamPanel(){
     const T=TESTS[overviewTest]; const tr=rows.filter(r=>r.test===overviewTest);
     const opts=Object.entries(TESTS).filter(([k,t])=>t.kind!=='rubric').map(([k,t])=>`<option value="${k}"${k===overviewTest?' selected':''}>${t.cat} · ${t.name}</option>`).join('');
