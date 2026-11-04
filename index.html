@@ -456,6 +456,43 @@ footer a:hover{text-decoration:underline}
 .gate-error{font-size:13px;color:var(--red);margin-top:12px;min-height:18px}
 #app.hidden{display:none}
 
+/* ---------- phone layout: stack wide tables into two-line rows ---------- */
+@media (max-width:640px){
+  table.dt.stk thead{display:none}
+  table.dt.stk,table.dt.stk tbody,table.dt.stk tfoot{display:block;width:100%}
+  table.dt.stk tr{display:grid;grid-template-columns:1fr auto;column-gap:14px;row-gap:4px;padding:13px 16px;border-bottom:1px solid var(--line2)}
+  table.dt.stk tbody tr:last-child{border-bottom:0}
+  table.dt.stk tfoot tr{border-top:1px solid var(--line);border-bottom:0}
+  table.dt.stk td{padding:0;border:0;background:none!important;min-width:0}
+  table.dt.stk td:empty{display:none}
+  table.dt.stk tr.total{background:var(--blue-bg)}
+  table.dt.stk tr.highlight{background:rgba(240,194,122,.06)}
+  table.dt.stk td.num{white-space:nowrap}
+  /* rollup: item + amount, explanation underneath */
+  .stk-roll td:nth-child(1){grid-area:1/1}
+  .stk-roll td:nth-child(2){grid-area:1/2}
+  .stk-roll td:nth-child(3){grid-area:2/1/3/3;font-size:13px;line-height:1.45;color:var(--ink3)}
+  .stk-roll tr.total td:nth-child(3){color:rgba(255,255,255,.7);font-weight:500}
+  /* expenditure: # name amount, status underneath */
+  table.dt.stk.stk-exp tr{grid-template-columns:24px 1fr auto}
+  .stk-exp td:nth-child(1){grid-area:1/1;font-size:12px;color:var(--ink3)!important;padding-top:2px}
+  .stk-exp td:nth-child(2){grid-area:1/2}
+  .stk-exp td:nth-child(3){grid-area:1/3}
+  .stk-exp td:nth-child(4){grid-area:2/2/3/4;font-size:11px}
+  .stk-exp tfoot td:nth-child(2){grid-column:1/3}
+  /* plan: tournament + cost, dates underneath */
+  .stk-plan td:nth-child(1){grid-area:2/1/3/3;font-size:12.5px;color:var(--ink3)}
+  .stk-plan td:nth-child(2){grid-area:1/1}
+  .stk-plan td:nth-child(3){grid-area:1/2}
+  .stk-plan .paid-badge{margin-left:6px}
+  /* transactions: let the memo wrap to two lines instead of cutting off */
+  .r-note{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.3}
+  .row{align-items:start}
+  /* banking sub-nav: fade the edge so the tabs read as scrollable */
+  .lnav .sub{-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:18px}
+  .lnav .sub button{padding:9px 12px}
+  .table-wrap{overflow:hidden}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:640px){.savebar{margin:16px -16px 0;padding-left:16px;padding-right:16px}.savebar .msg{flex-basis:100%;font-size:12.5px}.savebar .btn{flex:1;justify-content:center}}
 @media print{
@@ -592,7 +629,7 @@ footer a:hover{text-decoration:underline}
 
     <section class="blk" id="bk-rollup">
       <div class="blk-h"><h2 class="h-m">Funding &amp; expense rollup</h2><p>How the original player buy-in turned into today's fundraising need.</p></div>
-      <div class="table-wrap"><table class="dt">
+      <div class="table-wrap"><table class="dt stk stk-roll">
         <thead><tr><th>Item</th><th class="num">Amount</th><th>Explanation</th></tr></thead>
         <tbody>
           <tr><td>Original team buy-in</td><td class="num amt-pos">$3,250.00</td><td>$250 × 13 players</td></tr>
@@ -628,7 +665,7 @@ footer a:hover{text-decoration:underline}
 
     <section class="blk" id="bk-exp">
       <div class="blk-h"><h2 class="h-m">Expenditure ledger</h2><p>Every dollar spent to date, oldest to newest.</p></div>
-      <div class="table-wrap"><table class="dt">
+      <div class="table-wrap"><table class="dt stk stk-exp">
         <thead><tr><th>#</th><th>Expenditure</th><th class="num">Amount</th><th>Status</th></tr></thead>
         <tbody id="expLedger"></tbody><tfoot id="expTotal"></tfoot>
       </table></div>
@@ -641,7 +678,7 @@ footer a:hover{text-decoration:underline}
 
     <section class="blk" id="bk-plan">
       <div class="blk-h"><h2 class="h-m">Tournament funding plan</h2><p>2026–27 commitments and what's left to pay.</p></div>
-      <div class="table-wrap"><table class="dt">
+      <div class="table-wrap"><table class="dt stk stk-plan">
         <thead><tr><th>Event Date</th><th>Tournament</th><th class="num">Cost</th></tr></thead>
         <tbody id="planBody"></tbody>
       </table></div>
