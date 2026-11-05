@@ -475,6 +475,18 @@ footer a:hover{text-decoration:underline}
 .np-rw .no{flex:0 0 26px;color:var(--blue);font-weight:700;font-variant-numeric:tabular-nums}
 .np-rw .w{flex:1;min-width:0;font-weight:600}
 .np-rw .ck{color:var(--green);font-weight:700}
+.np-rw .ct{color:var(--ink3);font-size:12.5px;font-variant-numeric:tabular-nums}
+.np-rw.on .ct{color:#050608}
+.t-list{display:flex;flex-direction:column}
+.t-cat{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--line2)}
+.t-cat:first-child{border-top:0;padding-top:0}.t-cat:last-child{padding-bottom:0}
+.t-name{font-size:12px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em;line-height:1.3;padding-top:14px}
+.t-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.t-btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:6px 10px;text-align:center;font-size:13.5px;font-weight:600;line-height:1.2;border-radius:12px;background:var(--bg2);border:1px solid var(--line)}
+.t-btn.on{background:var(--blue);color:#050608;border-color:var(--blue)}
+@media (hover:hover){.t-btn:not(.on):hover{border-color:var(--blue)}}
+.t-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media (max-width:640px){.t-cat{grid-template-columns:minmax(0,1fr);gap:6px}.t-name{padding-top:0}.t-btns{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .np-rw.on{background:var(--blue);color:#050608;border-radius:10px;border-bottom-color:transparent}
 .np-rw.on .no{color:#050608}.np-rw.on .ck{color:#050608}
 @media (hover:hover){.np-rw:not(.on):hover .w{color:var(--blue)}}
@@ -990,17 +1002,17 @@ const Lab = (()=>{
 
   /* ---- players ---- */
   function playersHTML(){
-    const chips=ROSTER.map(p=>{const n=byPlayer(p).length;return `<button class="chip${p===selPlayer?' on':''}" data-player="${esc(p)}">${esc(p)}${n?`<small>${n}</small>`:''}</button>`}).join('');
+    const chips=ROSTER.map(p=>{const n=byPlayer(p).length;return `<button class="np-rw${p===selPlayer?' on':''}" data-player="${esc(p)}"><span class="no">${JERSEY[p]??''}</span><span class="w">${esc(p)}</span>${n?`<span class="ct">${n}</span>`:''}</button>`}).join('');
     const mine=byPlayer(selPlayer);
     let body='';
     if(!mine.length) body=`<div class="panel" style="text-align:center;padding:36px 22px"><h3>No assessments for ${esc(selPlayer)} yet.</h3><p class="cap" style="margin-top:6px">Their first recorded test establishes the baseline.</p></div>`;
     else{
       const tests=[...new Set(mine.map(r=>r.test))]; if(!tests.includes(selTest)) selTest=tests[0];
-      const tchips=CATS.map(c=>{const ts=tests.filter(t=>TESTS[t].cat===c); if(!ts.length) return ''; return ts.map(t=>`<button class="chip${t===selTest?' on':''}" data-ptest="${t}">${esc(TESTS[t].name)}<small>${mine.filter(r=>r.test===t).length}</small></button>`).join('');}).join('');
-      body=`<div class="chips" style="margin-bottom:14px">${tchips}</div>`+testDetail(mine.filter(r=>r.test===selTest));
+      const tchips=CATS.map(c=>{const ts=tests.filter(t=>TESTS[t].cat===c); if(!ts.length) return ''; return `<div class="t-cat"><div class="t-name">${esc(c)}</div><div class="t-btns">${ts.map(t=>`<button class="t-btn${t===selTest?' on':''}" data-ptest="${t}">${esc(TESTS[t].name)}</button>`).join('')}</div></div>`;}).join('');
+      body=`<div class="panel t-list" style="margin-bottom:14px">${tchips}</div>`+testDetail(mine.filter(r=>r.test===selTest));
     }
-    return `<div class="chips noprint" style="margin-bottom:18px">${chips}</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap"><h3 class="h-m">${esc(selPlayer)}</h3><div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="pkgBtn">Parent package</button>${mine.length?'<button class="btn dark sm" id="printBtn">Print this view</button>':''}</div></div>${body}`;
+    return `<div class="panel noprint" style="margin-bottom:18px"><div class="np-rows">${chips}</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap"><h3 class="h-m">${esc(selPlayer)}</h3><div class="noprint" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="pkgBtn">Parent package</button></div></div>${body}`;
   }
   function testDetail(list){
     const T=TESTS[list[0].test]; const latest=list[list.length-1]; const lk=protoKey(latest);
@@ -1082,7 +1094,7 @@ const Lab = (()=>{
     const T=TESTS[selTest];
     const doneTests=[selTest].concat(pairT?[pairT]:[]);
     const pchips=ROSTER.map(p=>{const done=rows.some(r=>r.player===p&&doneTests.includes(r.test)&&r.date===draft.date);return `<button class="np-rw${p===selPlayer?' on':''}" data-np="${esc(p)}"><span class="no">${JERSEY[p]??''}</span><span class="w">${esc(p)}</span>${done?'<span class="ck">✓</span>':''}</button>`}).join('');
-    const tchips=CATS.map(c=>`<div class="cathd">${c}</div><div class="chips">${Object.entries(TESTS).filter(([k,t])=>t.cat===c&&!Object.values(PAIR).includes(k)).map(([k,t])=>`<button class="chip${k===selTest?' on':''}" data-nt="${k}">${PAIR[k]?esc(PAIR_INFO[k].chip):esc(t.name)}</button>`).join('')}</div>`).join('');
+    const tchips=`<div class="t-list">`+CATS.map(c=>`<div class="t-cat"><div class="t-name">${c}</div><div class="t-btns">${Object.entries(TESTS).filter(([k,t])=>t.cat===c&&!Object.values(PAIR).includes(k)).map(([k,t])=>`<button class="t-btn${k===selTest?' on':''}" data-nt="${k}">${PAIR[k]?esc(PAIR_INFO[k].chip):esc(t.name)}</button>`).join('')}</div></div>`).join('')+`</div>`;
     const protoFields=(TT,d,attr)=>TT.proto.length?`<div class="fgrid" style="margin-top:4px">${TT.proto.map(([k,l,opts])=>`<div class="field"><label>${esc(l)}</label>${opts?`<select class="inp" ${attr}="${k}"><option value="">—</option>${opts.map(o=>`<option${d.proto[k]===o?' selected':''}>${o}</option>`).join('')}</select>`:`<input class="inp" ${attr}="${k}" value="${esc(d.proto[k]||'')}" ${k==='dist'?'inputmode="decimal"':''}>`}</div>`).join('')}</div><p class="cap" style="margin-top:8px">Keep these identical between sessions so results stay comparable.</p>`:'';
     const protoF=protoFields(T,draft,'data-proto');
     const pairPanel='';
@@ -1218,8 +1230,7 @@ const Lab = (()=>{
     $$('[data-ptest]').forEach(b=>b.onclick=()=>{selTest=b.dataset.ptest;render();});
     $$('[data-del]').forEach(b=>b.onclick=()=>remove(b.dataset.del));
     const ov=$('#ovTest'); if(ov) ov.onchange=()=>{overviewTest=ov.value;render();};
-    const pb=$('#printBtn'); if(pb) pb.onclick=()=>window.print();
-    const pk=$('#pkgBtn'); if(pk) pk.onclick=()=>pkgGate(()=>{ if(!window.CreedPkg||!window.CreedPkg.open(selPlayer,allRows.filter(r=>r.player===selPlayer))) toast('Couldn\u2019t build this package. Refresh and try again.',true); });
+        const pk=$('#pkgBtn'); if(pk) pk.onclick=()=>pkgGate(()=>{ if(!window.CreedPkg||!window.CreedPkg.open(selPlayer,allRows.filter(r=>r.player===selPlayer))) toast('Couldn\u2019t build this package. Refresh and try again.',true); });
     const di=$('#dueInp'); if(di) di.onchange=async()=>{ const v=di.value; if(!/^\d{4}-\d{2}-\d{2}$/.test(v)) return;
       try{ await db.doc('settings/lab').set({nextDue:v,by:me||null,at:Date.now()}); nextDue=v; render(); }catch(e){ toast('Could not save the date.',true); } };
   }
