@@ -774,7 +774,8 @@ function showChange(base,latest){
 }
 const better=(m,a,b)=>m.pol==='low'?a<b:a>b;
 const COACH_ONLY=new Set(['iq','me','co']), COACH_ONLY_CATS=new Set(['Baseball IQ','Fundamentals','Coachability']);
-const PKG_HASH='952118d52d569d4fd50f7b285f1cff6b06a9eec00dbe3bda6c9ff407ddb5a1f5'; /* SHA-256 of the package password */
+const PRIVATE_COL='coachScores'; /* readable only by the signed-in coach account */
+const colFor=test=>COACH_ONLY.has(test)?PRIVATE_COL:'assessments';
 /* Entries for one test within a month of each other (several coaches, or a retest)
    count as one data point: their average. Saved entries are never changed. */
 function monthWindows(entries){
@@ -794,6 +795,7 @@ function monthWindows(entries){
 }
 
 const Lab = (()=>{
+  let pubRows=[], privRows=[], privLoad=null, privErr=false, moving=false;
   let db=null, user=null, me=null, rows=[], allRows=[], ready=false, started=false, tab='overview', unsub=null, canWrite=false, nextDue=null;
   let draft2=null; // second draft when two tests share one entry screen (throwing: velocity + accuracy)
   const PAIR={tv:'ta', mc:'ev'};
@@ -826,8 +828,9 @@ const Lab = (()=>{
       $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.remove('hidden'));
       void 0;
       try{ const s=await Promise.race([db.doc('settings/lab').get(),new Promise((_,no)=>setTimeout(()=>no(new Error('slow')),3000))]); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
+      loadPrivate();
       const col=db.collection('assessments');
-      const onData=s=>{ allRows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); setVisible(); ready=true; try{ render(); }catch(e){ console.error('Lab render failed',e); gate('display'); } };
+      const onData=s=>{ pubRows=clean(s); merge(); movePrivate(); ready=true; try{ render(); }catch(e){ console.error('Lab render failed',e); gate('display'); } };
       if(typeof col.onSnapshot==='function'){
         unsub=col.onSnapshot(onData, err=>{ gate('denied'); });
       } else { onData(await col.get()); }
@@ -844,6 +847,43 @@ const Lab = (()=>{
   function enter(){ start(); if(ready) render(); }
 
   /* Coach scoring stays off the public pages. It still prints on each player's package. */
+  const clean=s=>normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player);
+  function merge(){
+    const priv=new Set(privRows.map(r=>r.id));
+    allRows=[...pubRows.filter(r=>!priv.has(r.id)),...privRows].sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0));
+    setVisible();
+  }
+  /* Coach grades live in their own collection, which only the coach account can read. */
+  function loadPrivate(){
+    if(!coachOk()) return Promise.resolve();
+    if(privLoad) return privLoad;
+    privLoad=new Promise(done=>{
+      const col=db.collection(PRIVATE_COL);
+      const got=s=>{ privRows=clean(s); privErr=false; merge(); movePrivate(); if(ready&&tab!=='new'){ try{render();}catch(e){ console.error(e); } } done(); };
+      const bad=e=>{ console.error('Coach grades blocked',e); privErr=true; done(); };
+      if(typeof col.onSnapshot==='function') col.onSnapshot(got,bad); else col.get().then(got).catch(bad);
+      setTimeout(done,6000);
+    });
+    return privLoad;
+  }
+  /* A coach's session moves any older grades out of the public collection. Each one is
+     confirmed in its new home before the public copy is removed. */
+  async function movePrivate(){
+    if(moving||!coachOk()||privErr||!privLoad) return;
+    const old=pubRows.filter(r=>COACH_ONLY.has(r.test)); if(!old.length) return;
+    moving=true;
+    try{
+      for(const r of old){
+        const to=db.doc(PRIVATE_COL+'/'+r.id); await to.set(r);
+        const c=await to.get(), v=c&&(typeof c.data==='function'?c.data():c);
+        if(!v) throw new Error('not confirmed');
+        await db.doc('assessments/'+r.id).delete();
+        pubRows=pubRows.filter(x=>x.id!==r.id); if(!privRows.some(x=>x.id===r.id)) privRows.push(r);
+      }
+      merge();
+    }catch(e){ console.error('Moving coach grades stopped',e); }
+    moving=false;
+  }
   function seenCats(){ return CATS.filter(c=>coachOk()||!COACH_ONLY_CATS.has(c)); }
   function setVisible(){ rows=coachOk()?allRows:allRows.filter(r=>!COACH_ONLY.has(r.test)); }
   function byPlayer(p,t){ return rows.filter(r=>r.player===p&&(!t||r.test===t)); }
@@ -874,7 +914,7 @@ const Lab = (()=>{
       const b=btn(); if(b.disabled) return; b.disabled=true; b.textContent='Checking\u2026'; $('#coachErr').textContent='';
       try{
         await window.CREED.signIn(inp.value);
-        me=window.CREED.uid(); canWrite=true; setVisible();
+        me=window.CREED.uid(); canWrite=true; setVisible(); loadPrivate();
         $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(x=>x.classList.remove('hidden'));
         render();
       }catch(e){
@@ -985,21 +1025,27 @@ const Lab = (()=>{
     return `<div class="chart"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Trend chart">${g}</svg></div>`;
   }
 
-  /* ---- parent package password ---- */
-  async function sha(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+  /* ---- parent package: coach sign-in ---- */
   function pkgGate(go){
-    let ok=coachOk(); try{ ok=ok||sessionStorage.getItem('creed_pkg_ok')==='yes'; }catch(e){}
-    if(ok){ go(); return; }
+    const run=async()=>{ await loadPrivate(); if(privErr) toast('Coach grades couldn\u2019t load, so they aren\u2019t on this package.',true); go(); };
+    if(coachOk()){ run(); return; }
     const w=document.createElement('div'); w.className='modal';
     w.innerHTML=`<div class="modal-card" role="dialog" aria-modal="true" aria-label="Coach password"><h3>Coach password</h3><p>Parent packages are for coaches to create and share.</p>
-      <input class="inp" type="password" id="pkgPw" placeholder="Password" autocomplete="off" aria-label="Password"><div class="gate-error" id="pkgErr" style="min-height:20px;margin:8px 0 6px"></div>
+      <input class="inp" type="password" id="pkgPw" placeholder="Coach password" autocomplete="off" aria-label="Coach password"><div class="gate-error" id="pkgErr" style="min-height:20px;margin:8px 0 6px"></div>
       <div class="modal-row"><button class="btn ghost" data-no>Cancel</button><button class="btn" data-yes>Open package</button></div></div>`;
     document.body.appendChild(w);
     const inp=w.querySelector('#pkgPw'); inp.focus();
     const done=()=>w.remove();
     const tryIt=async()=>{
-      if(await sha(inp.value)===PKG_HASH){ try{sessionStorage.setItem('creed_pkg_ok','yes');}catch(e){} done(); go(); }
-      else { w.querySelector('#pkgErr').textContent='Incorrect password. Try again.'; inp.value=''; inp.focus(); }
+      try{
+        await window.CREED.signIn(inp.value);
+        me=window.CREED.uid(); canWrite=true; setVisible(); loadPrivate();
+        $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(x=>x.classList.remove('hidden'));
+        done(); await run();
+      }catch(e){
+        const net=/network|unavailable/i.test(e&&e.code||'');
+        w.querySelector('#pkgErr').textContent=net?'No connection. Try again.':'Incorrect password. Try again.'; inp.value=''; inp.focus();
+      }
     };
     w.querySelector('[data-yes]').onclick=tryIt; w.querySelector('[data-no]').onclick=done;
     inp.addEventListener('keydown',e=>{ if(e.key==='Enter') tryIt(); if(e.key==='Escape') done(); });
@@ -1209,9 +1255,9 @@ const Lab = (()=>{
       for(const d of list){
         const id='a'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
         const doc=toDoc(d,id,Date.now()+saved.length);
-        await db.doc('assessments/'+id).set(doc);
+        await db.doc(colFor(doc.test)+'/'+id).set(doc);
         try{ await db.doc('audit/'+id+'-c').set({action:'create',assessment:id,by:me||null,at:Date.now()}); }catch(e){}
-        if(!rows.some(r=>r.id===id)){ rows.push(doc); if(rows!==allRows) allRows.push(doc); rows.sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); }
+        if(!rows.some(r=>r.id===id)){ (COACH_ONLY.has(doc.test)?privRows:pubRows).push(doc); merge(); rows.sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); }
         saved.push(TESTS[d.test].name);
       }
       const keep=draft, keep2=draft2, who=draft.player;
@@ -1225,9 +1271,9 @@ const Lab = (()=>{
     const r=rows.find(x=>x.id===id); if(!r) return;
     if(!await confirmBox(`Remove ${esc(r.player)} · ${esc(TESTS[r.test].name)} from ${esc(r.date)}?`,'This is logged and cannot be undone.')) return;
     try{
-      await db.doc('audit/'+id+'-d'+Date.now()).set({action:'delete',assessment:id,by:me||null,at:Date.now(),before:r});
-      await db.doc('assessments/'+id).delete();
-      rows=rows.filter(x=>x.id!==id); allRows=allRows.filter(x=>x.id!==id); render();
+      await db.doc('audit/'+id+'-d'+Date.now()).set({action:'delete',assessment:id,test:r.test,by:me||null,at:Date.now(),before:COACH_ONLY.has(r.test)?null:r});
+      await db.doc(colFor(r.test)+'/'+id).delete();
+      pubRows=pubRows.filter(x=>x.id!==id); privRows=privRows.filter(x=>x.id!==id); merge(); render();
     }catch(e){ toast('Could not remove this entry.',true); }
   }
   function wire(){
