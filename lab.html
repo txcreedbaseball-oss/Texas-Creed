@@ -787,14 +787,15 @@ const Lab = (()=>{
     try{
       if(!window.CREED||!window.CREED.db){ return gate('unavailable'); }
       db=window.CREED.db;
+      setTimeout(()=>{ if(!ready) gate('unavailable'); },12000);
       me = window.CREED.uid();
       canWrite = !!me;
       // Coach tabs stay visible for everyone: tapping one is how a coach signs in.
       $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(b=>b.classList.remove('hidden'));
       void 0;
-      try{ const s=await db.doc('settings/lab').get(); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
+      try{ const s=await Promise.race([db.doc('settings/lab').get(),new Promise((_,no)=>setTimeout(()=>no(new Error('slow')),3000))]); const v=s&&(typeof s.data==='function'?s.data():(s.data!==undefined?s.data:s)); if(v&&/^\d{4}-\d{2}-\d{2}$/.test(v.nextDue||'')) nextDue=v.nextDue; }catch(e){}
       const col=db.collection('assessments');
-      const onData=s=>{ rows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); ready=true; render(); };
+      const onData=s=>{ rows=normalize(s).filter(r=>r&&r.test&&TESTS[r.test]&&r.player).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.created||0)-(b.created||0)); ready=true; try{ render(); }catch(e){ console.error('Lab render failed',e); gate('display'); } };
       if(typeof col.onSnapshot==='function'){
         unsub=col.onSnapshot(onData, err=>{ gate('denied'); });
       } else { onData(await col.get()); }
@@ -804,7 +805,8 @@ const Lab = (()=>{
   function gate(kind){
     const msg={unavailable:['Can\u2019t reach the database','The Performance Lab couldn\u2019t load the team\u2019s assessment data. Check your connection and refresh \u2014 the protocols below are still readable offline.'],
       signin:['Can\u2019t reach the database','The Performance Lab couldn\u2019t load the team\u2019s assessment data. Check your connection and refresh.'],
-      denied:['Data unavailable','Couldn\u2019t load saved assessments right now. Refresh to try again.']}[kind];
+      denied:['Data unavailable','Couldn\u2019t load saved assessments right now. Refresh to try again.'],
+      display:['Something went wrong','Your results are safe, but this page couldn\u2019t show them. Refresh to try again.']}[kind];
     root().innerHTML=`<div class="labgate"><h3 class="h-m">${msg[0]}</h3><p>${msg[1]}</p></div>`+protocolsHTML();
   }
   function enter(){ start(); if(ready) render(); }
@@ -858,7 +860,7 @@ const Lab = (()=>{
       <div class="kpi"><div class="l">Assessments</div><div class="v">${rows.length}</div><div class="s">${sessions.size} session day${sessions.size===1?'':'s'}</div></div>
       <div class="kpi"><div class="l">Players assessed</div><div class="v">${players.size}<span style="font-size:18px;color:var(--ink3)">/${ROSTER.length}</span></div><div class="s">Current roster</div></div>
       <div class="kpi"><div class="l">Last session</div><div class="v" style="font-size:24px">${last?md(D(last)):'—'}</div><div class="s">${last?D(last).getFullYear():'No data yet'}</div></div>
-      <div class="kpi"><div class="l">Next assessment</div><div class="v" style="font-size:24px${isToday?';color:var(--blue)':''}">${isToday?'Today':due}</div><div class="s">${nextDue?'Set by coach':'Every '+CADENCE_DAYS/7+' weeks'}</div>${canWrite?`<input type="date" class="inp" id="dueInp" value="${nextDue||''}" style="margin-top:8px;padding:6px 8px;font-size:13px" aria-label="Set next assessment date">`:''}</div></div>`;
+      <div class="kpi"><div class="l">Next assessment</div><div class="v" style="font-size:24px${isToday?';color:var(--blue)':''}">${isToday?'Today':due}</div><div class="s">${nextDue?'Set by coach':'Every '+CADENCE_MONTHS+' months'}</div>${canWrite?`<input type="date" class="inp" id="dueInp" value="${nextDue||''}" style="margin-top:8px;padding:6px 8px;font-size:13px" aria-label="Set next assessment date">`:''}</div></div>`;
     if(!rows.length) return k+`<div class="panel" style="margin-top:14px;text-align:center;padding:40px 22px"><h3>No assessments yet.</h3><p class="cap" style="margin:6px auto 18px;max-width:460px">This page starts empty on purpose — nothing here is sample data. Record the first session at the field and every player's baseline is established automatically.</p></div>`+(canWrite?'':roNote());
     const m=`<div class="panel" style="margin-top:14px"><h3>Testing completion</h3><p class="cap">Assessments recorded per player and category. Participation only — not a ranking.</p><div class="matrix"><table><tr><th>Player</th>${CATS.map(c=>`<th>${c.replace('Baseball ','')}</th>`).join('')}</tr>${ROSTER.map(p=>`<tr><td>${esc(p)}</td>${CATS.map(c=>{const n=rows.filter(r=>r.player===p&&TESTS[r.test].cat===c).length;return `<td><span class="mc ${n?'y':'n'}">${n||'·'}</span></td>`}).join('')}</tr>`).join('')}</table></div></div>`;
     return k+leaderHTML()+m+trendsHTML()+(canWrite?'':roNote());
