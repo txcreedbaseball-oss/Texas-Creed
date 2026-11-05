@@ -105,7 +105,7 @@ section.blk{padding:56px 0}
 .home-hero .lede{animation:rise 1s .16s cubic-bezier(.2,.7,.2,1) both}
 .home-hero .ctas{animation:rise 1s .24s cubic-bezier(.2,.7,.2,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.herolinks{display:grid;grid-template-columns:repeat(4,auto);justify-content:center;gap:10px}
+.herolinks{display:grid;grid-template-columns:repeat(5,auto);justify-content:center;gap:10px}
 .herolinks .btn{justify-content:center}
 @media (max-width:560px){.herolinks{grid-template-columns:1fr 1fr;width:100%;max-width:360px}}
 .scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
@@ -502,6 +502,123 @@ footer a:hover{text-decoration:underline}
   .panel,.smc{background:#fff;border:1px solid #ccc;color:#000}
   .chart .tk{fill:#444}
 }
+
+/* ---------- stats ---------- */
+.st-panel{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line2)}
+.st-panel h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.st-panel .cap{font-size:13.5px;color:var(--ink2);margin:2px 0 14px}
+.st-seg{display:flex;gap:2px;height:28px}
+.st-seg div{border-radius:4px;min-width:0;display:flex;align-items:center;padding-left:8px;font-size:12px;font-weight:700;color:#06121A;font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap}
+.st-legend{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-top:12px}
+.st-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
+.st-legend b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.st-two{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-top:12px}
+.st-facts{display:flex;flex-direction:column}
+.st-facts div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--ink2)}
+.st-facts div:last-child{border-bottom:0}
+.st-facts b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.st-sub{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin:24px 0 10px}
+.st-lg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.st-lc{position:relative;overflow:hidden;background:radial-gradient(240px 150px at 0 0,rgba(118,201,242,.13),transparent 72%),#050608;border:1px solid rgba(118,201,242,.16);border-radius:20px;padding:16px 16px 10px;display:flex;flex-direction:column;min-width:0;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
+.st-lc:hover{transform:translateY(-3px);border-color:rgba(118,201,242,.45)}
+.st-lc::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--blue),rgba(118,201,242,.12))}
+.st-lc h4{font-family:'Teko',sans-serif;font-weight:600;font-size:21px;letter-spacing:.06em;line-height:1;text-transform:uppercase;color:var(--blue)}
+.st-lk{position:absolute;right:-6px;top:6px;font-family:'Teko',sans-serif;font-weight:700;font-size:112px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(118,201,242,.24);pointer-events:none;user-select:none;transition:-webkit-text-stroke-color .3s}
+.st-lc:hover .st-lk{-webkit-text-stroke-color:rgba(118,201,242,.5)}
+.st-l1{position:relative;margin:6px 0 8px;min-width:0}
+.st-l1 b{display:block;font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1.02}
+.st-l1 span{display:block;font-size:15px;font-weight:700;letter-spacing:-.01em;margin-top:2px;line-height:1.25}
+.st-l1 button{font:inherit;letter-spacing:inherit;text-align:left}
+.st-l1 button:hover{color:var(--blue)}
+.st-l1 small{color:var(--ink3);font-size:11.5px;font-weight:400;letter-spacing:0;margin-left:6px;white-space:nowrap}
+.st-lr{position:relative;display:grid;grid-template-columns:24px 1fr auto;gap:6px;align-items:baseline;width:100%;text-align:left;padding:7px 0;border-top:1px solid var(--line2);font-size:13.5px;min-width:0}
+.st-lr i{font-style:normal;font-family:var(--m);font-size:11px;color:var(--ink3)}
+.st-lr span{min-width:0;color:var(--ink);font-weight:500}
+.st-lr span small{color:var(--ink3);font-size:11.5px;font-weight:400;margin-left:4px;white-space:nowrap}
+.st-lr em{font-style:normal;color:var(--ink2);font-weight:600;font-variant-numeric:tabular-nums}
+.st-lr:hover span{color:var(--blue)}
+.st-lc.pre{opacity:.2;transform:translateY(14px)}
+.st-lc.go{animation:stRise .85s calc(var(--d)*110ms) cubic-bezier(.2,.7,.2,1) both}
+.st-lc.go .st-lr,.st-lc.go .st-lm{animation:stRow .6s calc(var(--d)*110ms + 260ms + var(--r,4)*80ms) ease-out both}
+.st-lc.go::after{content:"";position:absolute;left:0;top:0;height:2px;width:40%;background:linear-gradient(90deg,transparent,#fff,transparent);animation:stSheen 1.3s calc(var(--d)*110ms + 200ms) ease-out both}
+@keyframes stRise{from{opacity:.2;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes stRow{from{opacity:.15;transform:translateX(-8px)}to{opacity:1;transform:none}}
+@keyframes stSheen{from{transform:translateX(-100%);opacity:1}to{transform:translateX(260%);opacity:0}}
+.st-lm{position:relative;font-size:11.5px;color:var(--ink3);padding:7px 0 4px;border-top:1px solid var(--line2);line-height:1.35}
+.st-l1 button:focus-visible,.st-lr:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+.st-rows{display:grid;gap:0 28px;overflow:hidden}
+.st-rows.c3{grid-template-columns:repeat(3,1fr)}
+.st-rw{display:flex;align-items:center;gap:12px;min-height:44px;margin-bottom:-1px;border-bottom:1px solid var(--line2);font-size:14px;min-width:0;width:100%;text-align:left}
+.st-rw .w{flex:1;min-width:0;font-weight:600;color:var(--ink)}
+.st-rw .x{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.st-rw .no{flex:0 0 26px;color:var(--blue);font-weight:700;font-variant-numeric:tabular-nums}
+.st-rw .x.q{font-weight:500;color:var(--ink2)}
+button.st-rw{transition:color .15s}
+button.st-rw:hover .w{color:var(--blue)}
+button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.st-list{background:var(--card);border-radius:20px;padding:4px 22px 8px;border:1px solid var(--line2);overflow:hidden}
+.st-tbl button:focus-visible,#stClose:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.st-no{font-size:34px;font-weight:800;letter-spacing:-.04em;color:var(--blue);line-height:1;min-width:42px;font-variant-numeric:tabular-nums}
+.st-tbl{-webkit-overflow-scrolling:touch}
+.st-tbl table.dt{font-size:13.5px;white-space:nowrap}
+.st-tbl table.dt th,.st-tbl table.dt td{padding:11px 10px}
+.st-tbl table.dt th{padding:0}
+.st-tbl th button{display:block;width:100%;padding:12px 10px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;text-align:inherit}
+.st-tbl th button:hover{color:var(--ink)}
+.st-tbl th.on button{color:var(--blue)}
+.st-tbl th.on button::after{content:' ↓'}
+.st-tbl th.on.asc button::after{content:' ↑'}
+.st-tbl th.num button{text-align:right}
+.st-tbl th:first-child,.st-tbl td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line2)}
+.st-tbl tr.total td:first-child{background:#18232D}
+.st-tbl td:first-child{padding-left:16px}
+.st-tbl th:first-child button{padding-left:16px}
+.st-tbl td:first-child button{font-weight:600;color:var(--ink);text-align:left}
+.st-tbl td:first-child button:hover{color:var(--blue)}
+.st-tbl td:first-child span{display:inline-block;width:26px;color:var(--ink3);font-family:var(--m);font-size:11.5px;font-weight:500}
+.st-tbl tbody tr:not(.total){cursor:pointer}
+.st-tbl tbody tr:not(.total):hover td{color:var(--ink)}
+.st-tbl td.key{color:var(--ink);font-weight:700}
+.st-tbl td.hm{color:var(--ink)}
+.st-tbl td.hm0{color:var(--ink3)}
+.st-hint{font-size:12.5px;color:var(--ink3);margin-top:8px}
+.st-gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:4px 22px;margin-top:12px;font-size:13px;color:var(--ink2)}
+.st-gl b{color:var(--ink);font-weight:700;margin-right:6px}
+#stSheet{position:fixed;inset:0;z-index:60;background:rgba(4,5,7,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+#stSheet.on{display:flex;animation:fadein .2s ease-out}
+.st-sh{background:var(--card2);border:1px solid var(--line);border-radius:24px;width:100%;max-width:560px;max-height:calc(100svh - 40px);overflow-y:auto;padding:24px;overscroll-behavior:contain}
+.st-sh-h{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.st-sh-h .st-no{font-size:44px;min-width:0}
+.st-sh-h h3{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.st-sh-h p{font-size:13.5px;color:var(--ink2)}
+#stClose{margin-left:auto;align-self:flex-start;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);font-size:18px;line-height:1;flex:none}
+.st-sh .smc{background:var(--bg2)}
+.st-sh .sumgrid{grid-template-columns:repeat(4,1fr);margin-bottom:0}
+.st-sh .smc{padding:12px}
+.st-sh .smc .v{font-size:21px}
+.st-bars{display:flex;flex-direction:column;gap:9px}
+.st-bar{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:13px;color:var(--ink2)}
+.st-bar>div{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
+.st-bar>div i{display:block;height:100%;background:var(--blue);border-radius:0 4px 4px 0}
+.st-bar b{text-align:right;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:860px){.st-two{grid-template-columns:1fr}.st-lg{grid-template-columns:repeat(2,1fr)}.st-rows.c3{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){
+  #stSheet{align-items:flex-end;padding:0}
+  .st-sh{border-radius:24px 24px 0 0;border-width:1px 0 0;max-width:none;max-height:88svh;padding:20px 16px calc(24px + env(safe-area-inset-bottom))}
+  .st-sh .smc .v{font-size:19px}
+  .st-sh .smc{padding:10px}
+  .st-rows.c3{grid-template-columns:1fr 1fr;gap:0 18px}
+  .st-rows.c3 .x{display:none}
+  .st-list{padding:2px 16px 6px}
+  .st-lg{gap:10px}
+  .st-lc{padding:14px 12px 8px;border-radius:18px}
+  .st-l1 b{font-size:36px}
+  .st-lr{grid-template-columns:20px 1fr auto;font-size:13px;gap:4px}
+  .st-lk{font-size:88px}
+  .st-tbl td:first-child{padding-left:12px}.st-tbl th:first-child button{padding-left:12px}
+}
+.door.d5{grid-column:1/-1;min-height:260px;background:linear-gradient(160deg,#10293A,#0A1016 70%)}
+@media (max-width:560px){.herolinks .btn:last-child{grid-column:1/-1}}
 </style>
 
 <div id="gate">
@@ -531,6 +648,7 @@ footer a:hover{text-decoration:underline}
     <nav class="links" id="glinks">
       <a href="#/banking" data-p="banking">Banking</a>
       <a href="#/schedule" data-p="schedule">Schedule</a>
+      <a href="#/stats" data-p="stats">Stats</a>
       <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag</a>
       <a href="lab.html" target="_blank" rel="noopener" data-p="lab">Performance Lab</a>
     </nav>
@@ -541,6 +659,7 @@ footer a:hover{text-decoration:underline}
   <a href="#/home" data-p="home">Home<small>Team overview</small></a>
   <a href="#/banking" data-p="banking">Banking<small>Balances, expenses &amp; every transaction</small></a>
   <a href="#/schedule" data-p="schedule">Schedule<small>Practices, games &amp; tournaments</small></a>
+  <a href="#/stats" data-p="stats">Stats<small>Team and player numbers</small></a>
   <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener" data-p="swag">Swag<small>Official Creed gear</small></a>
   <a href="lab.html" target="_blank" rel="noopener" data-p="lab">Performance Lab<small>Creed Milestone Program</small></a>
 </div>
@@ -556,6 +675,7 @@ footer a:hover{text-decoration:underline}
     <div class="ctas herolinks">
       <a class="btn" href="#/banking">Banking</a>
       <a class="btn" href="#/schedule">Schedule</a>
+      <a class="btn" href="#/stats">Stats</a>
       <a class="btn" href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a>
       <a class="btn" href="lab.html" target="_blank" rel="noopener">Performance Lab</a>
     </div>
@@ -599,6 +719,10 @@ footer a:hover{text-decoration:underline}
       <a class="door d4" href="lab.html" target="_blank" rel="noopener">
         <div><h3>Performance Lab.</h3><p>The Creed Milestone Program. Every player versus yesterday's version of themselves.</p><div class="go">Enter the lab ›</div></div>
         <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".55" stroke-linecap="round"><polyline points="20,160 60,130 95,140 130,90 175,50"/><circle cx="175" cy="50" r="8" fill="#76C9F2"/><line x1="20" y1="180" x2="185" y2="180" opacity=".5"/></svg></div>
+      </a>
+      <a class="door d5" href="#/stats">
+        <div><h3>Stats.</h3><p>Every at-bat, every out, every player.</p><div class="go">See the numbers ›</div></div>
+        <div class="art"><svg viewBox="0 0 200 200" fill="none" stroke="#76C9F2" stroke-width="3" opacity=".55" stroke-linejoin="round"><path d="M100 30 L170 100 L100 170 L30 100 Z"/><circle cx="100" cy="100" r="12"/><circle cx="100" cy="30" r="5"/><circle cx="170" cy="100" r="5"/><circle cx="30" cy="100" r="5"/><circle cx="100" cy="170" r="5"/></svg></div>
       </a>
     </div>
   </div></section>
@@ -749,6 +873,58 @@ footer a:hover{text-decoration:underline}
   </div>
 </section>
 
+<!-- ================= STATS ================= -->
+<section class="page" data-page="stats">
+  <div class="lnav"><div class="lnav-in"><h2>Stats</h2><div class="sub" data-scroller>
+    <button data-to="st-top" class="on">Team</button><button data-to="st-leaders">Leaders</button><button data-to="st-roster">Players</button><button data-to="st-bat">Batting</button><button data-to="st-pit">Pitching</button><button data-to="st-fld">Fielding</button>
+  </div></div></div>
+  <div class="hero" id="st-top">
+    <div class="eyebrow">Summer 2026 · 14-6</div>
+    <h1 class="h-l">Every at-bat. <span class="grad" style="white-space:nowrap">Every out.</span></h1>
+    <p class="lede" id="stLede"></p>
+  </div>
+  <div class="wrap">
+    <div class="board" id="stBoard"></div>
+    <div class="st-two">
+      <div class="st-panel"><h3>How the hits added up</h3><p class="cap" id="stHitCap"></p><div id="stHits"></div></div>
+      <div class="st-panel"><h3>At the plate</h3><div class="st-facts" id="stFacts"></div></div>
+    </div>
+
+    <section class="blk" id="st-leaders">
+      <div class="blk-h"><h2 class="h-m">Team leaders</h2><p>The top five in every category. Tap a name to see his summer.</p></div>
+      <div class="st-sub" style="margin-top:0">Hitting</div>
+      <div class="st-lg" id="stLeadBat"></div>
+      <div class="st-sub">Pitching</div>
+      <div class="st-lg" id="stLeadPit"></div>
+    </section>
+
+    <section class="blk" id="st-roster" style="padding-top:10px">
+      <div class="blk-h"><h2 class="h-m">Players</h2><p>Tap a player for his full summer.</p></div>
+      <div class="st-list"><div class="st-rows c3" id="stRoster"></div></div>
+    </section>
+
+    <section class="blk" id="st-bat" style="padding-top:10px">
+      <div class="blk-h"><h2 class="h-m">Batting</h2><p>Tap any column to sort.</p></div>
+      <div class="table-wrap st-tbl" id="stBatT"></div>
+      <div class="note-box blue">The team total for runs (235) comes from the scorebook export. Player lines add up to 239, so the two differ by 4.</div>
+    </section>
+
+    <section class="blk" id="st-pit" style="padding-top:10px">
+      <div class="blk-h"><h2 class="h-m">Pitching</h2><p>Everyone who threw an inning this summer.</p></div>
+      <div class="table-wrap st-tbl" id="stPitT"></div>
+      <div class="note-box blue">Six of the 80 team innings aren't credited to a player on this list, so player lines add up to less than the team total.</div>
+    </section>
+
+    <section class="blk" id="st-fld" style="padding-top:10px">
+      <div class="blk-h"><h2 class="h-m">Fielding</h2><p>Plays made, and innings at each position. Brighter means more time there.</p></div>
+      <div class="table-wrap st-tbl" id="stFldT"></div>
+      <div class="note-box blue">The scorebook shows zero errors across 373 chances, so errors weren't really tracked. Fielding percentage is left off. Double plays count once per player involved.</div>
+      <details class="more"><summary>What the abbreviations mean ›</summary><div class="st-gl" id="stGloss"></div></details>
+    </section>
+  </div>
+</section>
+<div id="stSheet" role="dialog" aria-modal="true" aria-labelledby="stShName"><div class="st-sh" id="stSh"></div></div>
+
 <!-- ================= SWAG ================= -->
 <section class="page" data-page="swag">
   <div class="lnav"><div class="lnav-in"><h2>Swag</h2><div class="sub" data-scroller>
@@ -781,7 +957,7 @@ footer a:hover{text-decoration:underline}
 
 <footer><div class="wrap">
   <span>Texas Creed · 7U · Houston, TX</span>
-  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="lab.html" target="_blank" rel="noopener">Performance Lab</a></span>
+  <span><a href="#/banking">Banking</a> · <a href="#/schedule">Schedule</a> · <a href="#/stats">Stats</a> · <a href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a> · <a href="lab.html" target="_blank" rel="noopener">Performance Lab</a></span>
   <span>Questions go to your team treasurer</span>
 </div></footer>
 </div>
@@ -1209,6 +1385,9 @@ const ICONS = {
 
 const ROSTER = ["Ariel Gallo","Daniel Nevarez","Rhett Balderrama","Breck Ask","Roman Gallo","Alber Mejias","Colt Wilson","Jeremiah Moreno","Donovan DeAnda","Gio Para","Ace Gaitan","Beau Blake","Benjamin Govea"];
 
+/* Summer 2026 scorebook export */
+const STATS = {"record":"14-6","players":[{"num":"4","first":"Jeremiah","last":"M.","bat":{"GP":"20","PA":"49","AB":"49","AVG":".878","OBP":".878","OPS":"2.347","SLG":"1.469","H":"43","1B":"23","2B":"13","3B":"5","HR":"2","RBI":"22","R":"31","BB":"0","SO":"0","SB":"3","TB":"72","XBH":"20","QAB%":"77.55","C%":"100.0","LD%":"26.53","FB%":"22.45","GB%":"51.02"},"pit":{"IP":"3.0","GP":"3","BF":"16","#P":"27","H":"8","R":"3","ER":"3","BB":"0","SO":"3","ERA":"6.000","WHIP":"2.667","BAA":".500","S%":"96.30","FPS%":"100.0"},"fld":{"TC":"73","A":"6","PO":"67","DP":"8","INN":"0.0","SBATT":"0","CS":"0","P":"3.0","C":"0.0","1B":"61.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"5.0","CF":"2.0","RF":"0.0","SF":"5.0","Total":"76.0"}},{"num":"88","first":"Breck","last":"A.","bat":{"GP":"20","PA":"41","AB":"41","AVG":".854","OBP":".854","OPS":"2.463","SLG":"1.610","H":"35","1B":"16","2B":"11","3B":"4","HR":"4","RBI":"20","R":"22","BB":"0","SO":"0","SB":"5","TB":"66","XBH":"19","QAB%":"73.17","C%":"100.0","LD%":"31.71","FB%":"24.39","GB%":"43.90"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"59","A":"32","PO":"27","DP":"6","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"10.0","3B":"0.0","SS":"57.1","LF":"0.0","CF":"5.0","RF":"0.0","SF":"1.0","Total":"73.1"}},{"num":"15","first":"Donovan","last":"D.","bat":{"GP":"20","PA":"46","AB":"46","AVG":".826","OBP":".826","OPS":"2.391","SLG":"1.565","H":"38","1B":"15","2B":"15","3B":"5","HR":"3","RBI":"24","R":"27","BB":"0","SO":"1","SB":"2","TB":"72","XBH":"23","QAB%":"78.26","C%":"97.83","LD%":"24.44","FB%":"28.89","GB%":"44.44"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"36","A":"11","PO":"25","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"55.0","SS":"7.1","LF":"3.2","CF":"7.2","RF":"0.0","SF":"0.0","Total":"73.2"}},{"num":"11","first":"Beau","last":"B.","bat":{"GP":"20","PA":"34","AB":"34","AVG":".824","OBP":".824","OPS":"2.324","SLG":"1.500","H":"28","1B":"13","2B":"10","3B":"2","HR":"3","RBI":"15","R":"19","BB":"0","SO":"0","SB":"1","TB":"51","XBH":"15","QAB%":"67.65","C%":"100.0","LD%":"20.59","FB%":"32.35","GB%":"47.06"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"18","A":"8","PO":"10","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"20.1","SS":"0.0","LF":"1.2","CF":"51.0","RF":"0.0","SF":"1.0","Total":"74.0"}},{"num":"9","first":"Colt","last":"W.","bat":{"GP":"20","PA":"41","AB":"41","AVG":".805","OBP":".805","OPS":"2.195","SLG":"1.390","H":"33","1B":"19","2B":"8","3B":"2","HR":"4","RBI":"26","R":"16","BB":"0","SO":"2","SB":"1","TB":"57","XBH":"14","QAB%":"73.17","C%":"95.12","LD%":"38.46","FB%":"25.64","GB%":"35.90"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"21","A":"0","PO":"21","DP":"0","INN":"47.1","SBATT":"4","CS":"1","P":"0.0","C":"47.1","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"0.0","CF":"0.0","RF":"0.0","SF":"2.0","Total":"49.1"}},{"num":"27","first":"Alber","last":"M.","bat":{"GP":"20","PA":"38","AB":"38","AVG":".789","OBP":".789","OPS":"2.000","SLG":"1.211","H":"30","1B":"22","2B":"3","3B":"2","HR":"3","RBI":"16","R":"18","BB":"0","SO":"1","SB":"3","TB":"46","XBH":"8","QAB%":"60.53","C%":"97.37","LD%":"16.22","FB%":"10.81","GB%":"72.97"},"pit":{"IP":"51.2","GP":"17","BF":"282","#P":"681","H":"177","R":"69","ER":"69","BB":"1","SO":"18","ERA":"8.013","WHIP":"3.445","BAA":".630","S%":"73.86","FPS%":"65.96"},"fld":{"TC":"28","A":"18","PO":"10","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"51.2","C":"0.0","1B":"0.0","2B":"8.2","3B":"0.0","SS":"0.0","LF":"0.0","CF":"1.0","RF":"2.2","SF":"4.0","Total":"68.0"}},{"num":"5","first":"Roman","last":"G.","bat":{"GP":"20","PA":"50","AB":"50","AVG":".740","OBP":".740","OPS":"1.780","SLG":"1.040","H":"37","1B":"24","2B":"11","3B":"2","HR":"0","RBI":"14","R":"25","BB":"0","SO":"0","SB":"1","TB":"52","XBH":"13","QAB%":"66.00","C%":"100.0","LD%":"30.00","FB%":"30.00","GB%":"40.00"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"66","A":"35","PO":"31","DP":"5","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"58.0","3B":"0.0","SS":"11.1","LF":"1.0","CF":"2.0","RF":"0.0","SF":"2.0","Total":"74.1"}},{"num":"8","first":"Daniel","last":"J.","bat":{"GP":"20","PA":"47","AB":"46","AVG":".739","OBP":".745","OPS":"2.114","SLG":"1.370","H":"34","1B":"16","2B":"12","3B":"1","HR":"5","RBI":"26","R":"24","BB":"1","SO":"2","SB":"3","TB":"63","XBH":"18","QAB%":"70.21","C%":"95.65","LD%":"15.91","FB%":"22.73","GB%":"61.36"},"pit":{"IP":"10.2","GP":"7","BF":"48","#P":"96","H":"24","R":"7","ER":"7","BB":"0","SO":"5","ERA":"3.938","WHIP":"2.250","BAA":".500","S%":"78.12","FPS%":"72.92"},"fld":{"TC":"13","A":"7","PO":"6","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"10.2","C":"0.0","1B":"3.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"3.0","CF":"3.0","RF":"9.1","SF":"24.0","Total":"53.0"}},{"num":"50","first":"Rhett","last":"B.","bat":{"GP":"20","PA":"37","AB":"36","AVG":".722","OBP":".730","OPS":"1.730","SLG":"1.000","H":"26","1B":"19","2B":"4","3B":"3","HR":"0","RBI":"10","R":"14","BB":"1","SO":"2","SB":"2","TB":"36","XBH":"7","QAB%":"56.76","C%":"94.44","LD%":"20.59","FB%":"14.71","GB%":"64.71"},"pit":{"IP":"5.0","GP":"5","BF":"21","#P":"40","H":"12","R":"1","ER":"1","BB":"0","SO":"1","ERA":"1.200","WHIP":"2.400","BAA":".571","S%":"77.50","FPS%":"76.19"},"fld":{"TC":"3","A":"2","PO":"1","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"5.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.1","LF":"7.0","CF":"0.0","RF":"40.0","SF":"3.2","Total":"56.0"}},{"num":"13","first":"Ace","last":"G.","bat":{"GP":"20","PA":"31","AB":"31","AVG":".677","OBP":".677","OPS":"1.645","SLG":".968","H":"21","1B":"15","2B":"3","3B":"3","HR":"0","RBI":"9","R":"14","BB":"0","SO":"2","SB":"2","TB":"30","XBH":"6","QAB%":"32.26","C%":"93.55","LD%":"3.45","FB%":"37.93","GB%":"58.62"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"13","A":"0","PO":"13","DP":"0","INN":"29.0","SBATT":"3","CS":"1","P":"0.0","C":"29.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"0.0","CF":"0.2","RF":"1.0","SF":"0.0","Total":"30.2"}},{"num":"67","first":"Gio","last":"P.","bat":{"GP":"20","PA":"32","AB":"32","AVG":".625","OBP":".625","OPS":"1.469","SLG":".844","H":"20","1B":"15","2B":"4","3B":"0","HR":"1","RBI":"11","R":"13","BB":"0","SO":"3","SB":"0","TB":"27","XBH":"5","QAB%":"37.50","C%":"90.62","LD%":"10.34","FB%":"20.69","GB%":"68.97"},"pit":{"IP":"0.0","GP":"1","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"4","A":"3","PO":"1","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.1","2B":"0.0","3B":"0.0","SS":"0.0","LF":"6.0","CF":"1.0","RF":"12.1","SF":"21.0","Total":"40.2"}},{"num":"1","first":"Ariel","last":"G.","bat":{"GP":"18","PA":"36","AB":"36","AVG":".583","OBP":".583","OPS":"1.361","SLG":".778","H":"21","1B":"16","2B":"3","3B":"2","HR":"0","RBI":"10","R":"9","BB":"0","SO":"3","SB":"2","TB":"28","XBH":"5","QAB%":"36.11","C%":"91.67","LD%":"18.18","FB%":"30.30","GB%":"51.52"},"pit":{"IP":"2.0","GP":"2","BF":"19","#P":"41","H":"14","R":"10","ER":"10","BB":"0","SO":"1","ERA":"30.00","WHIP":"7.000","BAA":".737","S%":"70.73","FPS%":"73.68"},"fld":{"TC":"1","A":"1","PO":"0","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"2.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"6.0","CF":"0.0","RF":"10.1","SF":"3.0","Total":"21.1"}},{"num":"44","first":"Benjamin","last":"G.","bat":{"GP":"16","PA":"30","AB":"30","AVG":".567","OBP":".567","OPS":"1.333","SLG":".767","H":"17","1B":"12","2B":"4","3B":"1","HR":"0","RBI":"11","R":"7","BB":"0","SO":"2","SB":"0","TB":"23","XBH":"5","QAB%":"53.33","C%":"93.33","LD%":"17.86","FB%":"32.14","GB%":"50.00"},"pit":{"IP":"1.2","GP":"2","BF":"7","#P":"22","H":"3","R":"0","ER":"0","BB":"0","SO":"1","ERA":".000","WHIP":"1.800","BAA":".429","S%":"77.27","FPS%":"42.86"},"fld":{"TC":"21","A":"5","PO":"16","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"1.2","C":"0.0","1B":"13.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"42.0","CF":"2.2","RF":"0.0","SF":"4.0","Total":"63.1"},"nick":"Benjamin “Bean”"}],"totals":{"bat":{"GP":"20","PA":"512","AB":"510","AVG":".751","OBP":".752","OPS":"1.974","SLG":"1.222","H":"383","1B":"225","2B":"101","3B":"32","HR":"25","RBI":"214","R":"235","BB":"2","SO":"18","SB":"25","TB":"623","XBH":"158","QAB%":"62.11","C%":"96.47","LD%":"22.15","FB%":"25.41","GB%":"52.24"},"pit":{"IP":"80.0","GP":"20","BF":"416","#P":"956","H":"247","R":"92","ER":"90","BB":"1","SO":"31","ERA":"6.750","WHIP":"3.100","BAA":".595","S%":"75.73","FPS%":"69.47"},"fld":{"TC":"373","A":"133","PO":"240","DP":"12","INN":"80.0","SBATT":"7","CS":"2","P":"80.0","C":"80.0","1B":"77.1","2B":"76.2","3B":"75.1","SS":"76.1","LF":"75.1","CF":"76.0","RF":"75.2","SF":"70.2","Total":"753.2"}}};
+
 /* ================= HELPERS ================= */
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -1222,7 +1401,7 @@ const isoToday = () => { const t=new Date(); return t.getFullYear()+'-'+String(t
 function evRange(e){ const s=D(e.start), en=D(e.end||e.start); return md(s)+(en>s?'–'+md(en):''); }
 
 /* ================= ROUTER ================= */
-const PAGES=['home','banking','schedule'];
+const PAGES=['home','banking','schedule','stats'];
 function route(){
   const p=(location.hash.match(/^#\/(\w+)/)||[])[1];
   if(p==='swag'){ location.href='https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball'; return; }
@@ -1355,8 +1534,162 @@ function renderSwag(){
   $$('#swagJump button').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.to); if(el) window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});}));
 }
 
+/* ================= STATS ================= */
+function renderStats(){
+  const P=STATS.players, T=STATS.totals, RAMP=['#4FA6D6','#76C9F2','#A8DFF8','#DDF2FC'];
+  const nm=p=>p.nick||p.first, full=p=>nm(p)+' '+p.last, short=p=>p.first+' '+p.last;
+  const val=x=>{const n=parseFloat(x);return isNaN(n)?null:n;};
+  const outs=x=>{const [a,b]=String(x).split('.');return (+a)*3+(+(b||0));};
+  const seg=(items)=>{
+    const sum=items.reduce((s,i)=>s+i.v,0);
+    return `<div class="st-seg" role="img" aria-label="${esc(items.map(i=>`${i.k}: ${i.v}`).join(', '))}">`+items.filter(i=>i.v>0).map((it)=>{
+      const idx=items.indexOf(it), pc=it.v/sum*100;
+      return `<div style="flex:${it.v} 1 0;background:${RAMP[idx]}" title="${esc(it.k)}: ${it.v} (${pc.toFixed(1)}%)">${pc>=12?Math.round(pc)+'%':''}</div>`;
+    }).join('')+`</div><div class="st-legend">`+items.map((it,i)=>`<span><i style="background:${RAMP[i]}"></i>${esc(it.k)} <b>${it.v}</b></span>`).join('')+`</div>`;
+  };
+  const hits=b=>[{k:'Singles',v:+b['1B']},{k:'Doubles',v:+b['2B']},{k:'Triples',v:+b['3B']},{k:'Home runs',v:+b.HR}];
+
+  /* team */
+  const games=+T.bat.GP, rg=(n)=>(n/games).toFixed(1);
+  $('#stLede').textContent=`${(+T.bat.R)} runs and ${T.bat.H} hits, one summer of ballgames.`;
+  $('#stBoard').innerHTML=[
+    ['Record',STATS.record,`${games} games`],
+    ['Team average',T.bat.AVG,`${T.bat.H} hits in ${T.bat.AB} at-bats`],
+    ['Runs scored',T.bat.R,`${rg(+T.bat.R)} a game`],
+    ['Runs allowed',T.pit.R,`${rg(+T.pit.R)} a game`]
+  ].map(c=>`<div class="cell"><div class="cell-label">${c[0]}</div><div class="cell-num">${c[1]}</div><div class="sub">${c[2]}</div></div>`).join('');
+  $('#stHitCap').textContent=`${T.bat.H} hits, ${T.bat.TB} total bases.`;
+  $('#stHits').innerHTML=seg(hits(T.bat));
+  $('#stFacts').innerHTML=[
+    ['Contact rate',parseFloat(T.bat['C%']).toFixed(1)+'%'],
+    ['Strikeouts',`${T.bat.SO} in ${T.bat.PA} trips`],
+    ['Quality at-bats',parseFloat(T.bat['QAB%']).toFixed(1)+'%'],
+    ['Stolen bases',T.bat.SB]
+  ].map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join('');
+
+  /* leaders */
+  const leader=(pool,get,fmt,label,opt={})=>{
+    const rows=pool.filter(p=>get(p)!==null).sort((x,y)=>(opt.asc?get(x)-get(y):get(y)-get(x))||short(x).localeCompare(short(y)));
+    const rank=p=>rows.findIndex(r=>get(r)===get(p))+1, tie=p=>rows.filter(r=>get(r)===get(p)).length>1;
+    const top=rows.filter(r=>get(r)===get(rows[0]));
+    const shown=rows.slice(0,5), rest=rows.slice(top.length,5);
+    const also=rows.slice(5).filter(r=>get(r)===get(shown[shown.length-1]));
+    const sub=p=>opt.ip?`<small>${esc(p.pit.IP)} IP</small>`:'';
+    return `<div class="st-lc"><span class="st-lk" aria-hidden="true">${top.length===1?top[0].num:''}</span><h4>${label}</h4>`+
+      `<div class="st-l1"><b class="grad"${opt.whole?' data-whole':''}>${esc(fmt(top[0]))}</b><span>`+top.map(p=>`<button data-pl="${p.num}">${esc(short(p))}</button>`).join(' &amp; ')+(top.length===1?sub(top[0]):'')+`</span></div>`+
+      rest.map((p,i)=>`<button class="st-lr" style="--r:${i}" data-pl="${p.num}"><i>${tie(p)?'T':''}${rank(p)}</i><span>${esc(short(p))}${sub(p)}</span><em>${esc(fmt(p))}</em></button>`).join('')+
+      (also.length?`<div class="st-lm">Also at ${esc(fmt(also[0]))}: ${also.map(p=>esc(short(p))).join(', ')}</div>`:'')+`</div>`;
+  };
+  const bl=(k,label)=>leader(P,p=>val(p.bat[k]),p=>p.bat[k],label);
+  $('#stLeadBat').innerHTML=[['AVG','Average'],['OPS','OPS'],['H','Hits'],['HR','Home runs'],['RBI','RBI'],['R','Runs'],['2B','Doubles'],['SB','Steals']].map(a=>bl(a[0],a[1])).join('');
+  const pp=P.filter(p=>outs(p.pit.IP)>0);
+  $('#stLeadPit').innerHTML=[
+    leader(pp,p=>outs(p.pit.IP),p=>p.pit.IP,'Innings',{whole:true}),
+    leader(pp,p=>val(p.pit.SO),p=>p.pit.SO,'Strikeouts'),
+    leader(pp,p=>val(p.pit.ERA),p=>parseFloat(p.pit.ERA).toFixed(2),'ERA',{asc:true,ip:true}),
+    leader(pp,p=>val(p.pit['S%']),p=>parseFloat(p.pit['S%']).toFixed(1)+'%','Strike %',{ip:true})
+  ].join('');
+
+  /* leaders: rise in and count up the first time each card scrolls into view */
+  (function(){
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const count=b=>{
+      const end=b.textContent, n=parseFloat(end); if(!n) return;
+      const m=end.match(/\.(\d+)/), d=(m&&!b.hasAttribute('data-whole'))?m[1].length:0, pct=end.endsWith('%')?'%':'', lead=end.startsWith('.');
+      const t0=performance.now(), dur=1400;
+      (function tick(t){
+        const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
+        if(k>=1){ b.textContent=end; return; }
+        let s=(n*e).toFixed(d); if(lead) s=s.replace(/^0/,'');
+        b.textContent=s+pct; requestAnimationFrame(tick);
+      })(t0);
+    };
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const c=e.target; io.unobserve(c);
+      c.classList.remove('pre'); c.classList.add('go');
+      setTimeout(()=>count(c.querySelector('.st-l1 b')),(+c.style.getPropertyValue('--d')||0)*110+140);
+      setTimeout(()=>c.classList.remove('go'),3000);
+    }),{threshold:.2});
+    ['#stLeadBat','#stLeadPit'].forEach(sel=>{
+      const g=$(sel), cols=Math.max(1,getComputedStyle(g).gridTemplateColumns.split(' ').length||4);
+      [...g.children].forEach((c,i)=>{ c.style.setProperty('--d',cols>1?i%cols:0); c.classList.add('pre'); io.observe(c); });
+    });
+  })();
+
+  /* roster */
+  $('#stRoster').innerHTML=[...P].sort((a,b)=>+a.num-+b.num).map(p=>`<button class="st-rw" data-pl="${p.num}"><span class="no">${p.num}</span><span class="w">${esc(short(p))}</span><span class="x q">${p.bat.AVG}</span></button>`).join('');
+
+  /* tables */
+  function table(box,cfg){
+    let key=cfg.sort, asc=false;
+    const sk=(row,c)=>c.outs?outs(c.get(row)):c.txt?c.get(row):val(c.get(row));
+    function draw(){
+      const col=cfg.cols.find(c=>c.k===key);
+      const rows=[...cfg.rows].sort((a,b)=>{
+        const x=sk(a,col),y=sk(b,col);
+        if(x===null&&y===null)return 0; if(x===null)return 1; if(y===null)return -1;
+        const d=col.txt?String(x).localeCompare(String(y)):x-y;
+        return asc?d:-d;
+      });
+      const th=[`<th class="${key==='_n'?'on'+(asc?' asc':''):''}" aria-sort="${key==='_n'?(asc?'ascending':'descending'):'none'}"><button data-k="_n">Player</button></th>`].concat(cfg.cols.filter(c=>c.k!=='_n').map(c=>`<th class="num ${key===c.k?'on'+(asc?' asc':''):''}" aria-sort="${key===c.k?(asc?'ascending':'descending'):'none'}"><button data-k="${c.k}" title="${esc(c.t||'')}">${c.h||c.k}</button></th>`)).join('');
+      const cell=(r,c)=>{
+        const v=c.get(r);
+        if(c.heat){const o=outs(v),a=o/cfg.heatMax;return o?`<td class="num hm" style="background:rgba(118,201,242,${(.06+a*.5).toFixed(3)})">${v}</td>`:`<td class="num hm0">–</td>`;}
+        return `<td class="num${c.k===key?' key':''}">${v===''||v==null?'–':esc(v)}</td>`;
+      };
+      const body=rows.map(p=>`<tr data-pl="${p.num}"><td><button><span>${p.num}</span>${esc(short(p))}</button></td>${cfg.cols.filter(c=>c.k!=='_n').map(c=>cell(p,c)).join('')}</tr>`).join('');
+      const foot=`<tr class="total"><td>Team</td>${cfg.cols.filter(c=>c.k!=='_n').map(c=>`<td class="num">${esc(c.get(T)||'–')}</td>`).join('')}</tr>`;
+      box.innerHTML=`<table class="dt"><thead><tr>${th}</tr></thead><tbody>${body}${foot}</tbody></table>`;
+      box.querySelectorAll('th button').forEach(b=>b.addEventListener('click',()=>{
+        const k=b.dataset.k;
+        if(k===key) asc=!asc; else {key=k;asc=k==='_n';}
+        const sl=box.scrollLeft; draw(); box.scrollLeft=sl;
+      }));
+    }
+    draw();
+  }
+  const name={k:'_n',txt:true,get:p=>p.first+' '+p.last};
+  const bc=(k,t,h)=>({k,t,h,get:p=>p.bat[k]}), pc=(k,t,h,o)=>({k,t,h,outs:o,get:p=>p.pit[k]}), fc=(k,t,h)=>({k,t,h,get:p=>p.fld[k]});
+  table($('#stBatT'),{rows:P,sort:'AVG',cols:[name,bc('AVG','Batting average'),bc('OBP','On-base percentage'),bc('SLG','Slugging percentage'),bc('OPS','On-base plus slugging'),bc('GP','Games played'),bc('PA','Plate appearances'),bc('AB','At-bats'),bc('H','Hits'),bc('1B','Singles'),bc('2B','Doubles'),bc('3B','Triples'),bc('HR','Home runs'),bc('RBI','Runs batted in'),bc('R','Runs scored'),bc('SB','Stolen bases'),bc('SO','Strikeouts'),bc('QAB%','Quality at-bat percentage')]});
+  table($('#stPitT'),{rows:pp,sort:'IP',cols:[name,pc('IP','Innings pitched',0,true),pc('ERA','Earned run average'),pc('WHIP','Walks plus hits per inning'),pc('BAA','Opponent batting average'),pc('BF','Batters faced'),pc('#P','Pitches'),pc('H','Hits allowed'),pc('R','Runs allowed'),pc('ER','Earned runs'),pc('BB','Walks'),pc('SO','Strikeouts'),pc('S%','Strike percentage'),pc('FPS%','First-pitch strike percentage')]});
+  const POS=['P','C','1B','2B','3B','SS','LF','CF','RF','SF'];
+  const posCols=POS.map(k=>({k,heat:true,outs:true,get:p=>p.fld[k]}));
+  table($('#stFldT'),{rows:P,sort:'Total',heatMax:Math.max(...P.flatMap(p=>POS.map(k=>outs(p.fld[k])))),cols:[name,fc('TC','Total chances'),fc('A','Assists'),fc('PO','Putouts'),fc('DP','Double plays'),...posCols,{k:'Total',outs:true,t:'Total innings in the field',get:p=>p.fld.Total}]});
+
+  $('#stGloss').innerHTML=[['AVG','Batting average'],['OBP','On-base percentage'],['SLG','Slugging, total bases per at-bat'],['OPS','OBP plus SLG'],['PA','Plate appearances'],['AB','At-bats'],['RBI','Runs batted in'],['SB','Stolen bases'],['SO','Strikeouts'],['QAB%','Quality at-bats per plate appearance'],['IP','Innings pitched (.1 is one out, .2 is two)'],['ERA','Earned runs per 6 innings'],['WHIP','Walks plus hits per inning'],['BAA','Opponent batting average'],['BF','Batters faced'],['#P','Total pitches'],['S%','Strike percentage'],['FPS%','First-pitch strikes'],['TC','Total chances'],['A','Assists'],['PO','Putouts'],['DP','Double plays'],['SF','Short field']].map(g=>`<div><b>${esc(g[0])}</b>${esc(g[1])}</div>`).join('');
+
+  /* player sheet */
+  const sheet=$('#stSheet'), sh=$('#stSh'); let back=null;
+  const tiles=a=>`<div class="sumgrid">`+a.map(t=>`<div class="smc"><div class="l">${t[0]}</div><div class="v">${esc(t[1])}</div></div>`).join('')+`</div>`;
+  const bars=(rows,max)=>`<div class="st-bars">`+rows.map(r=>`<div class="st-bar"><span>${esc(r[0])}</span><div><i style="width:${(r[1]/max*100).toFixed(1)}%"></i></div><b>${esc(r[2])}</b></div>`).join('')+`</div>`;
+  const POSN={P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',CF:'Center field',RF:'Right field',SF:'Short field'};
+  function open(num,from){
+    const p=P.find(x=>x.num===String(num)); if(!p) return;
+    const b=p.bat, f=p.fld, spots=POS.map(k=>[POSN[k],outs(f[k]),f[k]]).filter(r=>r[1]>0).sort((x,y)=>y[1]-x[1]);
+    const pitched=outs(p.pit.IP)>0;
+    const pct=x=>parseFloat(x).toFixed(1)+'%';
+    sh.innerHTML=`<div class="st-sh-h"><span class="st-no">${p.num}</span><div><h3 id="stShName">${esc(full(p))}</h3><p>${b.GP} games · ${b.PA} plate appearances</p></div><button id="stClose" aria-label="Close">×</button></div>`+
+      tiles([['AVG',b.AVG],['OPS',b.OPS],['Hits',b.H],['HR',b.HR],['RBI',b.RBI],['Runs',b.R],['SB',b.SB],['QAB',pct(b['QAB%'])]])+
+      `<div class="st-sub">Hits</div>`+seg(hits(b))+
+      `<div class="st-sub">Balls in play</div>`+bars([['Line drives',+b['LD%'],pct(b['LD%'])],['Fly balls',+b['FB%'],pct(b['FB%'])],['Ground balls',+b['GB%'],pct(b['GB%'])]],100)+
+      (pitched?`<div class="st-sub">On the mound</div>`+tiles([['IP',p.pit.IP],['SO',p.pit.SO],['ERA',parseFloat(p.pit.ERA).toFixed(2)],['Strikes',pct(p.pit['S%'])]]):'')+
+      `<div class="st-sub">Where he played</div>`+bars(spots,spots[0][1])+
+      (outs(f.C)>0&&(+f.SBATT)>0?`<p class="st-hint">Behind the plate: threw out ${f.CS} of ${f.SBATT} base stealers.</p>`:'');
+    sheet.classList.add('on'); sh.scrollTop=0; back=from||null; document.body.style.overflow='hidden';
+    $('#stClose').addEventListener('click',close); $('#stClose').focus();
+  }
+  function close(){ sheet.classList.remove('on'); document.body.style.overflow=''; if(back&&back.isConnected) back.focus(); }
+  sheet.addEventListener('click',e=>{ if(e.target===sheet) close(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&sheet.classList.contains('on')) close(); });
+  document.querySelector('[data-page="stats"]').addEventListener('click',e=>{
+    if(e.target.closest('th')) return;
+    const el=e.target.closest('[data-pl]'); if(el) open(el.dataset.pl,e.target.closest('button'));
+  });
+}
+
 /* ================= BOOT ================= */
-renderHome(); renderBanking(); renderSchedule(); renderSwag();
+renderHome(); renderBanking(); renderSchedule(); renderStats(); renderSwag();
 
 function intro(){
   const el=$('#intro'); let seen=false; try{seen=sessionStorage.getItem('creed_intro')==='1';}catch(e){}
