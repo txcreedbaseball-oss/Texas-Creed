@@ -68,9 +68,10 @@ window.CreedPkg=(function(){
     const out=[];
     const add=(test,title)=>{
       const list=rows.filter(r=>r.test===test); if(!list.length) return;
-      const skills=TESTS[test].kind==='rubric'?TESTS[test].skills.map(s=>({k:s[0],l:s[1],w:gradeLine(list,s[0],1)})).filter(s=>s.w.length):[{k:'iq',l:'Correct decisions',w:gradeLine(list,'iq',.05)}].filter(s=>s.w.length);
+      const latest=list[list.length-1], missed=(latest.attempts||[]).map((a,i)=>a&&a.r===false?IQ_SCEN[i]:null).filter(Boolean);
+      const skills=TESTS[test].kind==='rubric'?TESTS[test].skills.map(s=>({k:s[0],l:s[1],h:s[2],w:gradeLine(list,s[0],1)})).filter(s=>s.w.length):[{k:'iq',l:'Baseball IQ',h:missed.length?'review '+missed.join(', ').toLowerCase():'keep talking through game situations',w:gradeLine(list,'iq',.05)}].filter(s=>s.w.length);
       if(!skills.length) return;
-      const now=skills.map(s=>({l:s.l,v:s.w[s.w.length-1].m.val}));
+      const now=skills.map(s=>({l:s.l,h:s.h,v:s.w[s.w.length-1].m.val}));
       const score=now.reduce((a,x)=>a+x.v,0)/now.length;
       const dates=[...new Set(skills.flatMap(s=>s.w.map(x=>x.r.date)))].sort();
       const trend=skills[0].w.map((x,i)=>{const vals=skills.map(s=>s.w[i]).filter(Boolean).map(y=>y.m.val);return {v:Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10,x:D(x.r.date).toLocaleDateString('en-US',{month:'short'})};});
@@ -78,6 +79,14 @@ window.CreedPkg=(function(){
     };
     add('me','Mechanics'); add('iq','Baseball IQ'); add('co','Coachability');
     return out;
+  }
+  /* Plain-language next steps, written from this player's lowest coach scores. */
+  function workOn(G,who){
+    const all=G.flatMap(g=>g.now).sort((a,b)=>a.v-b.v), focus=all.filter(x=>x.v<4.5).slice(0,3);
+    const line=x=>`<b>${e(x.l)}</b> (${n1(x.v)}, ${letter(x.v)})${x.h?`: ${e(String(x.h).replace(/\.$/,'').replace(/^./,c=>c.toLowerCase()))}`:''}`;
+    if(!focus.length) return `${e(who)} is scoring at the top of the scale in every graded skill. The goal now is to keep that level consistent and help teammates along the way.`;
+    const first=line(focus[0]), rest=focus.slice(1).map(line);
+    return `To improve ${e(who)}’s scores and overall grades, the best place to start is ${first}.${rest.length?` After that, work on ${rest.join(' and ')}.`:''} Raising a skill by one full point moves it up one letter grade. A few focused minutes at home each week can make a real difference, and coaches will keep working on these at practice.`;
   }
   function labRows(rows){
     const out=[];
@@ -113,8 +122,9 @@ window.CreedPkg=(function(){
       const hasTrend=G.some(g=>g.trend.length>1);
       pages.push(frame(p,'Coach Grades','Where his game is right now',
         `<div class="pk-grades">${G.map(g=>`<div class="pk-g"><span>${e(g.title)}</span><b>${letter(g.score)}</b><em>${n1(g.score)} / 5</em></div>`).join('')}</div>`+
+        `<div class="pk-work"><h3>Areas to work on</h3><p>${workOn(G,p.first)}</p></div>`+
         G.map(g=>`<div class="pk-s"><h3>${e(g.title)}</h3><div class="pk-bars pk-rate">${g.now.map(x=>`<div class="pk-bar"><span>${e(x.l)}</span><i><u style="width:${(x.v/5*100).toFixed(1)}%"></u></i><b>${n1(x.v)}</b><strong>${letter(x.v)}</strong></div>`).join('')}</div></div>`).join('')+
-        (hasTrend?`<div class="pk-cards">${G.filter(g=>g.trend.length>1).map(g=>cardChart(g.title,'Score out of 5, by grading round',g.trend,v=>v.toFixed(1))).join('')}</div>`:`<p class="pk-note">Trend charts start after the next grading round.</p>`)+
+        (hasTrend?`<div class="pk-cards three">${G.filter(g=>g.trend.length>1).map(g=>cardChart(g.title,'Out of 5, by grading round',g.trend,v=>v.toFixed(1))).join('')}</div>`:`<p class="pk-note">Trend charts start after the next grading round.</p>`)+
         `<div class="pk-s"><h3>Grading scale</h3><div class="pk-scale">${SCALE.map(s=>`<div><b>${s[0]}</b><em>${s[1]}</em><span>${e(s[2])}</span></div>`).join('')}</div><p class="pk-note">Grades reflect coach judgment, not a measurement. When coaches score within the same month, the scores are averaged. Letters round to the nearest whole score: 4.5 and up is an A, 3.5 to 4.4 a B, 2.5 to 3.4 a C, 1.5 to 2.4 a D, and below 1.5 is Developing (Dev). Baseball IQ converts correct answers out of 5 to this scale.</p></div>`,n,total)); n++;
     }
     const hitTotal=+b.H, share=(v,w)=>w?Math.round(v/w*100)+'%':'0%';
