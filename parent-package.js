@@ -124,7 +124,21 @@ window.CreedPkg=(function(){
     });
     return S.sample?pages.join('').replace(/<section class="pk-page/g,'<section class="pk-page pk-demo'):pages.join('');
   }
-  function fit(w){ const s=Math.min(1,(innerWidth-24)/816); w.querySelectorAll('.pk-page').forEach(g=>{g.style.zoom=s;}); }
+  /* Preview: scale each page to the screen. */
+  function fit(w){
+    const s=Math.min(1,(document.documentElement.clientWidth-24)/816);
+    w.querySelectorAll('.pk-fit').forEach(d=>{ d.style.width=816*s+'px'; d.style.height=1056*s+'px'; d.firstElementChild.style.transform=`scale(${s})`; });
+  }
+  /* Keep every page inside its margins, whatever fonts or text size the device uses. */
+  function settle(w){
+    w.querySelectorAll('.pk-page').forEach(g=>{
+      const b=g.querySelector('.pk-body'), f=g.querySelector('.pk-f'); if(!b||!f) return;
+      b.style.transform=''; b.style.width='';
+      const room=f.offsetTop-b.offsetTop-12, used=b.offsetHeight;
+      if(used>room){ const k=room/used; b.style.transformOrigin='top left'; b.style.width=(100/k)+'%'; b.style.transform=`scale(${k})`;
+        const again=b.offsetHeight; if(again>room/k){ const k2=room/again; b.style.width=(100/k2)+'%'; b.style.transform=`scale(${k2})`; } }
+    });
+  }
   const MODE='creed_pkg_mode';
   function startMode(){
     try{ const v=localStorage.getItem(MODE); if(v==='dark'||v==='light') return v; }catch(e){}
@@ -141,7 +155,9 @@ window.CreedPkg=(function(){
     close();
     const w=document.createElement('div'); w.id='pkgWrap';
     w.innerHTML=`<div class="pk-tool"><div class="pk-mode" role="group" aria-label="Package colors"><button data-pkm="dark">Dark</button><button data-pkm="light">Light</button></div><button class="btn sm" id="pkgSave">Save as PDF</button><button class="btn dark sm" id="pkgClose">Close</button><span>Light uses less ink when printing. On iPhone, tap Save as PDF, then Share, then Save to Files.</span></div><div class="pk-doc">${html}</div>`;
-    document.body.appendChild(w); document.body.classList.add('pk-open'); fit(w);
+    w.querySelectorAll('.pk-page').forEach(g=>{ const d=document.createElement('div'); d.className='pk-fit'; g.replaceWith(d); d.appendChild(g); });
+    document.body.appendChild(w); document.body.classList.add('pk-open'); fit(w); settle(w);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>settle(w));
     setMode(w,startMode()); w.querySelectorAll('[data-pkm]').forEach(b=>b.onclick=()=>setMode(w,b.dataset.pkm,true));
     document.title=`Texas Creed Player Package - ${player}`;
     w.querySelector('#pkgSave').onclick=()=>window.print();

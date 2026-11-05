@@ -493,11 +493,12 @@ footer a:hover{text-decoration:underline}
 .np-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 @media (max-width:640px){.np-rows{grid-template-columns:1fr 1fr;gap:0 12px}}
 /* --- parent player package --- */
-#pkgWrap{position:fixed;inset:0;z-index:300;background:#000;overflow:auto;-webkit-overflow-scrolling:touch}
+#pkgWrap{position:fixed;inset:0;z-index:300;background:#000;overflow:auto;-webkit-overflow-scrolling:touch;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.pk-fit{flex:none;overflow:hidden}
 .pk-tool{position:sticky;top:0;z-index:2;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 10px;background:rgba(5,6,8,.92);border-bottom:1px solid var(--edge)}
 .pk-tool span{font-size:12.5px;color:var(--ink3)}
 .pk-doc{display:flex;flex-direction:column;align-items:center;gap:14px;padding:14px 12px 40px}
-.pk-page{position:relative;width:816px;height:1056px;overflow:hidden;flex:none;color:#F5F7FA;font-family:var(--f);background:radial-gradient(620px 420px at 0 0,rgba(130,205,255,.26),transparent 70%),radial-gradient(560px 420px at 100% 100%,rgba(130,205,255,.16),transparent 72%),linear-gradient(170deg,#07090D,#050608 62%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pk-page{position:relative;width:816px;height:1056px;overflow:hidden;flex:none;transform-origin:top left;-webkit-text-size-adjust:100%;text-size-adjust:100%;color:#F5F7FA;font-family:var(--f);background:radial-gradient(620px 420px at 0 0,rgba(130,205,255,.26),transparent 70%),radial-gradient(560px 420px at 100% 100%,rgba(130,205,255,.16),transparent 72%),linear-gradient(170deg,#07090D,#050608 62%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pk-cover{background:linear-gradient(180deg,#050608 40%,#071019)}
 .pk-wave{position:absolute;left:0;right:0;bottom:0;width:100%;height:42%}
 .pk-c{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:74px 56px 0}
@@ -516,7 +517,7 @@ footer a:hover{text-decoration:underline}
 .pk-h h2{font-family:'Teko',sans-serif;font-weight:600;font-size:38px;letter-spacing:.04em;line-height:1;text-transform:uppercase}
 .pk-h p{font-size:13px;color:#76C9F2;font-weight:600}
 .pk-h em{margin-left:auto;font-style:normal;font-weight:700;font-size:15px}
-.pk-body{padding:20px 44px 0;display:flex;flex-direction:column;gap:16px}
+.pk-body{box-sizing:border-box;padding:20px 44px 0;display:flex;flex-direction:column;gap:16px}
 .pk-f{position:absolute;left:44px;right:44px;bottom:22px;display:flex;justify-content:space-between;font-size:11px;color:rgba(245,247,250,.55)}
 .pk-s h3{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#76C9F2;margin-bottom:8px}
 .pk-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -594,8 +595,9 @@ body.pk-open{overflow:hidden}
   #pkgWrap{position:static;overflow:visible;background:none}
   .pk-tool{display:none}
   .pk-doc{display:block;padding:0}
-  .pk-page{zoom:1!important;break-after:page;page-break-after:always}
-  .pk-page:last-child{break-after:auto;page-break-after:auto}
+  .pk-fit{width:816px!important;height:1056px!important;overflow:hidden;break-after:page;page-break-after:always}
+  .pk-fit:last-child{break-after:auto;page-break-after:auto}
+  .pk-page{transform:none!important}
 }
 
 /* --- motion --- */
@@ -1247,7 +1249,7 @@ window.Lab = Lab;
   else { window.addEventListener('creed-ready', boot, {once:true}); setTimeout(boot, 8000); }
 })();
 </script>
-<script src="parent-package.js?v=3"></script>
+<script src="parent-package.js?v=5"></script>
 
 
 <script type="module">
