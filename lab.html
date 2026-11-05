@@ -338,7 +338,11 @@ details.more summary::-webkit-details-marker{display:none}
 .inp{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px;outline:none;width:100%}
 .inp:focus{border-color:var(--blue)}
 select.inp{-webkit-appearance:none;appearance:none}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.inp{box-sizing:border-box;max-width:100%;min-width:0}
+.field{min-width:0}
+input[type=date].inp{display:block;width:100%;min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;text-align:left}
+input[type=date].inp::-webkit-date-and-time-value{text-align:left}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:12px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font-size:14px;font-weight:600;background:var(--bg2);border:1px solid var(--line);padding:10px 14px;border-radius:12px;min-height:44px}
 .chip.on{background:var(--blue);color:#050608;border-color:var(--blue)}
