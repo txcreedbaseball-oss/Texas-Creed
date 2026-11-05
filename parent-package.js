@@ -19,7 +19,8 @@ window.CreedPkg=(function(){
   const e=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const has=v=>v!==''&&v!=null&&v!=='-';
   const tiles=(o,keys,lb,big)=>`<div class="pk-tiles${big===true?' big':big?' '+big:''}">`+keys.filter(k=>has(o[k])).map(k=>`<div class="pk-t"><b>${e(o[k])}</b><span>${e(lb[k]||k)}</span></div>`).join('')+`</div>`;
-  const bars=rows=>{const m=Math.max(...rows.map(r=>r[1]),1);return `<div class="pk-bars">`+rows.map(r=>`<div class="pk-bar"><span>${e(r[0])}</span><i><u style="width:${(r[1]/m*100).toFixed(1)}%"></u></i><b>${e(r[2])}</b></div>`).join('')+`</div>`;};
+  /* Bars are a share of the whole, so each fill matches its real part of the total. */
+  const bars=(rows,whole,cls)=>{const m=whole||1;return `<div class="pk-bars${cls?' '+cls:''}">`+rows.map(r=>`<div class="pk-bar"><span>${e(r[0])}</span><i><u style="width:${(r[1]/m*100).toFixed(1)}%"></u></i><b>${e(r[2])}</b></div>`).join('')+`</div>`;};
   const pct=x=>has(x)?parseFloat(x).toFixed(1)+'%':'–';
   const WAVE=`<svg class="pk-wave" viewBox="0 0 816 420" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pkw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD2FF"/><stop offset="1" stop-color="#050608" stop-opacity=".1"/></linearGradient></defs><path fill="url(#pkw)" opacity=".2" d="M0 120Q204 20 408 120T816 120V420H0Z"/><path fill="url(#pkw)" opacity=".3" d="M0 210Q204 110 408 210T816 190V420H0Z"/><path fill="url(#pkw)" opacity=".42" d="M0 300Q204 220 408 300T816 280V420H0Z"/></svg>`;
   function frame(p,title,sub,body,n,total){
@@ -56,8 +57,8 @@ window.CreedPkg=(function(){
     return out;
   }
   /* Coach grades: 1 to 5, shown as a letter. IQ converts correct answers out of 5 to the same scale. */
-  const SCALE=[['A','5','Independent and reliable'],['B','4','Demonstrates consistently'],['C','3','Demonstrates intermittently'],['D','2','Emerging with support'],['F','1','Needs frequent guidance']];
-  const letter=v=>v>=4.5?'A':v>=3.5?'B':v>=2.5?'C':v>=1.5?'D':'F';
+  const SCALE=[['A','5','Independent and reliable'],['B','4','Demonstrates consistently'],['C','3','Demonstrates intermittently'],['D','2','Emerging with support'],['Dev','1','Developing: needs frequent guidance']];
+  const letter=v=>v>=4.5?'A':v>=3.5?'B':v>=2.5?'C':v>=1.5?'D':'Dev';
   const n1=v=>(Math.round(v*10)/10).toFixed(1);
   function gradeLine(rows,k,scale){
     const e=rows.map(r=>{const m=metrics(r).find(x=>x.k===k);return m&&m.val!=null?{r,m:{val:m.val*scale,sc:'rubric'}}:null;}).filter(Boolean);
@@ -93,6 +94,7 @@ window.CreedPkg=(function(){
     }));
     return out;
   }
+  const GRADE_GUIDE=[['A = 5','Independent and reliable'],['B = 4','Demonstrates consistently'],['C = 3','Demonstrates intermittently'],['D = 2','Emerging with support'],['Dev = 1','Developing: needs frequent guidance']];
   const GUIDE=[['AVG','Hits divided by at-bats'],['OBP','How often he reaches base'],['SLG','Total bases per at-bat'],['OPS','OBP plus slugging'],['Quality at-bat','A hard-hit ball, extra-base hit, walk, sacrifice, or a long, tough at-bat'],['Contact %','At-bats without a strikeout'],['Hard-hit ball','A line drive or hard ground ball'],['ERA','Earned runs per 6 innings'],['WHIP','Walks plus hits per inning'],['First-pitch strike %','First pitches thrown for a strike'],['Total chances','Assists plus putouts'],['Assist','A throw that helps get an out']];
   function build(player,rows){
     const p=(window.CREED_STATS.players||[]).find(x=>short(x)===player); if(!p) return null;
@@ -113,21 +115,23 @@ window.CreedPkg=(function(){
         `<div class="pk-grades">${G.map(g=>`<div class="pk-g"><span>${e(g.title)}</span><b>${letter(g.score)}</b><em>${n1(g.score)} / 5</em></div>`).join('')}</div>`+
         G.map(g=>`<div class="pk-s"><h3>${e(g.title)}</h3><div class="pk-bars pk-rate">${g.now.map(x=>`<div class="pk-bar"><span>${e(x.l)}</span><i><u style="width:${(x.v/5*100).toFixed(1)}%"></u></i><b>${n1(x.v)}</b><strong>${letter(x.v)}</strong></div>`).join('')}</div></div>`).join('')+
         (hasTrend?`<div class="pk-cards">${G.filter(g=>g.trend.length>1).map(g=>cardChart(g.title,'Score out of 5, by grading round',g.trend,v=>v.toFixed(1))).join('')}</div>`:`<p class="pk-note">Trend charts start after the next grading round.</p>`)+
-        `<div class="pk-s"><h3>Grading scale</h3><div class="pk-scale">${SCALE.map(s=>`<div><b>${s[0]}</b><em>${s[1]}</em><span>${e(s[2])}</span></div>`).join('')}</div><p class="pk-note">Grades reflect coach judgment, not a measurement. When coaches score within the same month, the scores are averaged. Letters round to the nearest whole score: 4.5 and up is an A, 3.5 to 4.4 a B, 2.5 to 3.4 a C, 1.5 to 2.4 a D, and below 1.5 an F. Baseball IQ converts correct answers out of 5 to this scale.</p></div>`,n,total)); n++;
+        `<div class="pk-s"><h3>Grading scale</h3><div class="pk-scale">${SCALE.map(s=>`<div><b>${s[0]}</b><em>${s[1]}</em><span>${e(s[2])}</span></div>`).join('')}</div><p class="pk-note">Grades reflect coach judgment, not a measurement. When coaches score within the same month, the scores are averaged. Letters round to the nearest whole score: 4.5 and up is an A, 3.5 to 4.4 a B, 2.5 to 3.4 a C, 1.5 to 2.4 a D, and below 1.5 is Developing (Dev). Baseball IQ converts correct answers out of 5 to this scale.</p></div>`,n,total)); n++;
     }
-    const hits=[['Singles',+b['1B'],b['1B']],['Doubles',+b['2B'],b['2B']],['Triples',+b['3B'],b['3B']],['Home runs',+b.HR,b.HR]];
+    const hitTotal=+b.H, share=(v,w)=>w?Math.round(v/w*100)+'%':'0%';
+    const hits=[['Singles',b['1B']],['Doubles',b['2B']],['Triples',b['3B']],['Home runs',b.HR]].map(h=>[h[0],+h[1],`${h[1]} · ${share(+h[1],hitTotal)}`]);
     pages.push(frame(p,'At the Plate','Hitting',
       tiles(b,['AVG','OBP','SLG','OPS'],LBL,true)+
-      `<div class="pk-two"><div class="pk-s"><h3>Hits</h3>${bars(hits)}</div><div class="pk-s"><h3>Balls in play</h3>${bars([['Line drives',+b['LD%'],pct(b['LD%'])],['Fly balls',+b['FB%'],pct(b['FB%'])],['Ground balls',+b['GB%'],pct(b['GB%'])]])}</div></div>`+
+      `<div class="pk-two"><div class="pk-s"><h3>Hits, share of ${e(b.H)} total</h3>${bars(hits,hitTotal,'wide')}</div><div class="pk-s"><h3>Balls in play</h3>${bars([['Line drives',+b['LD%'],pct(b['LD%'])],['Fly balls',+b['FB%'],pct(b['FB%'])],['Ground balls',+b['GB%'],pct(b['GB%'])]],100,'wide')}</div></div>`+
       `<div class="pk-s"><h3>Production</h3>${tiles(b,['GP','PA','AB','H','XBH','TB','R','RBI','2OUTRBI','BABIP','BA/RISP','AB/HR'],LBL)}</div>`+
       `<div class="pk-s"><h3>Approach</h3>${tiles(b,['QAB','QAB%','C%','HHB','SO','K-L','BB','HBP','PA/BB','BB/K','PS','PS/PA','2S+3','2S+3%','6+','6+%'],LBL)}</div>`,n,total)); n++;
-    const spots=Object.keys(POS).map(k=>[POS[k],outs(f[k]),f[k]]).filter(r=>r[1]>0).sort((x,y)=>y[1]-x[1]);
+    const spotsRaw=Object.keys(POS).map(k=>[POS[k],outs(f[k]),f[k]]).filter(r=>r[1]>0).sort((x,y)=>y[1]-x[1]), inTotal=spotsRaw.reduce((a,r)=>a+r[1],0);
+    const spots=spotsRaw.map(r=>[r[0],r[1],`${r[2]} · ${share(r[1],inTotal)}`]);
     const caught=outs(f.INN)>0;
     pages.push(frame(p,'Bases & Field','Baserunning and defense',
       `<div class="pk-s"><h3>Baserunning</h3>${tiles(b,['SB','SB%','CS','PIK','ROE','FC','LOB','GIDP','GITP','SAC','SF','CI'],LBL)}</div>`+
       `<div class="pk-s"><h3>Fielding</h3>${tiles(f,['TC','A','PO','DP','TP'],LBF)}</div>`+
       (caught?`<div class="pk-s"><h3>Catching</h3>${tiles(f,['INN','PB','SBATT','SB','CS','CS%','PIK','CI'],LBF)}</div>`:'')+
-      `<div class="pk-s"><h3>Innings by position</h3>${bars(spots)}<p class="pk-note">Total innings in the field: ${e(f.Total)}. An inning of 10.2 means 10 innings and 2 outs.</p></div>`,n,total)); n++;
+      `<div class="pk-s"><h3>Innings by position, share of ${e(f.Total)} total</h3>${bars(spots,inTotal,'wide')}<p class="pk-note">Each bar shows that position’s share of all innings played, so the shares add up to 100%. An inning of 10.2 means 10 innings and 2 outs.</p></div>`,n,total)); n++;
     if(pitched){
       pages.push(frame(p,'On the Mound','Pitching',
         tiles(t,['IP','ERA','WHIP','S%'],LBP,true)+
@@ -153,7 +157,7 @@ window.CreedPkg=(function(){
     labPages.forEach((chunk,i)=>{
       const body=lab.length?`<table class="pk-lab"><thead><tr><th>Test</th><th>Baseline</th><th>Latest</th><th>Best</th><th>Change</th><th>Sessions</th></tr></thead><tbody>${chunk.map(r=>`<tr><td><b>${e(r.test)}</b><small>${e(r.cat)} · ${e(r.metric)}${r.rub?' · coach rating':''}</small></td><td>${e(r.base)}</td><td class="k">${e(r.last)}</td><td>${e(r.best)}</td><td class="${r.c}">${e(r.ch)}</td><td>${r.n}</td></tr>`).join('')}</tbody></table>`:
         `<div class="pk-s pk-empty"><h3>Assessments are on the way</h3><p>${e(name(p))} doesn't have Performance Lab results yet. The first test sets the baseline.</p></div>`;
-      pages.push(frame(p,'Performance Lab','Every player versus yesterday’s version of himself',body+(i===labPages.length-1?`<p class="pk-note">Results compare each session with ${e(p.first)}’s own baseline. Skipped or invalid attempts are not counted. Sessions with a different setup are left out of the comparison. Multiple entries within a month are averaged into one result.</p>`+(chunk.length<=12?`<div class="pk-s"><h3>What the numbers mean</h3><div class="pk-guide">${GUIDE.map(g=>`<div><b>${e(g[0])}</b><span>${e(g[1])}</span></div>`).join('')}</div></div>`:''):''),n,total)); n++;
+      pages.push(frame(p,'Performance Lab','Every player versus yesterday’s version of himself',body+(i===labPages.length-1?`<p class="pk-note">Results compare each session with ${e(p.first)}’s own baseline. Skipped or invalid attempts are not counted. Sessions with a different setup are left out of the comparison. Multiple entries within a month are averaged into one result.</p>`+(chunk.length<=12?`<div class="pk-s"><h3>What the numbers mean</h3><div class="pk-guide">${GUIDE.map(g=>`<div><b>${e(g[0])}</b><span>${e(g[1])}</span></div>`).join('')}</div></div>`:'')+`<div class="pk-s"><h3>Coach grading scale, out of 5</h3><div class="pk-guide five">${GRADE_GUIDE.map(g=>`<div><b>${e(g[0])}</b><span>${e(g[1])}</span></div>`).join('')}</div></div>`:''),n,total)); n++;
     });
     return S.sample?pages.join('').replace(/<section class="pk-page/g,'<section class="pk-page pk-demo'):pages.join('');
   }

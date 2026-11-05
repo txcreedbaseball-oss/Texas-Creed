@@ -618,7 +618,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 .st-sh .smc{padding:12px}
 .st-sh .smc .v{font-size:21px}
 .st-bars{display:flex;flex-direction:column;gap:9px}
-.st-bar{display:grid;grid-template-columns:96px 1fr 52px;gap:10px;align-items:center;font-size:13px;color:var(--ink2)}
+.st-bar{display:grid;grid-template-columns:96px 1fr 76px;gap:10px;align-items:center;font-size:13px;color:var(--ink2)}
 .st-bar>div{height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}
 .st-bar>div i{display:block;height:100%;background:var(--blue);border-radius:0 4px 4px 0}
 .st-bar b{text-align:right;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
@@ -1494,10 +1494,10 @@ function renderBanking(){
   const cats={};
   txns.forEach(t=>{ if(t.t) return; cats[t.c]=cats[t.c]||{in:0,out:0,items:[]}; if(t.a>0)cats[t.c].in+=t.a; else cats[t.c].out+=t.a; cats[t.c].items.push(t); });
   const catRows=Object.entries(cats).map(([name,v])=>({name,net:v.in+v.out,items:v.items})).sort((a,b)=>Math.abs(b.net)-Math.abs(a.net));
-  const maxAbs=Math.max(...catRows.map(c=>Math.abs(c.net)));
+  const sumAbs=catRows.reduce((t,c)=>t+Math.abs(c.net),0)||1; /* each bar is a share of all money moved */
   let grand=0;
   $('#catList').innerHTML=catRows.map(c=>{
-    grand+=c.net; const out=c.net<0; const pct=Math.max(4,Math.round(Math.abs(c.net)/maxAbs*100));
+    grand+=c.net; const out=c.net<0; const pct=(Math.abs(c.net)/sumAbs*100).toFixed(1);
     const sub=[...c.items].sort((a,b)=>a.d.localeCompare(b.d)).map(t=>`<div class="cat-sub-row"><div>${fmtDate(t.d)}</div><div class="n">${esc(t.n||'—')} <span style="opacity:.6">· ${esc(t.p)}</span></div><div class="amt ${t.a<0?'out':'in'}">${fmt(t.a)}</div></div>`).join('');
     return `<details class="cat-details"><summary><div class="cat-row"><div class="cat-name">${esc(c.name)}</div><div class="cat-bar-track"><div class="cat-bar ${out?'out':'in'}" style="width:${pct}%"></div></div><div class="cat-amt ${out?'out':'in'}">${fmt(c.net)}</div></div></summary><div class="cat-sub-list">${sub}</div></details>`;
   }).join('');
@@ -1667,16 +1667,17 @@ function renderStats(){
   const posCols=POS.map(k=>({k,heat:true,outs:true,get:p=>p.fld[k]}));
   table($('#stFldT'),{rows:P,sort:'Total',heatMax:Math.max(...P.flatMap(p=>POS.map(k=>outs(p.fld[k])))),cols:[name,fc('TC','Total chances'),fc('A','Assists'),fc('PO','Putouts'),fc('DP','Double plays'),...posCols,{k:'Total',outs:true,t:'Total innings in the field',get:p=>p.fld.Total}]});
 
-  $('#stGloss').innerHTML=[['AVG','Batting average'],['OBP','On-base percentage'],['SLG','Slugging, total bases per at-bat'],['OPS','OBP plus SLG'],['PA','Plate appearances'],['AB','At-bats'],['RBI','Runs batted in'],['SB','Stolen bases'],['SO','Strikeouts'],['QAB%','Quality at-bats per plate appearance'],['IP','Innings pitched (.1 is one out, .2 is two)'],['ERA','Earned runs per 6 innings'],['WHIP','Walks plus hits per inning'],['BAA','Opponent batting average'],['BF','Batters faced'],['#P','Total pitches'],['S%','Strike percentage'],['FPS%','First-pitch strikes'],['TC','Total chances'],['A','Assists'],['PO','Putouts'],['DP','Double plays'],['SF','Short field']].map(g=>`<div><b>${esc(g[0])}</b>${esc(g[1])}</div>`).join('');
+  $('#stGloss').innerHTML=[['AVG','Batting average'],['OBP','On-base percentage'],['SLG','Slugging, total bases per at-bat'],['OPS','OBP plus SLG'],['PA','Plate appearances'],['AB','At-bats'],['RBI','Runs batted in'],['SB','Stolen bases'],['SO','Strikeouts'],['QAB%','Quality at-bats per plate appearance'],['IP','Innings pitched (.1 is one out, .2 is two)'],['ERA','Earned runs per 6 innings'],['WHIP','Walks plus hits per inning'],['BAA','Opponent batting average'],['BF','Batters faced'],['#P','Total pitches'],['S%','Strike percentage'],['FPS%','First-pitch strikes'],['TC','Total chances'],['A','Assists'],['PO','Putouts'],['DP','Double plays'],['SF','Short field'],['A = 5','Coach grade: independent and reliable'],['B = 4','Coach grade: demonstrates consistently'],['C = 3','Coach grade: demonstrates intermittently'],['D = 2','Coach grade: emerging with support'],['Dev = 1','Coach grade: developing, needs frequent guidance']].map(g=>`<div><b>${esc(g[0])}</b>${esc(g[1])}</div>`).join('');
 
   /* player sheet */
   const sheet=$('#stSheet'), sh=$('#stSh'); let back=null;
   const tiles=a=>`<div class="sumgrid">`+a.map(t=>`<div class="smc"><div class="l">${t[0]}</div><div class="v">${esc(t[1])}</div></div>`).join('')+`</div>`;
+  /* Bars show a share of the whole. */
   const bars=(rows,max)=>`<div class="st-bars">`+rows.map(r=>`<div class="st-bar"><span>${esc(r[0])}</span><div><i style="width:${(r[1]/max*100).toFixed(1)}%"></i></div><b>${esc(r[2])}</b></div>`).join('')+`</div>`;
   const POSN={P:'Pitcher',C:'Catcher','1B':'First base','2B':'Second base','3B':'Third base',SS:'Shortstop',LF:'Left field',CF:'Center field',RF:'Right field',SF:'Short field'};
   function open(num,from){
     const p=P.find(x=>x.num===String(num)); if(!p) return;
-    const b=p.bat, f=p.fld, spots=POS.map(k=>[POSN[k],outs(f[k]),f[k]]).filter(r=>r[1]>0).sort((x,y)=>y[1]-x[1]);
+    const b=p.bat, f=p.fld, raw=POS.map(k=>[POSN[k],outs(f[k]),f[k]]).filter(r=>r[1]>0).sort((x,y)=>y[1]-x[1]), inTotal=raw.reduce((a,r)=>a+r[1],0), spots=raw.map(r=>[r[0],r[1],`${r[2]} · ${Math.round(r[1]/inTotal*100)}%`]);
     const pitched=outs(p.pit.IP)>0;
     const pct=x=>parseFloat(x).toFixed(1)+'%';
     sh.innerHTML=`<div class="st-sh-h"><span class="st-no">${p.num}</span><div><h3 id="stShName">${esc(full(p))}</h3><p>${b.GP} games · ${b.PA} plate appearances</p></div><button id="stClose" aria-label="Close">×</button></div>`+
@@ -1684,7 +1685,7 @@ function renderStats(){
       `<div class="st-sub">Hits</div>`+seg(hits(b))+
       `<div class="st-sub">Balls in play</div>`+bars([['Line drives',+b['LD%'],pct(b['LD%'])],['Fly balls',+b['FB%'],pct(b['FB%'])],['Ground balls',+b['GB%'],pct(b['GB%'])]],100)+
       (pitched?`<div class="st-sub">On the mound</div>`+tiles([['IP',p.pit.IP],['SO',p.pit.SO],['ERA',parseFloat(p.pit.ERA).toFixed(2)],['Strikes',pct(p.pit['S%'])]]):'')+
-      `<div class="st-sub">Where he played</div>`+bars(spots,spots[0][1])+
+      `<div class="st-sub">Where he played, share of ${esc(f.Total)} innings</div>`+bars(spots,inTotal)+
       (outs(f.C)>0&&(+f.SBATT)>0?`<p class="st-hint">Behind the plate: threw out ${f.CS} of ${f.SBATT} base stealers.</p>`:'');
     sheet.classList.add('on'); sh.scrollTop=0; back=from||null; document.body.style.overflow='hidden';
     $('#stClose').addEventListener('click',close); $('#stClose').focus();
