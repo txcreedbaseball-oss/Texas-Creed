@@ -638,15 +638,13 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
   .st-lk{font-size:88px}
   .st-tbl td:first-child{padding-left:12px}.st-tbl th:first-child button{padding-left:12px}
 }
-.home-hero .lede{color:var(--ink)}
-.herolinks .btn{box-shadow:0 6px 20px rgba(5,6,8,.45)}
-.home-hero>.waves{position:absolute;left:0;right:0;bottom:0;height:72%;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(180deg,transparent,#000 22%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent,#000 22%,#000 70%,transparent)}
-.waves svg{position:absolute;left:0;bottom:0;width:200%;min-width:1500px;height:100%;will-change:transform}
-.waves .w1{opacity:.24;animation:waveL 26s linear infinite}
-.waves .w2{opacity:.3;animation:waveR 19s linear infinite}
-.waves .w3{opacity:.38;animation:waveL 13s linear infinite}
-@keyframes waveL{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
-@keyframes waveR{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+.home-hero{background:linear-gradient(90deg,#050608 0,#050608 20%,rgba(5,6,8,.55) 34%,rgba(5,6,8,0) 52%),linear-gradient(180deg,rgba(255,255,255,.15) 0,rgba(255,255,255,.1) 30%,rgba(112,176,236,.46) 62%,rgba(112,176,236,.3) 84%,rgba(5,6,8,0) 100%),#050608}
+.home-hero::before{display:none}
+.home-hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.07) 50%,transparent 58%);background-size:260% 100%;animation:flagSheen 12s ease-in-out infinite}
+@keyframes flagSheen{from{background-position:120% 0}to{background-position:-20% 0}}
+.flag-star{position:absolute!important;left:17%;top:50%;width:clamp(150px,22vw,320px);transform:translate(-50%,-50%);opacity:.13}
+.hero-panel{z-index:1;display:flex;flex-direction:column;align-items:center;width:100%}
+@media (max-width:760px){.flag-star{left:12%;top:42%;width:220px;opacity:.1}}
 .door.d5{grid-column:1/-1;min-height:260px;background:radial-gradient(520px 320px at 0 0,rgba(130,205,255,.14),transparent 72%),var(--bg)}
 @media (max-width:560px){.herolinks .btn:last-child{grid-column:1/-1}}
 </style>
@@ -701,11 +699,8 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 <!-- ================= HOME ================= -->
 <section class="page" data-page="home">
   <div class="home-hero">
-    <div class="waves" aria-hidden="true">
-      <svg class="w1" viewBox="0 0 2400 500" preserveAspectRatio="none"><defs><linearGradient id="wv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD2FF"/><stop offset=".55" stop-color="#5FB6F2"/><stop offset="1" stop-color="#050608"/></linearGradient></defs><path fill="url(#wv)" d="M0 150Q300 40 600 150T1200 150T1800 150T2400 150V500H0Z"/></svg>
-      <svg class="w2" viewBox="0 0 2400 500" preserveAspectRatio="none"><path fill="url(#wv)" d="M0 230Q300 110 600 230T1200 230T1800 230T2400 230V500H0Z"/></svg>
-      <svg class="w3" viewBox="0 0 2400 500" preserveAspectRatio="none"><path fill="url(#wv)" d="M0 310Q300 210 600 310T1200 310T1800 310T2400 310V500H0Z"/></svg>
-    </div>
+    <svg class="flag-star" viewBox="0 0 100 95" aria-hidden="true"><path fill="#fff" d="M50 0L61.8 36.3H100L69.1 58.7L80.9 95L50 72.6L19.1 95L30.9 58.7L0 36.3H38.2Z"/></svg>
+    <div class="hero-panel">
     <img class="logo" data-logo alt="Texas Creed logo">
     <h1 class="h-xl">Texas Creed.</h1>
     <p class="lede">Faith. Character. Brotherhood. Baseball.</p>
@@ -715,6 +710,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
       <a class="btn" href="#/stats">Stats</a>
       <a class="btn" href="https://smpcustomapparel.com/shop/ols/categories/texas-creed-baseball" target="_blank" rel="noopener">Swag</a>
       <a class="btn" href="lab.html">Performance Lab</a>
+    </div>
     </div>
     <div class="scrollcue">Scroll</div>
   </div>
