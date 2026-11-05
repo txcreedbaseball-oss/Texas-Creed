@@ -457,16 +457,16 @@ footer a:hover{text-decoration:underline}
 .gate-box button{width:100%;font-size:16px;font-weight:600;background:var(--blue);color:#050608;padding:14px;border-radius:14px}
 #gate.out{opacity:0;transition:opacity .4s ease}
 .neon{position:relative;width:min(230px,58vw);margin:0 auto 26px}
-.gate-box .neon img{display:block;width:100%;height:auto;margin:0;position:relative;filter:drop-shadow(0 0 4px rgba(118,201,242,.95)) drop-shadow(0 0 16px rgba(118,201,242,.6));animation:neonOn 1.9s linear both}
-.neon i{position:absolute;inset:-5%;background:var(--blue);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;filter:blur(20px);animation:neonOn 1.9s linear both,neonPulse 3.4s 1.9s ease-in-out infinite}
-.neon.spin{animation:logoSpin 1.25s cubic-bezier(.6,0,.3,1) both}
-.gate-box h2,.gate-box p,.gate-box input,.gate-box button,.gate-error,.gate-lab{transition:opacity .3s ease}
-.gate-box.unlocked h2,.gate-box.unlocked p,.gate-box.unlocked input,.gate-box.unlocked #gateSubmit,.gate-box.unlocked .gate-error,.gate-box.unlocked .gate-lab{opacity:0}
-.gate-lab{display:inline-block;margin-top:6px;padding:10px;font-size:14px;font-weight:600;color:var(--blue);text-decoration:none}
-.gate-lab:hover{text-decoration:underline}
+.neon{perspective:900px}
+.gate-box .neon img{display:block;width:100%;height:auto;margin:0;position:relative}
+.neon i{position:absolute;inset:-7%;filter:blur(24px);animation:neonOn 1.9s linear both,neonPulse 3.4s 1.9s ease-in-out infinite}
+.neon i::before{content:"";position:absolute;inset:0;background:var(--blue);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
+.neon.spin img{animation:logoFlip 1.25s cubic-bezier(.6,0,.3,1) both}
+.gate-box h2,.gate-box p,.gate-box input,.gate-box button,.gate-error{transition:opacity .3s ease}
+.gate-box.unlocked h2,.gate-box.unlocked p,.gate-box.unlocked input,.gate-box.unlocked #gateSubmit,.gate-box.unlocked .gate-error{opacity:0}
 @keyframes neonOn{0%,6%{opacity:.06}7%,10%{opacity:.85}11%,24%{opacity:.12}25%,28%{opacity:1}29%,33%{opacity:.3}34%,100%{opacity:1}}
 @keyframes neonPulse{0%,100%{opacity:1}50%{opacity:.6}}
-@keyframes logoSpin{from{transform:rotateZ(0)}to{transform:rotateZ(360deg)}}
+@keyframes logoFlip{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
 .gate-error{font-size:13px;color:var(--red);margin-top:12px;min-height:18px}
 #app.hidden{display:none}
 
@@ -649,7 +649,6 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
     <input type="password" id="gatePassword" placeholder="Password" autocomplete="off" aria-label="Team password">
     <button id="gateSubmit">Continue</button>
     <div class="gate-error" id="gateError"></div>
-    <a class="gate-lab" href="lab.html">Performance Lab ›</a>
   </div>
 </div>
 
