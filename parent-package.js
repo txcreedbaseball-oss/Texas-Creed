@@ -21,7 +21,7 @@ window.CreedPkg=(function(){
   const tiles=(o,keys,lb,big)=>`<div class="pk-tiles${big===true?' big':big?' '+big:''}">`+keys.filter(k=>has(o[k])).map(k=>`<div class="pk-t"><b>${e(o[k])}</b><span>${e(lb[k]||k)}</span></div>`).join('')+`</div>`;
   const bars=rows=>{const m=Math.max(...rows.map(r=>r[1]),1);return `<div class="pk-bars">`+rows.map(r=>`<div class="pk-bar"><span>${e(r[0])}</span><i><u style="width:${(r[1]/m*100).toFixed(1)}%"></u></i><b>${e(r[2])}</b></div>`).join('')+`</div>`;};
   const pct=x=>has(x)?parseFloat(x).toFixed(1)+'%':'–';
-  const FLAGSTAR=`<svg class="pk-star" viewBox="0 0 100 95" aria-hidden="true"><path fill="#fff" d="M50 0L61.8 36.3H100L69.1 58.7L80.9 95L50 72.6L19.1 95L30.9 58.7L0 36.3H38.2Z"/></svg>`;
+  const WAVE=`<svg class="pk-wave" viewBox="0 0 816 420" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pkw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD2FF"/><stop offset="1" stop-color="#050608" stop-opacity=".1"/></linearGradient></defs><path fill="url(#pkw)" opacity=".2" d="M0 120Q204 20 408 120T816 120V420H0Z"/><path fill="url(#pkw)" opacity=".3" d="M0 210Q204 110 408 210T816 190V420H0Z"/><path fill="url(#pkw)" opacity=".42" d="M0 300Q204 220 408 300T816 280V420H0Z"/></svg>`;
   function frame(p,title,sub,body,n,total){
     return `<section class="pk-page"><header class="pk-h"><img src="${LOGO}" alt=""><div><h2>${e(title)}</h2><p>${e(sub)}</p></div><em>#${e(p.num)} ${e(name(p))}</em></header><div class="pk-body">${body}</div><footer class="pk-f"><span>Texas Creed · Faith. Character. Brotherhood. Baseball.</span><span>${n} of ${total}</span></footer></section>`;
   }
@@ -79,7 +79,7 @@ window.CreedPkg=(function(){
     const pitSeasons=seasons.filter(s=>s.pit&&outs(s.pit.IP)>0), hasPitSeasons=pitSeasons.length>1;
     const total=3+(pitched?1:0)+(hasSeasons?1:0)+(hasPitSeasons?1:0)+gPages.length+labPages.length; let n=1; const pages=[];
     const when=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-    pages.push(`<section class="pk-page pk-cover">${FLAGSTAR}<div class="pk-c"><img class="pk-logo" src="${LOGO}" alt="Texas Creed logo"><p class="pk-eye">Parent Player Package</p><h1>${e(name(p))}</h1><p class="pk-no">#${e(p.num)}</p>
+    pages.push(`<section class="pk-page pk-cover">${WAVE}<div class="pk-c"><img class="pk-logo" src="${LOGO}" alt="Texas Creed logo"><p class="pk-eye">Parent Player Package</p><h1>${e(name(p))}</h1><p class="pk-no">#${e(p.num)}</p>
       <div class="pk-hero"><div><b>${e(b.AVG)}</b><span>Average</span></div><div><b>${e(b.H)}</b><span>Hits</span></div><div><b>${e(b.RBI)}</b><span>RBI</span></div><div><b>${e(b.R)}</b><span>Runs</span></div></div>
       <p class="pk-sea">${e(S.season)} · Team record ${e(S.record)} · ${e(b.GP)} games played</p><p class="pk-date">Prepared ${e(when)}</p></div></section>`); n++;
     const hits=[['Singles',+b['1B'],b['1B']],['Doubles',+b['2B'],b['2B']],['Triples',+b['3B'],b['3B']],['Home runs',+b.HR,b.HR]];
