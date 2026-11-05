@@ -21,7 +21,7 @@ window.CreedPkg=(function(){
   const tiles=(o,keys,lb,big)=>`<div class="pk-tiles${big===true?' big':big?' '+big:''}">`+keys.filter(k=>has(o[k])).map(k=>`<div class="pk-t"><b>${e(o[k])}</b><span>${e(lb[k]||k)}</span></div>`).join('')+`</div>`;
   const bars=rows=>{const m=Math.max(...rows.map(r=>r[1]),1);return `<div class="pk-bars">`+rows.map(r=>`<div class="pk-bar"><span>${e(r[0])}</span><i><u style="width:${(r[1]/m*100).toFixed(1)}%"></u></i><b>${e(r[2])}</b></div>`).join('')+`</div>`;};
   const pct=x=>has(x)?parseFloat(x).toFixed(1)+'%':'–';
-  const WAVE=`<svg class="pk-wave" viewBox="0 0 816 420" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pkw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#76C9F2"/><stop offset="1" stop-color="#050608" stop-opacity=".1"/></linearGradient></defs><path fill="url(#pkw)" opacity=".2" d="M0 120Q204 20 408 120T816 120V420H0Z"/><path fill="url(#pkw)" opacity=".3" d="M0 210Q204 110 408 210T816 190V420H0Z"/><path fill="url(#pkw)" opacity=".42" d="M0 300Q204 220 408 300T816 280V420H0Z"/></svg>`;
+  const WAVE=`<svg class="pk-wave" viewBox="0 0 816 420" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="pkw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD2FF"/><stop offset="1" stop-color="#050608" stop-opacity=".1"/></linearGradient></defs><path fill="url(#pkw)" opacity=".2" d="M0 120Q204 20 408 120T816 120V420H0Z"/><path fill="url(#pkw)" opacity=".3" d="M0 210Q204 110 408 210T816 190V420H0Z"/><path fill="url(#pkw)" opacity=".42" d="M0 300Q204 220 408 300T816 280V420H0Z"/></svg>`;
   function frame(p,title,sub,body,n,total){
     return `<section class="pk-page"><header class="pk-h"><img src="${LOGO}" alt=""><div><h2>${e(title)}</h2><p>${e(sub)}</p></div><em>#${e(p.num)} ${e(name(p))}</em></header><div class="pk-body">${body}</div><footer class="pk-f"><span>Texas Creed · Faith. Character. Brotherhood. Baseball.</span><span>${n} of ${total}</span></footer></section>`;
   }
@@ -34,7 +34,7 @@ window.CreedPkg=(function(){
     const X=i=>pts.length>1?L+i*(W-L-R)/(pts.length-1):W/2, Y=v=>T+(hi-v)/span*(H-T-B);
     const d=pts.map((p,i)=>`${i?'L':'M'}${X(i).toFixed(1)} ${Y(p.v).toFixed(1)}`).join(''); const id='pkg'+(++gid);
     const last=pts.length-1, anchor=i=>i===0?'start':i===last?'end':'middle';
-    return `<svg class="pk-ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="${e(fmt(pts[0].v))} to ${e(fmt(pts[last].v))}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#76C9F2" stop-opacity=".42"/><stop offset="1" stop-color="#76C9F2" stop-opacity="0"/></linearGradient></defs>
+    return `<svg class="pk-ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="${e(fmt(pts[0].v))} to ${e(fmt(pts[last].v))}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8AD2FF" stop-opacity=".42"/><stop offset="1" stop-color="#8AD2FF" stop-opacity="0"/></linearGradient></defs>
       <path d="${d}L${X(last).toFixed(1)} ${H-B}L${X(0).toFixed(1)} ${H-B}Z" fill="url(#${id})"/><line x1="${L}" x2="${W-R}" y1="${H-B}" y2="${H-B}" stroke="rgba(245,247,250,.16)"/>
       <path d="${d}" fill="none" stroke="#76C9F2" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
       ${pts.map((p,i)=>`<circle cx="${X(i).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="${i===last?4.5:3}" fill="${i===last?'#fff':'#76C9F2'}" stroke="#050608" stroke-width="1.5"/>`).join('')}
@@ -76,7 +76,8 @@ window.CreedPkg=(function(){
     const lab=labRows(rows), labPages=[]; for(let i=0;i<Math.max(1,lab.length);i+=27) labPages.push(lab.slice(i,i+27));
     const cards=growth(rows), gPages=[]; for(let i=0;i<cards.length;i+=8) gPages.push(cards.slice(i,i+8));
     const seasons=p.seasons||[], hasSeasons=seasons.length>1;
-    const total=3+(pitched?1:0)+(hasSeasons?1:0)+gPages.length+labPages.length; let n=1; const pages=[];
+    const pitSeasons=seasons.filter(s=>s.pit&&outs(s.pit.IP)>0), hasPitSeasons=pitSeasons.length>1;
+    const total=3+(pitched?1:0)+(hasSeasons?1:0)+(hasPitSeasons?1:0)+gPages.length+labPages.length; let n=1; const pages=[];
     const when=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     pages.push(`<section class="pk-page pk-cover">${WAVE}<div class="pk-c"><img class="pk-logo" src="${LOGO}" alt="Texas Creed logo"><p class="pk-eye">Parent Player Package</p><h1>${e(name(p))}</h1><p class="pk-no">#${e(p.num)}</p>
       <div class="pk-hero"><div><b>${e(b.AVG)}</b><span>Average</span></div><div><b>${e(b.H)}</b><span>Hits</span></div><div><b>${e(b.RBI)}</b><span>RBI</span></div><div><b>${e(b.R)}</b><span>Runs</span></div></div>
@@ -107,6 +108,13 @@ window.CreedPkg=(function(){
       pages.push(frame(p,'Season by Season','Game stats over time',
         `<div class="pk-cards">${cardChart('Average','Hits per at-bat',sp('AVG'),v=>v.toFixed(3).replace(/^0/,''))}${cardChart('OPS','On-base plus slugging',sp('OPS'),v=>v.toFixed(3).replace(/^0/,''))}${cardChart('Quality at-bats','Percent of plate appearances',sp('QAB%'),v=>v.toFixed(1)+'%')}${cardChart('Contact rate','At-bats without a strikeout',sp('C%'),v=>v.toFixed(1)+'%')}${cardChart('Hits','Total for the season',sp('H'),v=>String(v))}${cardChart('RBI','Total for the season',sp('RBI'),v=>String(v))}</div>`+
         `<table class="pk-lab pk-sea-t"><thead><tr><th>Season</th>${K.map(k=>`<th>${e(k)}</th>`).join('')}</tr></thead><tbody>${seasons.map(s=>`<tr><td><b>${e(s.season)}</b></td>${K.map(k=>`<td>${e(s.bat[k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`,n,total)); n++;
+    }
+    if(hasPitSeasons){
+      const sq=k=>pitSeasons.filter(s=>has(s.pit[k])).map(s=>({v:k==='IP'?outs(s.pit[k])/3:parseFloat(s.pit[k]),x:s.short||s.season}));
+      const K=['GP','IP','BF','H','R','ER','BB','SO','ERA','WHIP','S%','FPS%'];
+      pages.push(frame(p,'Season by Season','Pitching over time',
+        `<div class="pk-cards">${cardChart('Innings pitched','Total for the season',sq('IP'),v=>v.toFixed(1))}${cardChart('Strikeouts','Total for the season',sq('SO'),v=>String(v))}${cardChart('Strike rate','Percent of pitches',sq('S%'),v=>v.toFixed(1)+'%')}${cardChart('First-pitch strikes','Percent of batters',sq('FPS%'),v=>v.toFixed(1)+'%')}${cardChart('ERA','Earned runs per 6 innings',sq('ERA'),v=>v.toFixed(2),'lower is better')}${cardChart('WHIP','Walks plus hits per inning',sq('WHIP'),v=>v.toFixed(2),'lower is better')}</div>`+
+        `<table class="pk-lab pk-sea-t"><thead><tr><th>Season</th>${K.map(k=>`<th>${e(k)}</th>`).join('')}</tr></thead><tbody>${pitSeasons.map(s=>`<tr><td><b>${e(s.season)}</b></td>${K.map(k=>`<td>${e(s.pit[k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`,n,total)); n++;
     }
     gPages.forEach(g=>{ pages.push(frame(p,'Growth Over Time','Performance Lab sessions',`<div class="pk-cards">${g.join('')}</div>`,n,total)); n++; });
     labPages.forEach((chunk,i)=>{
