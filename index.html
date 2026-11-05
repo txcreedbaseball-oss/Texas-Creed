@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head></head><body><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#08090C">
+<meta name="theme-color" content="#050608">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,7 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#08090C; --bg2:#101319; --bg3:#171B23; --card:#12151C; --card2:#1A1F29;
+  --bg:#050608; --bg2:#0B0D11; --bg3:#12151A; --card:#0A0C10; --card2:#14171C;
+  --edge:rgba(118,201,242,.16); --glow:radial-gradient(240px 150px at 0 0,rgba(118,201,242,.13),transparent 72%);
   --ink:#F5F7FA; --ink2:rgba(245,247,250,.72); --ink3:rgba(245,247,250,.46);
   --line:rgba(245,247,250,.10); --line2:rgba(245,247,250,.06);
   --blue:#76C9F2; --blue2:#4FA6D6; --blue-bg:rgba(118,201,242,.12);
@@ -36,7 +37,7 @@ img{max-width:100%}
 
 /* ---------- global nav (Apple-style) ---------- */
 .gnav{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--nav);
-  background:rgba(8,9,12,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(5,6,8,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--line2);padding-top:env(safe-area-inset-top)}
 .gnav-in{max-width:1080px;margin:0 auto;height:var(--nav);display:flex;align-items:center;gap:6px;padding:0 20px}
 .gnav .mark{display:flex;align-items:center;gap:9px;text-decoration:none;margin-right:auto}
@@ -48,7 +49,7 @@ img{max-width:100%}
 .gnav .links a.on{color:var(--ink);background:rgba(255,255,255,.08)}
 .menub{display:none;width:40px;height:40px;place-items:center;border-radius:10px}
 .menub svg{width:20px;height:20px;stroke:var(--ink);stroke-width:1.6;fill:none}
-.sheet{position:fixed;inset:0;z-index:49;background:rgba(8,9,12,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+.sheet{position:fixed;inset:0;z-index:49;background:rgba(5,6,8,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   padding:calc(var(--nav) + 28px + env(safe-area-inset-top)) 28px 28px;display:none;flex-direction:column;gap:4px}
 .sheet.on{display:flex;animation:fadein .25s ease-out}
 .sheet a{font-size:30px;font-weight:700;letter-spacing:-.02em;text-decoration:none;padding:8px 0;color:var(--ink2)}
@@ -57,7 +58,7 @@ img{max-width:100%}
 @media (max-width:760px){.gnav .links{display:none}.menub{display:grid}}
 
 /* ---------- local nav (product sub-nav) ---------- */
-.lnav{position:sticky;top:calc(var(--nav) + env(safe-area-inset-top));z-index:40;background:rgba(8,9,12,.8);
+.lnav{position:sticky;top:calc(var(--nav) + env(safe-area-inset-top));z-index:40;background:rgba(5,6,8,.8);
   backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line2)}
 .lnav-in{max-width:1080px;margin:0 auto;padding:0 20px;height:50px;display:flex;align-items:center;gap:18px}
 .lnav h2{font-size:19px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
@@ -83,7 +84,7 @@ main{padding-top:calc(var(--nav) + env(safe-area-inset-top))}
 .lede{font-size:clamp(17px,2.2vw,22px);color:var(--ink2);font-weight:500;max-width:680px;margin:16px auto 0;line-height:1.4}
 .grad{background:linear-gradient(100deg,#fff 10%,var(--blue) 60%,#B7E4FA);-webkit-background-clip:text;background-clip:text;color:transparent}
 .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#06121A;font-weight:600;font-size:15px;padding:11px 22px;border-radius:980px;text-decoration:none;transition:filter .2s,transform .15s}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#050608;font-weight:600;font-size:15px;padding:11px 22px;border-radius:980px;text-decoration:none;transition:filter .2s,transform .15s}
 .btn:hover{filter:brightness(1.08)}
 .btn:active{transform:scale(.98)}
 .btn.ghost{background:none;color:var(--blue);padding:11px 6px}
@@ -110,7 +111,7 @@ section.blk{padding:56px 0}
 @media (max-width:560px){.herolinks{grid-template-columns:1fr 1fr;width:100%;max-width:360px}}
 .scrollcue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase}
 .nextup{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
-.tile{background:var(--card);border-radius:24px;padding:30px;position:relative;overflow:hidden;border:1px solid var(--line2)}
+.tile{background:var(--card);border-radius:24px;padding:30px;position:relative;overflow:hidden;border:1px solid var(--edge)}
 .tile .k{font-size:13px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
 .count{display:flex;align-items:baseline;gap:10px;margin-top:8px}
 .count b{font-size:clamp(64px,10vw,112px);font-weight:800;letter-spacing:-.05em;line-height:.9;color:var(--blue)}
@@ -128,17 +129,17 @@ section.blk{padding:56px 0}
 .nums .num span{display:block;color:var(--ink2);font-size:15px;margin-top:8px}
 .num.pos b{color:var(--green)}
 .doors{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.door{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:360px;border-radius:28px;padding:34px;text-decoration:none;overflow:hidden;border:1px solid var(--line2);background:var(--card);transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .3s}
-.door:hover{transform:translateY(-4px);border-color:rgba(118,201,242,.3)}
+.door{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:360px;border-radius:28px;padding:34px;text-decoration:none;overflow:hidden;border:1px solid var(--edge);background:var(--card);transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .3s}
+@media (hover:hover){.door:hover{transform:translateY(-4px);border-color:rgba(118,201,242,.3)}}
 .door .art{position:absolute;right:-30px;bottom:-30px;width:240px;height:240px;opacity:.9;pointer-events:none}
 .door .art svg{width:100%;height:100%}
 .door h3{font-size:clamp(28px,3.4vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
 .door p{color:var(--ink2);font-size:17px;margin-top:10px;max-width:300px}
 .door .go{color:var(--blue);font-weight:600;font-size:16px;margin-top:20px}
-.door.d1{background:linear-gradient(160deg,#0F2A3A,#0B1118 70%)}
-.door.d2{background:linear-gradient(160deg,#1A1F29,#0D1015 70%)}
-.door.d3{background:linear-gradient(160deg,#1B2430,#0E1116 70%)}
-.door.d4{background:linear-gradient(160deg,#0B2433,#071016 70%)}
+.door.d1{background:radial-gradient(520px 320px at 0 0,rgba(118,201,242,.14),transparent 72%),var(--bg)}
+.door.d2{background:radial-gradient(520px 320px at 0 0,rgba(118,201,242,.14),transparent 72%),var(--bg)}
+.door.d3{background:radial-gradient(520px 320px at 0 0,rgba(118,201,242,.14),transparent 72%),var(--bg)}
+.door.d4{background:radial-gradient(520px 320px at 0 0,rgba(118,201,242,.14),transparent 72%),var(--bg)}
 .verse{text-align:center;padding:70px 20px 90px}
 .verse p{font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-.015em;max-width:760px;margin:0 auto;line-height:1.3}
 .verse cite{display:block;margin-top:14px;font-style:normal;color:var(--ink3);font-size:14px}
@@ -155,16 +156,16 @@ section.blk{padding:56px 0}
 
 /* ---------- banking (carried from ledger) ---------- */
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.cell{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--line2)}
+.cell{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--edge)}
 .cell-label{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em}
 .cell-num{font-size:clamp(28px,3.4vw,36px);font-weight:800;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
 .sub{font-size:13px;color:var(--ink2);margin-top:4px}
 .cell.pending .cell-num{color:var(--amber)}
 .cell.spent .cell-num{color:var(--red)}
-.cell.after{background:linear-gradient(150deg,#1B4A68,#123247);border-color:transparent}
+.cell.after{background:var(--glow),var(--card);border-color:rgba(118,201,242,.45)}
 .cell.after .cell-label,.cell.after .sub{color:rgba(255,255,255,.75)}
-@media (max-width:760px){.board{grid-template-columns:1fr 1fr}}
-.table-wrap{background:var(--card);border-radius:18px;overflow:hidden;overflow-x:auto;border:1px solid var(--line2)}
+@media (max-width:760px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{min-width:0;padding:16px}.cell-num{font-size:clamp(23px,7.2vw,34px)}}
+.table-wrap{background:var(--card);border-radius:18px;overflow:hidden;overflow-x:auto;border:1px solid var(--edge)}
 table.dt{width:100%;border-collapse:collapse;font-size:14px}
 table.dt th{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);text-align:left;padding:13px 16px;border-bottom:1px solid var(--line)}
 table.dt th.num,table.dt td.num{text-align:right;font-variant-numeric:tabular-nums}
@@ -198,12 +199,13 @@ details.more summary::-webkit-details-marker{display:none}
 .cat-amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
 .cat-amt.in{color:var(--green)} .cat-amt.out{color:var(--red)}
 .cat-sub-list{padding:2px 0 14px 22px}
-.cat-sub-row{display:grid;grid-template-columns:72px 1fr 90px;gap:10px;font-size:12.5px;color:var(--ink3);padding:4px 0}
+.cat-sub-row{display:grid;grid-template-columns:72px minmax(0,1fr) 90px;gap:10px;font-size:12.5px;color:var(--ink3);padding:4px 0}
 .cat-sub-row .n{color:var(--ink2)}
 .cat-sub-row .amt{text-align:right;font-family:var(--m)}
 .cat-sub-row .amt.in{color:var(--green)} .cat-sub-row .amt.out{color:var(--red)}
 .cat-grand-total{display:grid;grid-template-columns:190px 1fr 110px;gap:14px;padding:14px 0 0;border-top:1px solid var(--line);font-weight:700}
 .cat-grand-total .amt{text-align:right}
+@media (max-width:640px){.cat-sub-row{grid-template-columns:58px minmax(0,1fr) 74px}}
 @media (max-width:640px){.cat-row,.cat-grand-total{grid-template-columns:120px 1fr 86px;gap:8px;font-size:13px}}
 .filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .pill{font-size:13px;font-weight:500;background:var(--card2);color:var(--ink2);padding:8px 15px;border-radius:20px;transition:all .2s;border:1px solid transparent}
@@ -216,7 +218,7 @@ details.more summary::-webkit-details-marker{display:none}
 .monthsel option{background:var(--bg2)}
 .log-summary{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink3);padding:0 2px 10px}
 .log-summary .in{color:var(--green)} .log-summary .out{color:var(--red)} .log-summary .net{color:var(--ink);font-weight:700}
-.log{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line2)}
+.log{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--edge)}
 .row{display:grid;grid-template-columns:78px 1fr 100px 80px;gap:12px;align-items:center;padding:11px 18px;border-bottom:1px solid var(--line2);font-size:14px}
 .row:last-child{border-bottom:0}
 .row.transfer{opacity:.5}
@@ -234,7 +236,7 @@ details.more summary::-webkit-details-marker{display:none}
 /* ---------- schedule ---------- */
 .upnext-list{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory;scrollbar-width:none}
 .upnext-list::-webkit-scrollbar{display:none}
-.upcard{flex:0 0 auto;width:200px;background:var(--card);border-radius:20px;padding:20px;scroll-snap-align:start;border:1px solid var(--line2)}
+.upcard{flex:0 0 auto;width:200px;background:var(--card);border-radius:20px;padding:20px;scroll-snap-align:start;border:1px solid var(--edge)}
 .upcard.soon{border-color:rgba(118,201,242,.45)}
 .upcard .lbl{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em}
 .upcard .d{font-size:44px;font-weight:800;letter-spacing:-.04em;color:var(--blue);line-height:1;margin-top:6px}
@@ -242,7 +244,7 @@ details.more summary::-webkit-details-marker{display:none}
 .upcard .t{font-size:13px;color:var(--ink2);margin-top:3px}
 .upempty{color:var(--ink3);padding:16px 0}
 .tourneys{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.tcard{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line2);display:flex;flex-direction:column;gap:6px}
+.tcard{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--edge);display:flex;flex-direction:column;gap:6px}
 .tcard .when{font-size:13px;font-weight:600;color:var(--blue)}
 .tcard .nm{font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.25}
 .tcard .ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;font-size:13px;color:var(--ink2)}
@@ -262,9 +264,9 @@ details.more summary::-webkit-details-marker{display:none}
 
 /* ---------- swag ---------- */
 .shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
-.prod{background:var(--card);border-radius:24px;overflow:hidden;border:1px solid var(--line2);display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.prod{background:var(--card);border-radius:24px;overflow:hidden;border:1px solid var(--edge);display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
 .prod:hover{transform:translateY(-3px)}
-.prod .pic{aspect-ratio:4/3;display:grid;place-items:center;background:radial-gradient(70% 70% at 50% 40%,rgba(118,201,242,.18),transparent 70%),linear-gradient(180deg,#141922,#0D1015)}
+.prod .pic{aspect-ratio:4/3;display:grid;place-items:center;background:radial-gradient(70% 70% at 50% 40%,rgba(118,201,242,.18),transparent 70%),linear-gradient(180deg,var(--bg2),var(--bg))}
 .prod .pic svg{width:46%;height:auto;stroke:var(--blue);stroke-width:2.4;fill:rgba(118,201,242,.08);stroke-linejoin:round;stroke-linecap:round}
 .prod .bd{padding:20px 22px 22px;display:flex;flex-direction:column;gap:4px;flex:1}
 .prod .new{font-size:12px;font-weight:600;color:var(--amber)}
@@ -283,11 +285,11 @@ details.more summary::-webkit-details-marker{display:none}
 .sg-h span{color:var(--ink2);font-size:15px;white-space:nowrap}
 .srow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(230px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
 @media (max-width:640px){.srow{grid-auto-columns:72%;margin:0 -16px;padding:0 16px 10px;scroll-padding:16px}}
-.scard{scroll-snap-align:start;background:var(--card);border-radius:22px;overflow:hidden;border:1px solid var(--line2);display:flex;flex-direction:column}
+.scard{scroll-snap-align:start;background:var(--card);border-radius:22px;overflow:hidden;border:1px solid var(--edge);display:flex;flex-direction:column}
 .sphoto{position:relative;display:block;aspect-ratio:1/1;background:#fff;overflow:hidden}
 .sphoto img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
 .scard:hover .sphoto img{transform:scale(1.03)}
-.sphoto .sfb{display:none;position:absolute;inset:0;place-items:center;background:radial-gradient(70% 70% at 50% 40%,rgba(118,201,242,.18),transparent 70%),linear-gradient(180deg,#141922,#0D1015)}
+.sphoto .sfb{display:none;position:absolute;inset:0;place-items:center;background:radial-gradient(70% 70% at 50% 40%,rgba(118,201,242,.18),transparent 70%),linear-gradient(180deg,var(--bg2),var(--bg))}
 .sphoto .sfb svg{width:46%;height:auto;stroke:var(--blue);stroke-width:2.4;fill:rgba(118,201,242,.08);stroke-linejoin:round;stroke-linecap:round}
 .sphoto.noimg img{visibility:hidden}
 .sphoto.noimg .sfb{display:grid}
@@ -300,7 +302,7 @@ details.more summary::-webkit-details-marker{display:none}
 .sbuy{margin-top:auto;font-size:14px;font-weight:600;color:var(--blue);text-decoration:none}
 .sbuy:hover{text-decoration:underline}
 .howto{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.step{background:var(--card);border-radius:20px;padding:24px;border:1px solid var(--line2)}
+.step{background:var(--card);border-radius:20px;padding:24px;border:1px solid var(--edge)}
 .step b{display:block;font-size:13px;color:var(--blue);font-weight:700;margin-bottom:8px}
 .step h4{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .step p{color:var(--ink2);font-size:14px;margin-top:6px}
@@ -308,15 +310,15 @@ details.more summary::-webkit-details-marker{display:none}
 @media (max-width:760px){.howto{grid-template-columns:1fr}.prod .pic{aspect-ratio:16/9}.prod .pic svg{width:32%}}
 
 /* ---------- performance lab ---------- */
-.labgate{background:var(--card);border-radius:24px;padding:36px;text-align:center;border:1px solid var(--line2)}
+.labgate{background:var(--card);border-radius:24px;padding:36px;text-align:center;border:1px solid var(--edge)}
 .labgate p{color:var(--ink2);max-width:520px;margin:10px auto 0}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.kpi{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--line2)}
+.kpi{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--edge)}
 .kpi .l{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em}
 .kpi .v{font-size:32px;font-weight:800;letter-spacing:-.03em;margin-top:6px}
 .kpi .s{font-size:13px;color:var(--ink2);margin-top:2px}
 @media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}}
-.panel{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line2)}
+.panel{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--edge)}
 .panel + .panel{margin-top:14px}
 .panel h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .panel .cap{font-size:13.5px;color:var(--ink2);margin-top:2px;margin-bottom:14px}
@@ -337,7 +339,7 @@ select.inp{-webkit-appearance:none;appearance:none}
 .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font-size:14px;font-weight:600;background:var(--bg2);border:1px solid var(--line);padding:10px 14px;border-radius:12px;min-height:44px}
-.chip.on{background:var(--blue);color:#06121A;border-color:var(--blue)}
+.chip.on{background:var(--blue);color:#050608;border-color:var(--blue)}
 .chip small{font-weight:500;opacity:.7;margin-left:4px}
 .cathd{font-size:11.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px}
 .att{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line2)}
@@ -345,7 +347,7 @@ select.inp{-webkit-appearance:none;appearance:none}
 .attb{display:flex;gap:6px}
 .lbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
 .lb{background:var(--bg2);border-radius:14px;padding:14px 16px;position:relative;overflow:hidden}
-.lb::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--blue),#F2B33D)}
+.lb::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--blue),var(--blue2))}
 .lb-c{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.07em}
 .lb-t{font-size:13.5px;font-weight:600;margin-top:2px}
 .lb-t span{font-weight:400;color:var(--ink3);font-size:12.5px}
@@ -385,8 +387,8 @@ select.inp{-webkit-appearance:none;appearance:none}
 .rub .sk small{display:block;font-weight:400;color:var(--ink3);font-size:12.5px}
 .rub .sc{display:flex;gap:6px}
 .rub .sc button{width:42px;height:44px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);font-weight:700}
-.rub .sc button.on{background:var(--blue);color:#06121A;border-color:var(--blue)}
-.savebar{position:sticky;bottom:0;z-index:5;margin:16px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom));background:rgba(8,9,12,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line2);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rub .sc button.on{background:var(--blue);color:#050608;border-color:var(--blue)}
+.savebar{position:sticky;bottom:0;z-index:5;margin:16px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom));background:rgba(5,6,8,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line2);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
 .savebar .msg{font-size:13.5px;color:var(--ink2);flex:1;min-width:160px}
 .savebar .msg.err{color:var(--red)} .savebar .msg.ok{color:var(--green)}
@@ -452,7 +454,7 @@ footer a:hover{text-decoration:underline}
 .gate-box p{font-size:15px;color:var(--ink2);margin:6px 0 24px}
 .gate-box input{width:100%;font-size:17px;background:var(--bg3);border:1px solid var(--line);color:var(--ink);padding:14px 16px;border-radius:14px;outline:none;text-align:center;margin-bottom:12px}
 .gate-box input:focus{border-color:var(--blue)}
-.gate-box button{width:100%;font-size:16px;font-weight:600;background:var(--blue);color:#06121A;padding:14px;border-radius:14px}
+.gate-box button{width:100%;font-size:16px;font-weight:600;background:var(--blue);color:#050608;padding:14px;border-radius:14px}
 .gate-error{font-size:13px;color:var(--red);margin-top:12px;min-height:18px}
 #app.hidden{display:none}
 
@@ -504,11 +506,11 @@ footer a:hover{text-decoration:underline}
 }
 
 /* ---------- stats ---------- */
-.st-panel{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--line2)}
+.st-panel{background:var(--card);border-radius:20px;padding:22px;border:1px solid var(--edge)}
 .st-panel h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
 .st-panel .cap{font-size:13.5px;color:var(--ink2);margin:2px 0 14px}
 .st-seg{display:flex;gap:2px;height:28px}
-.st-seg div{border-radius:4px;min-width:0;display:flex;align-items:center;padding-left:8px;font-size:12px;font-weight:700;color:#06121A;font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap}
+.st-seg div{border-radius:4px;min-width:0;display:flex;align-items:center;padding-left:8px;font-size:12px;font-weight:700;color:#050608;font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap}
 .st-legend{display:flex;gap:6px 18px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-top:12px}
 .st-legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
 .st-legend b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
@@ -519,12 +521,12 @@ footer a:hover{text-decoration:underline}
 .st-facts b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
 .st-sub{font-size:12px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin:24px 0 10px}
 .st-lg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.st-lc{position:relative;overflow:hidden;background:radial-gradient(240px 150px at 0 0,rgba(118,201,242,.13),transparent 72%),#050608;border:1px solid rgba(118,201,242,.16);border-radius:20px;padding:16px 16px 10px;display:flex;flex-direction:column;min-width:0;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
-.st-lc:hover{transform:translateY(-3px);border-color:rgba(118,201,242,.45)}
+.st-lc{position:relative;overflow:hidden;background:var(--glow),var(--bg);border:1px solid var(--edge);border-radius:20px;padding:16px 16px 10px;display:flex;flex-direction:column;min-width:0;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s}
+@media (hover:hover){.st-lc:hover{transform:translateY(-3px);border-color:rgba(118,201,242,.45)}}
 .st-lc::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--blue),rgba(118,201,242,.12))}
 .st-lc h4{font-family:'Teko',sans-serif;font-weight:600;font-size:21px;letter-spacing:.06em;line-height:1;text-transform:uppercase;color:var(--blue)}
 .st-lk{position:absolute;right:-6px;top:6px;font-family:'Teko',sans-serif;font-weight:700;font-size:112px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(118,201,242,.24);pointer-events:none;user-select:none;transition:-webkit-text-stroke-color .3s}
-.st-lc:hover .st-lk{-webkit-text-stroke-color:rgba(118,201,242,.5)}
+@media (hover:hover){.st-lc:hover .st-lk{-webkit-text-stroke-color:rgba(118,201,242,.5)}}
 .st-l1{position:relative;margin:6px 0 8px;min-width:0}
 .st-l1 b{display:block;font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1.02}
 .st-l1 span{display:block;font-size:15px;font-weight:700;letter-spacing:-.01em;margin-top:2px;line-height:1.25}
@@ -537,10 +539,16 @@ footer a:hover{text-decoration:underline}
 .st-lr span small{color:var(--ink3);font-size:11.5px;font-weight:400;margin-left:4px;white-space:nowrap}
 .st-lr em{font-style:normal;color:var(--ink2);font-weight:600;font-variant-numeric:tabular-nums}
 .st-lr:hover span{color:var(--blue)}
-.st-lc.pre{opacity:.2;transform:translateY(14px)}
-.st-lc.go{animation:stRise .85s calc(var(--d)*110ms) cubic-bezier(.2,.7,.2,1) both}
-.st-lc.go .st-lr,.st-lc.go .st-lm{animation:stRow .6s calc(var(--d)*110ms + 260ms + var(--r,4)*80ms) ease-out both}
-.st-lc.go::after{content:"";position:absolute;left:0;top:0;height:2px;width:40%;background:linear-gradient(90deg,transparent,#fff,transparent);animation:stSheen 1.3s calc(var(--d)*110ms + 200ms) ease-out both}
+.fx-pre{opacity:.2;transform:translateY(14px)}
+.fx-go{animation:stRise .85s calc(var(--d,0)*110ms) cubic-bezier(.2,.7,.2,1) both}
+.st-lc.fx-go .st-lr,.st-lc.fx-go .st-lm{animation:stRow .6s calc(var(--d,0)*110ms + 260ms + var(--r,4)*80ms) ease-out both}
+.st-lc.fx-go::after{content:"";position:absolute;left:0;top:0;height:2px;width:40%;background:linear-gradient(90deg,transparent,#fff,transparent);animation:stSheen 1.3s calc(var(--d,0)*110ms + 200ms) ease-out both}
+.cat-bar{transform-origin:left}
+.fx-bar{animation:stGrow 1.2s .15s cubic-bezier(.2,.7,.2,1) both}
+.fx-wipe{animation:stWipe 1.2s .15s cubic-bezier(.2,.7,.2,1) both}
+.st-bar>div i{transform-origin:left;animation:stGrow .9s .1s cubic-bezier(.2,.7,.2,1) both}
+@keyframes stGrow{from{transform:scaleX(0)}to{transform:none}}
+@keyframes stWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @keyframes stRise{from{opacity:.2;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes stRow{from{opacity:.15;transform:translateX(-8px)}to{opacity:1;transform:none}}
 @keyframes stSheen{from{transform:translateX(-100%);opacity:1}to{transform:translateX(260%);opacity:0}}
@@ -556,7 +564,7 @@ footer a:hover{text-decoration:underline}
 button.st-rw{transition:color .15s}
 button.st-rw:hover .w{color:var(--blue)}
 button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
-.st-list{background:var(--card);border-radius:20px;padding:4px 22px 8px;border:1px solid var(--line2);overflow:hidden}
+.st-list{background:var(--card);border-radius:20px;padding:4px 22px 8px;border:1px solid var(--edge);overflow:hidden}
 .st-tbl button:focus-visible,#stClose:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .st-no{font-size:34px;font-weight:800;letter-spacing:-.04em;color:var(--blue);line-height:1;min-width:42px;font-variant-numeric:tabular-nums}
 .st-tbl{-webkit-overflow-scrolling:touch}
@@ -570,7 +578,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 .st-tbl th.on.asc button::after{content:' ↑'}
 .st-tbl th.num button{text-align:right}
 .st-tbl th:first-child,.st-tbl td:first-child{position:sticky;left:0;z-index:1;background:var(--card);border-right:1px solid var(--line2)}
-.st-tbl tr.total td:first-child{background:#18232D}
+.st-tbl tr.total td:first-child{background:#17232B}
 .st-tbl td:first-child{padding-left:16px}
 .st-tbl th:first-child button{padding-left:16px}
 .st-tbl td:first-child button{font-weight:600;color:var(--ink);text-align:left}
@@ -617,7 +625,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
   .st-lk{font-size:88px}
   .st-tbl td:first-child{padding-left:12px}.st-tbl th:first-child button{padding-left:12px}
 }
-.door.d5{grid-column:1/-1;min-height:260px;background:linear-gradient(160deg,#10293A,#0A1016 70%)}
+.door.d5{grid-column:1/-1;min-height:260px;background:radial-gradient(520px 320px at 0 0,rgba(118,201,242,.14),transparent 72%),var(--bg)}
 @media (max-width:560px){.herolinks .btn:last-child{grid-column:1/-1}}
 </style>
 
@@ -783,8 +791,8 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
           <tr><td>Jersey money still owed to the team</td><td class="num">$0.00</td></tr>
         </tbody>
       </table></div>
-      <div class="note-box"><b>October statement tied out:</b> Venmo opened October at $3,966.00 and closed at $1,731.00, matching the ledger to the penny. The $1,060.00 prepayment is the Houston 1000 NIT, paid Oct 17, and the $75.00 that had been unidentified is three payments: Brooklyn Wilson $15 (Oct 13), Alber jerseys $45 (Oct 15) and Jesus Parra $15 (Oct 17).</div>
-      <div class="note-box">Jersey money collected: Robmary / Alber Mejias $45 (Oct 15) and Areli Soto / Gio Parra $15 (Oct 17). Both had been covered by team funds.</div>
+      <div class="note-box"><b>October statement tied out:</b> Venmo opened October at $3,966.00 and closed at $1,731.00, matching the ledger to the penny. The $1,060.00 prepayment is the Houston 1000 NIT, paid Oct 17, and the $75.00 that had been unidentified is three payments: Brooklyn W. $15 (Oct 13), Alber jerseys $45 (Oct 15) and Jesus P. $15 (Oct 17).</div>
+      <div class="note-box">Jersey money collected: Robmary / Alber M. $45 (Oct 15) and Areli S. / Gio P. $15 (Oct 17). Both had been covered by team funds.</div>
     </section>
 
     <section class="blk" id="bk-exp">
@@ -823,7 +831,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
       <div class="panel"><div id="catList"></div><div id="catTotal"></div></div>
       <details class="more"><summary>How this ties out ›</summary>
         <div class="note-box">The grand total is every dollar in and out across both accounts since July. It sits above the $361.12 team balance by a records gap, not money: the Cash App export runs only through Aug 31, but the account kept running until it was swept into Venmo on Sep 19 and emptied. <b>Cash App now holds $0.00</b> — Venmo is the team’s only account. The $3,046.00 sweep is tagged <b>Transfer</b> and excluded.</div>
-        <div class="note-box"><b>Parent Jersey Orders is fully collected:</b> $945.00 came in from parents by Venmo, Ria’s $60.00 was credited against the white hat invoice, and $990.00 went to the vendor for all 66 jerseys. The category lands at +$15.00, which is Brooklyn Wilson’s Oct 13 payment for a 2X white jersey.</div>
+        <div class="note-box"><b>Parent Jersey Orders is fully collected:</b> $945.00 came in from parents by Venmo, Ria’s $60.00 was credited against the white hat invoice, and $990.00 went to the vendor for all 66 jerseys. The category lands at +$15.00, which is Brooklyn W.’s Oct 13 payment for a 2X white jersey.</div>
       </details>
     </section>
 
@@ -968,250 +976,250 @@ document.querySelectorAll('img[data-logo]').forEach(i=>i.src=LOGO);
 
 /* ================= DATA ================= */
 const txns = [
-{d:"2026-07-26",n:"Refund",p:"Pablo Garcia",a:600.0,s:"Cash App",c:"Refund",t:false},
-{d:"2026-07-28",n:"Coach hat and shirt",p:"Cade Wilson",a:50.0,s:"Cash App",c:"Merchandise",t:false},
-{d:"2026-08-08",n:"Water",p:"Dianna Castillo",a:50.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Ace family donation",p:"Felicia Hernandez",a:50.0,s:"Cash App",c:"Donations",t:false},
-{d:"2026-08-08",n:"ca",p:"Ronald Martin",a:30.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"pullover",p:"Adrian Govea",a:25.0,s:"Cash App",c:"Merchandise",t:false},
-{d:"2026-08-08",n:"Hat-Damian",p:"Damian Texas",a:25.0,s:"Cash App",c:"Merchandise",t:false},
-{d:"2026-08-08",n:"Water sale",p:"Priscilla Wilson",a:20.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"water",p:"Kimberly Rhoden",a:20.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Draka",p:"Terence Wallace",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Bean",p:"Genesis Govea",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Water donation",p:"Kailyn Yackell",a:20.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Good luck!!",p:"Ruben Jimenez",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Have a great season boys! - A Baseball Mom",p:"Jessica Gomez",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Gallo",p:"Enrique Gallo",a:19.02,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"water",p:"James Davis",a:10.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-07-26",n:"Refund",p:"Pablo G.",a:600.0,s:"Cash App",c:"Refund",t:false},
+{d:"2026-07-28",n:"Coach hat and shirt",p:"Cade W.",a:50.0,s:"Cash App",c:"Merchandise",t:false},
+{d:"2026-08-08",n:"Water",p:"Dianna C.",a:50.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Ace family donation",p:"Felicia H.",a:50.0,s:"Cash App",c:"Donations",t:false},
+{d:"2026-08-08",n:"ca",p:"Ronald M.",a:30.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"pullover",p:"Adrian G.",a:25.0,s:"Cash App",c:"Merchandise",t:false},
+{d:"2026-08-08",n:"Hat-Damian",p:"Damian T.",a:25.0,s:"Cash App",c:"Merchandise",t:false},
+{d:"2026-08-08",n:"Water sale",p:"Priscilla W.",a:20.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"water",p:"Kimberly R.",a:20.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Draka",p:"Terence W.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"Bean",p:"Genesis G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"Water donation",p:"Kailyn Y.",a:20.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Good luck!!",p:"Ruben J.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"Have a great season boys! - A Baseball Mom",p:"Jessica G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"G.",p:"Enrique G.",a:19.02,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"water",p:"James D.",a:10.0,s:"Cash App",c:"Water Sales",t:false},
 {d:"2026-08-08",n:"GOODLUCK",p:"lol",a:10.0,s:"Cash App",c:"Other Income",t:false},
 {d:"2026-08-08",n:"Team work",p:"Ferg",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Water sale",p:"Jonathan Sanchez",a:10.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Water",p:"Asperanza Garcia",a:5.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Water sale",p:"Jonathan S.",a:10.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Water",p:"Asperanza G.",a:5.0,s:"Cash App",c:"Water Sales",t:false},
 {d:"2026-08-08",n:".",p:"Eduardo",a:5.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Donation",p:"Dion Garcia",a:5.0,s:"Cash App",c:"Donations",t:false},
-{d:"2026-08-08",n:"water",p:"Antonio Hernandez",a:5.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"x",p:"Ladonte Jason",a:3.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"Thx",p:"Melany Rodriguez",a:3.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-08",n:"donate",p:"Aidan Avila",a:3.0,s:"Cash App",c:"Donations",t:false},
-{d:"2026-08-08",n:"Water",p:"Christianmorales",a:2.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"water",p:"Victor Diaz",a:2.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Water",p:"Haley Priest",a:1.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Donation",p:"Dion G.",a:5.0,s:"Cash App",c:"Donations",t:false},
+{d:"2026-08-08",n:"water",p:"Antonio H.",a:5.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"x",p:"Ladonte J.",a:3.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"Thx",p:"Melany R.",a:3.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-08",n:"donate",p:"Aidan A.",a:3.0,s:"Cash App",c:"Donations",t:false},
+{d:"2026-08-08",n:"Water",p:"Christian M.",a:2.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"water",p:"Victor D.",a:2.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-08",n:"Water",p:"Haley P.",a:1.0,s:"Cash App",c:"Water Sales",t:false},
 {d:"2026-08-08",n:"water",p:"Kevo",a:1.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-08",n:"Water!!",p:"avery Palm",a:1.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-09",n:"All on hand cash from previous account",p:"Hans R Ask",a:315.0,s:"Cash App",c:"Cash Deposits",t:false},
-{d:"2026-08-09",n:"Hans gear",p:"Hans R Ask",a:50.0,s:"Cash App",c:"Merchandise",t:false},
-{d:"2026-08-09",n:"hat and shirt",p:"Ramiro Gallo",a:50.0,s:"Cash App",c:"Merchandise",t:false},
+{d:"2026-08-08",n:"Water!!",p:"Avery P.",a:1.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-09",n:"All on hand cash from previous account",p:"Hans A.",a:315.0,s:"Cash App",c:"Cash Deposits",t:false},
+{d:"2026-08-09",n:"Hans gear",p:"Hans A.",a:50.0,s:"Cash App",c:"Merchandise",t:false},
+{d:"2026-08-09",n:"hat and shirt",p:"Ramiro G.",a:50.0,s:"Cash App",c:"Merchandise",t:false},
 {d:"2026-08-09",n:"Ace raffle",p:"Justin",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
 {d:"2026-08-09",n:"Ace raffle",p:"Alexandro",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-10",n:"Creed uniforms!!! Thank you Johnny!!",p:"Adriana Moreno",a:-585.0,s:"Cash App",c:"Uniforms",t:false},
-{d:"2026-08-10",n:"10 Raffle Tickets",p:"Justin Brown",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-10",n:"",p:"Joseph Moffett",a:50.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-10",n:"Rhett raffle",p:"Christopher Julian",a:40.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-10",n:"Ace's raffle",p:"Gina Gaitan",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-10",n:"Big j raffle",p:"Chris Gonzales",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-10",n:"Rhett Balderrama",p:"Chelsea Martin",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-10",n:"Rhett raffle tickets 335 / 336 ria",p:"Justin Balderrama",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"cash from water sale Aug 8th",p:"Justin Balderrama",a:967.0,s:"Cash App",c:"Water Sales",t:false},
-{d:"2026-08-11",n:"Rhett Balderrama",p:"Christine Bradley",a:100.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-11",n:"Elaina Gaza tickets 313-324 Rhett raffle",p:"Justin Balderrama",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"The Ole Rehttanator",p:"Jamie Carrico",a:50.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-11",n:"Raffle Tickets for Breck Ask.",p:"Hayden Woods",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"Rhett Balderrama",p:"Timothy Leahy",a:30.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-11",n:"Raffle tickets",p:"Hunter Ellis",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"Breck Ask Fundraiser",p:"Gloria Palacios",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"ACE",p:"Chris Mendoza",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-11",n:"Daniel- Labor Day Raffle",p:"Mindy Patina",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-11",n:"Ace",p:"Juan Lopez",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-11",n:"Raffle",p:"Alexis Paredes",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-12",n:"Supporting - Roman Gallo - 20 Tickets",p:"Stephanie Wilcox",a:200.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-10",n:"Creed uniforms!!! Thank you Johnny!!",p:"Adriana M.",a:-585.0,s:"Cash App",c:"Uniforms",t:false},
+{d:"2026-08-10",n:"10 Raffle Tickets",p:"Justin B.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-10",n:"",p:"Joseph M.",a:50.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-10",n:"Rhett raffle",p:"Christopher J.",a:40.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-10",n:"Ace's raffle",p:"Gina G.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-10",n:"Big j raffle",p:"Chris G.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-10",n:"Rhett B.",p:"Chelsea M.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-10",n:"Rhett raffle tickets 335 / 336 ria",p:"Justin B.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"cash from water sale Aug 8th",p:"Justin B.",a:967.0,s:"Cash App",c:"Water Sales",t:false},
+{d:"2026-08-11",n:"Rhett B.",p:"Christine B.",a:100.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-11",n:"Elaina G. tickets 313-324 Rhett raffle",p:"Justin B.",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"The Ole Rehttanator",p:"Jamie C.",a:50.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-11",n:"Raffle Tickets for Breck A.",p:"Hayden W.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"Rhett B.",p:"Timothy L.",a:30.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-11",n:"Raffle tickets",p:"Hunter E.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"Breck A. Fundraiser",p:"Gloria P.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"ACE",p:"Chris M.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-11",n:"Daniel- Labor Day Raffle",p:"Mindy P.",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-11",n:"Ace",p:"Juan L.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-11",n:"Raffle",p:"Alexis P.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-12",n:"Supporting - Roman G. - 20 Tickets",p:"Stephanie W.",a:200.0,s:"Venmo",c:"Raffle Tickets",t:false},
 {d:"2026-08-12",n:"Labor Day raffle",p:"Spiritual Q",a:60.0,s:"Cash App",c:"Raffle Tickets",t:false},
 {d:"2026-08-12",n:"Labor Day raffle",p:"Spiritual Q",a:60.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-12",n:"Raffle tickets",p:"Jil Blake",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-12",n:"Phil",p:"TARA ROWLEY",a:50.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-12",n:"cage jackets Justin",p:"Justin Balderrama",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
+{d:"2026-08-12",n:"Raffle tickets",p:"Jil B.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-12",n:"Phil",p:"Tara R.",a:50.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-12",n:"cage jackets Justin",p:"Justin B.",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
 {d:"2026-08-12",n:"Add Cash",p:"Cash App",a:45.0,s:"Cash App",c:"Cash Deposits",t:false},
-{d:"2026-08-12",n:"cage jacket",p:"Adrian Govea",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
-{d:"2026-08-12",n:"XXL all 3- Alexx",p:"Alejandro Nevarez",a:45.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-12",n:"Roman Gallo",p:"Avilene Orozco",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-12",n:"2 tickets/Tia Gladys/ sold by Roman Gallo",p:"Gladys Cantu",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-13",n:"Mike’s shirt and hat.",p:"Michael Patterson",a:70.0,s:"Venmo",c:"Merchandise",t:false},
-{d:"2026-08-13",n:"Jesus DeAnda - Cage Jackets",p:"Jesus DeAnda",a:45.0,s:"Venmo",c:"Cage Jackets",t:false},
-{d:"2026-08-13",n:"Cage Jackets",p:"Philip Blake",a:30.0,s:"Venmo",c:"Cage Jackets",t:false},
-{d:"2026-08-13",n:"Raffle ticket",p:"Damian Texas",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-12",n:"cage jacket",p:"Adrian G.",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
+{d:"2026-08-12",n:"XXL all 3- Alexx",p:"Alejandro N.",a:45.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-12",n:"Roman G.",p:"Avilene O.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-12",n:"2 tickets/Tia Gladys/ sold by Roman G.",p:"Gladys C.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-13",n:"Mike’s shirt and hat.",p:"Michael P.",a:70.0,s:"Venmo",c:"Merchandise",t:false},
+{d:"2026-08-13",n:"Jesus D. - Cage Jackets",p:"Jesus D.",a:45.0,s:"Venmo",c:"Cage Jackets",t:false},
+{d:"2026-08-13",n:"Cage Jackets",p:"Philip B.",a:30.0,s:"Venmo",c:"Cage Jackets",t:false},
+{d:"2026-08-13",n:"Raffle ticket",p:"Damian T.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
 {d:"2026-08-13",n:"Raffle from G",p:"Gabriel",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-14",n:"Cage jackets",p:"Justin Balderrama",a:-435.0,s:"Cash App",c:"Cage Jackets",t:false},
-{d:"2026-08-14",n:"4-Ace. Misti Wendy coworker.",p:"Misti D Juarez",a:100.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-14",n:"Cage Jackets",p:"Cade Wilson",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
+{d:"2026-08-14",n:"Cage jackets",p:"Justin B.",a:-435.0,s:"Cash App",c:"Cage Jackets",t:false},
+{d:"2026-08-14",n:"4-Ace. Misti Wendy coworker.",p:"Misti J.",a:100.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-14",n:"Cage Jackets",p:"Cade W.",a:45.0,s:"Cash App",c:"Cage Jackets",t:false},
 {d:"2026-08-14",n:"Tickets",p:"Lee V",a:40.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-14",n:"Raffle",p:"Patrick Thompson",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-14",n:"Ace G",p:"Fidela Gaitan",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-14",n:"Raffle",p:"Anthony Chanchavac",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-15",n:".",p:"Brandon Leija",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-15",n:"Food",p:"Jose Perez",a:-12.0,s:"Cash App",c:"Food/Supplies",t:false},
-{d:"2026-08-15",n:"Food",p:"Jose Perez",a:-4.0,s:"Cash App",c:"Food/Supplies",t:false},
-{d:"2026-08-16",n:"Chasity",p:"Kimberlyn Ask",a:25.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-16",n:"Raffle Tickets - Colt Wilson",p:"Marci Traylor",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-16",n:"Colt Grandparents Tickets",p:"Cade Wilson",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-16",n:"Breck Ask baseball raffle",p:"Chasity Hanson",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-16",n:"Gio",p:"Makayla Parra",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-17",n:"Mary raffle",p:"Kimberlyn Ask",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-17",n:"baseball",p:"Luz San Miguel",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-18",n:"Nick Acosta - Raffle tickets for Colt Wilson",p:"Cade Wilson",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-18",n:"Charles King - Colt Wilson Raffle Tickets",p:"Cade Wilson",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-19",n:"Ticket",p:"Damian Texas",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-20",n:"beans raffle money",p:"Adrian Govea",a:300.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-20",n:"bean- Lydia Govea raffle",p:"Cynthia Govea",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-20",n:"Raffle Tickets for Bean - Shonda Stuard 281-703-0821",p:"Shonda Stuard",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-20",n:"Baseball",p:"Grahm Sollock",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-20",n:"2 tickets ACE",p:"Vanessa Fernandez",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-20",n:"Pamela",p:"Donovan Reyna",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-21",n:"Raffle tickets",p:"Chad Scott",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Breck Ask Raffle",p:"Justin Hillard",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Breck Ask Raffle",p:"Aaron Fielding",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Breck ask raffle",p:"Connor Roumph",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Little Hans",p:"Johnathan Rivera",a:50.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-21",n:"(3) tickets please",p:"Aaron Drake",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Breck tickets",p:"Colton Vaughan",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Raffle Tickets- Kevin Hand",p:"Joelle Hand",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Raffle Ariel Gallo",p:"Jenny Espinoza",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Raffle tickets - Colt",p:"Emily Balderas",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Breck Ask Raffle",p:"Murad Briggs",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-21",n:"Ask",p:"Jeremy Lawrence",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-21",n:"",p:"Maxwell Martinez",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-21",n:"Go Creed",p:"Taylor Dudley",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-21",n:"Breck Ask raffle",p:"Billy Mooney",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-22",n:"Ethan-raffle ask",p:"Kimberlyn Ask",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-22",n:"Raffle Tickets",p:"Garrett Roy",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-22",n:"Chris Pullen waffle",p:"Chris Pullen",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-22",n:"Prince",p:"Kimberlyn Ask",a:20.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-23",n:"Bb",p:"Juan Sanchez",a:30.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-23",n:"Tickets ace",p:"Alexis Paredes",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Helmets - socks - Helmet Tags - Aug 19 tournament",p:"Hans R Ask",a:-1776.0,s:"Cash App",c:"Gear & Equipment",t:false},
-{d:"2026-08-24",n:"Breck Raffle",p:"Colin Yates",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Raffle ticket / Wilson",p:"Thomas",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Texas Creed- Labor Day",p:"Chris Sosa",a:50.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-24",n:"Raffle - Colt Wilson team expenses",p:"Priscilla Wilson",a:50.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Ariel raffle Lalo Salazar",p:"Enrique Gallo",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Ariel 3 tickets",p:"Enrique Gallo",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Ariel gallo 2 tickets",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Ariel Gallo",p:"Rosa Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-24",n:"BB Raffle",p:"John Reinhardt",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Ariel 2 tickets",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-24",n:"Lino Nanez",p:"Lino Nanez",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-24",n:"Sebastion gonzales",p:"Sebastion Gonzales",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-25",n:"Labor Day Raffle",p:"Kristine Ripley",a:40.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-25",n:"Ariel",p:"Leigh Friery",a:30.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-25",n:"Ariel Gallo",p:"Nancy",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-25",n:"Ariel - raffle tickets",p:"Yurilia Suarez",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-25",n:"Baseball",p:"Damon Oneil",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-26",n:"Ariel Gallo Fundraiser",p:"Jesus Marroquin",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-26",n:".",p:"Rodrigo Pruneda",a:40.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-26",n:"Rifa",p:"Ricardo Torres",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-26",n:"Neyda (Ariel gallo)",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-26",n:"Ticket",p:"Prentez Stovall",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-26",n:"Zaira (Ariel gallo)",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-26",n:"Ariel",p:"Angelica Sanchez",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-26",n:"Terrence McKinney",p:"Terrence McKinney",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Raffle tickets",p:"Keith Southard",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Breck Ask raffle",p:"Skylar Barrentine",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Hans - Raffle",p:"Brandon Womack",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Raffle tickets",p:"Neal Deitz",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:":venmo_dollar:",p:"Ken Plunkett",a:100.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Ramon Villagomez raffle tickets",p:"Alejandro Nevarez",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Go Breck! -The Garners are rooting for you!!",p:"Christina Marie",a:50.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-27",n:"raffle -hans",p:"James Marsh",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Daniel Johnson Navarez",p:"Bruce Johnson",a:50.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-14",n:"Raffle",p:"Patrick T.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-14",n:"Ace G",p:"Fidela G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-14",n:"Raffle",p:"Anthony C.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-15",n:".",p:"Brandon L.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-15",n:"Food",p:"Jose P.",a:-12.0,s:"Cash App",c:"Food/Supplies",t:false},
+{d:"2026-08-15",n:"Food",p:"Jose P.",a:-4.0,s:"Cash App",c:"Food/Supplies",t:false},
+{d:"2026-08-16",n:"Chasity",p:"Kimberlyn A.",a:25.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-16",n:"Raffle Tickets - Colt W.",p:"Marci T.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-16",n:"Colt Grandparents Tickets",p:"Cade W.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-16",n:"Breck A. baseball raffle",p:"Chasity H.",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-16",n:"Gio",p:"Makayla P.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-17",n:"Mary raffle",p:"Kimberlyn A.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-17",n:"baseball",p:"Luz S.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-18",n:"Nick A. - Raffle tickets for Colt W.",p:"Cade W.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-18",n:"Charles K. - Colt W. Raffle Tickets",p:"Cade W.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-19",n:"Ticket",p:"Damian T.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-20",n:"beans raffle money",p:"Adrian G.",a:300.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-20",n:"bean- Lydia G. raffle",p:"Cynthia G.",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-20",n:"Raffle Tickets for Bean - Shonda S.",p:"Shonda S.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-20",n:"Baseball",p:"Grahm S.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-20",n:"2 tickets ACE",p:"Vanessa F.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-20",n:"Pamela",p:"Donovan R.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-21",n:"Raffle tickets",p:"Chad S.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Breck A. Raffle",p:"Justin H.",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Breck A. Raffle",p:"Aaron F.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Breck A. raffle",p:"Connor R.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Little Hans",p:"Johnathan R.",a:50.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-21",n:"(3) tickets please",p:"Aaron D.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Breck tickets",p:"Colton V.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Raffle Tickets- Kevin H.",p:"Joelle H.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Raffle Ariel G.",p:"Jenny E.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Raffle tickets - Colt",p:"Emily B.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"Breck A. Raffle",p:"Murad B.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-21",n:"A.",p:"Jeremy L.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-21",n:"",p:"Maxwell M.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-21",n:"Go Creed",p:"Taylor D.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-21",n:"Breck A. raffle",p:"Billy M.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-22",n:"Ethan-raffle A.",p:"Kimberlyn A.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-22",n:"Raffle Tickets",p:"Garrett R.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-22",n:"Chris P. waffle",p:"Chris P.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-22",n:"Prince",p:"Kimberlyn A.",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-23",n:"Bb",p:"Juan S.",a:30.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-23",n:"Tickets ace",p:"Alexis P.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Helmets - socks - Helmet Tags - Aug 19 tournament",p:"Hans A.",a:-1776.0,s:"Cash App",c:"Gear & Equipment",t:false},
+{d:"2026-08-24",n:"Breck Raffle",p:"Colin Y.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Raffle ticket / W.",p:"Thomas",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Texas Creed- Labor Day",p:"Chris S.",a:50.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-24",n:"Raffle - Colt W. team expenses",p:"Priscilla W.",a:50.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Ariel raffle Lalo S.",p:"Enrique G.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Ariel 3 tickets",p:"Enrique G.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Ariel G. 2 tickets",p:"Enrique G.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Ariel G.",p:"Rosa G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-24",n:"BB Raffle",p:"John R.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Ariel 2 tickets",p:"Enrique G.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-24",n:"Lino N.",p:"Lino N.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-24",n:"Sebastion G.",p:"Sebastion G.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-25",n:"Labor Day Raffle",p:"Kristine R.",a:40.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-25",n:"Ariel",p:"Leigh F.",a:30.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-25",n:"Ariel G.",p:"Nancy",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-25",n:"Ariel - raffle tickets",p:"Yurilia S.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-25",n:"Baseball",p:"Damon O.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-26",n:"Ariel G. Fundraiser",p:"Jesus M.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-26",n:".",p:"Rodrigo P.",a:40.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-26",n:"Rifa",p:"Ricardo T.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-26",n:"Neyda (Ariel G.)",p:"Enrique G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-26",n:"Ticket",p:"Prentez S.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-26",n:"Zaira (Ariel G.)",p:"Enrique G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-26",n:"Ariel",p:"Angelica S.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-26",n:"Terrence M.",p:"Terrence M.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Raffle tickets",p:"Keith S.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Breck A. raffle",p:"Skylar B.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Hans - Raffle",p:"Brandon W.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Raffle tickets",p:"Neal D.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:":venmo_dollar:",p:"Ken P.",a:100.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Ramon V. raffle tickets",p:"Alejandro N.",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Go Breck! -The Garners are rooting for you!!",p:"Christina M.",a:50.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-27",n:"raffle -hans",p:"James M.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Daniel J.",p:"Bruce J.",a:50.0,s:"Cash App",c:"Other Income",t:false},
 {d:"2026-08-27",n:"Rhett",p:"Margot",a:40.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Raffle 2",p:"Michael Williams",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Tickets",p:"Troy Nevarez",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Ariel gallo",p:"Jenny Espinoza",a:20.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Raffle 2",p:"Michael W.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Tickets",p:"Troy N.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Ariel G.",p:"Jenny E.",a:20.0,s:"Venmo",c:"Other Income",t:false},
 {d:"2026-08-27",n:"Raffle",p:"Ryan",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Raffle",p:"Alegandro Delarosa",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Raffle",p:"Jazmin Alvarez",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Raffle",p:"Alegandro D.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"Raffle",p:"Jazmin A.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
 {d:"2026-08-27",n:"RIFLE TICKETS",p:"CQM",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"Jerry Rodrigues (Ariel gallo)",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Maris Espinosa (Ariel gallo)",p:"Enrique Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Ariel",p:"Nathalie Paterno",a:10.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-27",n:"Raffle",p:"Michael Williams",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-27",n:"1 raffle ticket !",p:"Kendall Womble",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Fred & Lucas Raffle",p:"Kimberlyn Ask",a:140.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Chrissy",p:"Christina Haskins",a:100.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-28",n:"Ariel Gallo",p:"Jonathan Castaneda",a:100.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-28",n:"Labor Day Raffle",p:"Rodney Skinner",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Carden & Arnette raffle tickets!",p:"James Carden",a:70.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Raffle",p:"Brandon Vaughn",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Labor Day Raffle",p:"Hunter Berry",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"baseball raffle",p:"Gerardo Escamilla 3",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Tickets",p:"Morales Jeremy",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"#s 901 and 902 Maria Guerra",p:"Adriana Moreno",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-28",n:"2 raffle tickets (Colt Wilson)",p:"Whitney Lane Goines",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Raffle tickets",p:"Reynaldo Lopez",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Raffle",p:"Adam Gomez",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-28",n:"Javier puffer (Ariel gallo)",p:"Enrique Gallo",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-29",n:"2-raffle tickets for #8 Big D",p:"Maria Mendoza",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-29",n:"Monchy",p:"Alejandro Nevarez",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-30",n:"Texas Creed Raffle - Donovan’s tickets",p:"Jesus DeAnda",a:600.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Rhett tickets",p:"Justin Balderrama",a:250.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Jerbear",p:"Adriana Moreno",a:160.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-30",n:"David Duckett",p:"Kimberlyn Ask",a:100.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-30",n:"last 8 raffle tickets- bean",p:"Cynthia Govea",a:80.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"5 raffle tickets for Tim Joiner",p:"Tim Joiner",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Breck raffle tickets - fundraiser Renee Dunkin 3 tickets",p:"Renee Dunkin",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Albert Sanchez Ariel raffle",p:"Enrique Gallo",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Fundraiser",p:"Lisa Duckett",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Raffle tickets",p:"Dolly Wachel",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Yvette Escalante for Roman G",p:"Jasmine Gallo",a:20.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-30",n:"Tickets/Rosa/Roman",p:"Gladys Cantu",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Labor Day raffle",p:"Joshua Martinez",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Labor Day Raffle",p:"Maria Hernandez",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Big mike G for Roman Gallo",p:"Jasmine Gallo",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-30",n:"Raffle",p:"Janel Martinez",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
-{d:"2026-08-30",n:"Colt Wilson",p:"Cindy Flynn",a:10.0,s:"Cash App",c:"Other Income",t:false},
-{d:"2026-08-31",n:"Erika",p:"Kimberlyn Ask",a:410.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-31",n:"gio",p:"Jesus Parra",a:260.0,s:"Venmo",c:"Other Income",t:false},
-{d:"2026-08-31",n:"5 tickets",p:"Gretchen Lunsford",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-08-31",n:"Mikayla & Luz - overpayment",p:"Jesus Parra",a:-30.0,s:"Venmo",c:"Other Expense",t:false},
-{d:"2026-09-01",n:"Creed Raffle prizes - Misti",p:"Justin Balderrama",a:-1090.0,s:"Venmo",c:"Raffle Prizes",t:false},
-{d:"2026-09-01",n:"Raffle - Bobo",p:"Philip Blake",a:875.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-09-01",n:"Alber raffle",p:"Kimberlyn Ask",a:210.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-09-01",n:"Raffle - Bobo",p:"Philip Blake",a:125.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-09-02",n:"TXCreed - Team Bags Order - Pay On CC",p:"Kimberlyn Ask",a:-845.0,s:"Venmo",c:"Team Bags",t:false},
-{d:"2026-09-02",n:"Donation",p:"Derek Pratt",a:50.0,s:"Venmo",c:"Donations",t:false},
-{d:"2026-09-03",n:"Latin America tournament - Pay Back savings",p:"Kimberlyn Ask",a:-2250.0,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-09-03",n:"Latin American Tournament - Donnie",p:"Jesus DeAnda",a:-228.0,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-09-03",n:"Raffle Tix Brecky Ask",p:"Milam Wentworth",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
-{d:"2026-09-03",n:"Hans Hat",p:"Kimberlyn Ask",a:27.0,s:"Venmo",c:"Merchandise",t:false},
-{d:"2026-09-04",n:"Black hat & white hat",p:"Jesus DeAnda",a:52.0,s:"Venmo",c:"Merchandise",t:false},
-{d:"2026-09-06",n:"Bean - Latin American Tournament - Transfer to Checking",p:"Kimberlyn Ask",a:-228.0,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-09-10",n:"Alber jackets",p:"Kimberlyn Ask",a:72.0,s:"Venmo",c:"Cage Jackets",t:false},
-{d:"2026-09-19",n:"Cash app Funds To Venmo",p:"Kimberlyn Ask",a:3046.0,s:"Venmo",c:"Account Transfer",t:true},
-{d:"2026-09-22",n:"4 shirts",p:"Dianna Castillo",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-09-22",n:"Jasmine G shirts",p:"Jasmine Gallo",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-09-22",n:"Mom Jerseys",p:"Vanessa DeAnda",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-09-23",n:"White Hats — JB invoice",p:"Justin Balderrama",a:-825.0,s:"Venmo",c:"Merchandise",t:false,o:true},
-{d:"2026-09-23",n:"Ria jersey — credited against white hat invoice",p:"Ria / Rhett Balderrama",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false,o:true},
-{d:"2026-09-23",n:"Cage jackets please",p:"Dianna Castillo",a:30.0,s:"Venmo",c:"Cage Jackets",t:false},
-{d:"2026-09-26",n:"Colt Wilson #9 family jerseys",p:"Brooklyn Wilson",a:165.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-09-29",n:"Aerial shirts",p:"Kimberlyn Ask",a:75.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-09-29",n:"Camo Jersey",p:"Philip Blake",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-02",n:"Daniels jerseys",p:"Kimberlyn Ask",a:165.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-02",n:"Beans jerseys",p:"Kimberlyn Ask",a:120.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-02",n:"Breck/grandma jersey",p:"Kimberlyn Ask",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-02",n:"Ace jerseys",p:"Kimberlyn Ask",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-13",n:"Venmo Parent Jersey Order",p:"Kimberlyn Ask",a:-990.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-13",n:"Hurricane Harvey Tournament",p:"Kimberlyn Ask",a:-695.0,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-10-13",n:"Adriis 3 jerseys",p:"Justin Balderrama",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-13",n:"2X white parent jersey — Colt Wilson #9",p:"Brooklyn Wilson",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-15",n:"Alber jerseys",p:"Kimberlyn Ask",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-10-17",n:"Houston 1000 NIT",p:"Kimberlyn Ask",a:-1060.0,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-10-17",n:"Areli Soto / Gio Parra jersey",p:"Jesus Parra",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
-{d:"2026-11-02",n:"PG SETBA Fall Borderline Bash — Beaumont, Nov 7–8",p:"Kimberlyn Ask",a:-388.13,s:"Venmo",c:"Tournament Fees",t:false},
-{d:"2026-11-03",n:"MadeInTheCage full facility — practice 11/3",p:"Kimberlyn Ask",a:-165.0,s:"Venmo",c:"Practice & Facilities",t:false},
-{d:"2026-11-03",n:"New baseballs — 5 dozen",p:"Kimberlyn Ask",a:-391.0,s:"Venmo",c:"Gear & Equipment",t:false},
-{d:"2026-11-03",n:"Cages",p:"Cade Wilson",a:20.0,s:"Venmo",c:"Practice & Facilities",t:false},
-{d:"2026-11-04",n:"Cages",p:"Justin Balderrama",a:20.0,s:"Venmo",c:"Practice & Facilities",t:false},
-{d:"2026-11-04",n:"PG SETBA Fall Super NIT — Nov 14–15",p:"Kimberlyn Ask",a:-465.75,s:"Venmo",c:"Tournament Fees",t:false}
+{d:"2026-08-27",n:"Jerry R. (Ariel G.)",p:"Enrique G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Maris E. (Ariel G.)",p:"Enrique G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Ariel",p:"Nathalie P.",a:10.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-27",n:"Raffle",p:"Michael W.",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-27",n:"1 raffle ticket !",p:"Kendall W.",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Fred & Lucas Raffle",p:"Kimberlyn A.",a:140.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Chrissy",p:"Christina H.",a:100.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-28",n:"Ariel G.",p:"Jonathan C.",a:100.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-28",n:"Labor Day Raffle",p:"Rodney S.",a:100.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"C. & A. raffle tickets!",p:"James C.",a:70.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Raffle",p:"Brandon V.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Labor Day Raffle",p:"Hunter B.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"baseball raffle",p:"Gerardo E.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Tickets",p:"Jeremy M.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"#s 901 and 902 Maria G.",p:"Adriana M.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-28",n:"2 raffle tickets (Colt W.)",p:"Whitney G.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Raffle tickets",p:"Reynaldo L.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Raffle",p:"Adam G.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-28",n:"Javier puffer (Ariel G.)",p:"Enrique G.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-29",n:"2-raffle tickets for #8 Big D",p:"Maria M.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-29",n:"Monchy",p:"Alejandro N.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-30",n:"Texas Creed Raffle - Donovan’s tickets",p:"Jesus D.",a:600.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Rhett tickets",p:"Justin B.",a:250.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Jerbear",p:"Adriana M.",a:160.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-30",n:"David D.",p:"Kimberlyn A.",a:100.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-30",n:"last 8 raffle tickets- bean",p:"Cynthia G.",a:80.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"5 raffle tickets for Tim J.",p:"Tim J.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Breck raffle tickets - fundraiser Renee D. 3 tickets",p:"Renee D.",a:30.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Albert S. Ariel raffle",p:"Enrique G.",a:30.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Fundraiser",p:"Lisa D.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Raffle tickets",p:"Dolly W.",a:20.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Yvette E. for Roman G",p:"Jasmine G.",a:20.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-30",n:"Tickets/Rosa/Roman",p:"Gladys C.",a:20.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Labor Day raffle",p:"Joshua M.",a:10.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Labor Day Raffle",p:"Maria H.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Big mike G for Roman G.",p:"Jasmine G.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-30",n:"Raffle",p:"Janel M.",a:10.0,s:"Cash App",c:"Raffle Tickets",t:false},
+{d:"2026-08-30",n:"Colt W.",p:"Cindy F.",a:10.0,s:"Cash App",c:"Other Income",t:false},
+{d:"2026-08-31",n:"Erika",p:"Kimberlyn A.",a:410.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-31",n:"gio",p:"Jesus P.",a:260.0,s:"Venmo",c:"Other Income",t:false},
+{d:"2026-08-31",n:"5 tickets",p:"Gretchen L.",a:50.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-08-31",n:"Mikayla & Luz - overpayment",p:"Jesus P.",a:-30.0,s:"Venmo",c:"Other Expense",t:false},
+{d:"2026-09-01",n:"Creed Raffle prizes - Misti",p:"Justin B.",a:-1090.0,s:"Venmo",c:"Raffle Prizes",t:false},
+{d:"2026-09-01",n:"Raffle - Bobo",p:"Philip B.",a:875.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-09-01",n:"Alber raffle",p:"Kimberlyn A.",a:210.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-09-01",n:"Raffle - Bobo",p:"Philip B.",a:125.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-09-02",n:"TXCreed - Team Bags Order - Pay On CC",p:"Kimberlyn A.",a:-845.0,s:"Venmo",c:"Team Bags",t:false},
+{d:"2026-09-02",n:"Donation",p:"Derek P.",a:50.0,s:"Venmo",c:"Donations",t:false},
+{d:"2026-09-03",n:"Latin America tournament - Pay Back savings",p:"Kimberlyn A.",a:-2250.0,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-09-03",n:"Latin American Tournament - Donnie",p:"Jesus D.",a:-228.0,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-09-03",n:"Raffle Tix Brecky A.",p:"Milam W.",a:100.0,s:"Venmo",c:"Raffle Tickets",t:false},
+{d:"2026-09-03",n:"Hans Hat",p:"Kimberlyn A.",a:27.0,s:"Venmo",c:"Merchandise",t:false},
+{d:"2026-09-04",n:"Black hat & white hat",p:"Jesus D.",a:52.0,s:"Venmo",c:"Merchandise",t:false},
+{d:"2026-09-06",n:"Bean - Latin American Tournament - Transfer to Checking",p:"Kimberlyn A.",a:-228.0,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-09-10",n:"Alber jackets",p:"Kimberlyn A.",a:72.0,s:"Venmo",c:"Cage Jackets",t:false},
+{d:"2026-09-19",n:"Cash app Funds To Venmo",p:"Kimberlyn A.",a:3046.0,s:"Venmo",c:"Account Transfer",t:true},
+{d:"2026-09-22",n:"4 shirts",p:"Dianna C.",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-09-22",n:"Jasmine G shirts",p:"Jasmine G.",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-09-22",n:"Mom Jerseys",p:"Vanessa D.",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-09-23",n:"White Hats — JB invoice",p:"Justin B.",a:-825.0,s:"Venmo",c:"Merchandise",t:false,o:true},
+{d:"2026-09-23",n:"Ria jersey — credited against white hat invoice",p:"Ria / Rhett B.",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false,o:true},
+{d:"2026-09-23",n:"Cage jackets please",p:"Dianna C.",a:30.0,s:"Venmo",c:"Cage Jackets",t:false},
+{d:"2026-09-26",n:"Colt W. #9 family jerseys",p:"Brooklyn W.",a:165.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-09-29",n:"Aerial shirts",p:"Kimberlyn A.",a:75.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-09-29",n:"Camo Jersey",p:"Philip B.",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-02",n:"Daniels jerseys",p:"Kimberlyn A.",a:165.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-02",n:"Beans jerseys",p:"Kimberlyn A.",a:120.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-02",n:"Breck/grandma jersey",p:"Kimberlyn A.",a:60.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-02",n:"Ace jerseys",p:"Kimberlyn A.",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-13",n:"Venmo Parent Jersey Order",p:"Kimberlyn A.",a:-990.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-13",n:"Hurricane Harvey Tournament",p:"Kimberlyn A.",a:-695.0,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-10-13",n:"Adriis 3 jerseys",p:"Justin B.",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-13",n:"2X white parent jersey — Colt W. #9",p:"Brooklyn W.",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-15",n:"Alber jerseys",p:"Kimberlyn A.",a:45.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-10-17",n:"Houston 1000 NIT",p:"Kimberlyn A.",a:-1060.0,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-10-17",n:"Areli S. / Gio P. jersey",p:"Jesus P.",a:15.0,s:"Venmo",c:"Parent Jersey Orders",t:false},
+{d:"2026-11-02",n:"PG SETBA Fall Borderline Bash — Beaumont, Nov 7–8",p:"Kimberlyn A.",a:-388.13,s:"Venmo",c:"Tournament Fees",t:false},
+{d:"2026-11-03",n:"MadeInTheCage full facility — practice 11/3",p:"Kimberlyn A.",a:-165.0,s:"Venmo",c:"Practice & Facilities",t:false},
+{d:"2026-11-03",n:"New baseballs — 5 dozen",p:"Kimberlyn A.",a:-391.0,s:"Venmo",c:"Gear & Equipment",t:false},
+{d:"2026-11-03",n:"Cages",p:"Cade W.",a:20.0,s:"Venmo",c:"Practice & Facilities",t:false},
+{d:"2026-11-04",n:"Cages",p:"Justin B.",a:20.0,s:"Venmo",c:"Practice & Facilities",t:false},
+{d:"2026-11-04",n:"PG SETBA Fall Super NIT — Nov 14–15",p:"Kimberlyn A.",a:-465.75,s:"Venmo",c:"Tournament Fees",t:false}
 ];
 
 const expLedger = [
@@ -1260,14 +1268,14 @@ const events = [
   {name:"Practice @ Pecan", start:"2026-08-13", time:"6:00 PM", type:"practice"},
   {name:"Scrimmage", start:"2026-08-15", time:"10:00 AM", type:"game"},
   {name:"Practice @ Pecan", start:"2026-08-18", time:"6:00 PM", type:"practice"},
-  {name:"Jeremiah Moreno's Birthday", start:"2026-08-19", type:"other"},
+  {name:"Jeremiah M.'s Birthday", start:"2026-08-19", type:"other"},
   {name:"Practice @ Pecan", start:"2026-08-20", time:"6:00 PM", type:"practice"},
   {name:"vs Anahuac Bird", start:"2026-08-23", time:"1:00 PM", type:"game"},
   {name:"vs Bayou", start:"2026-08-23", time:"2:15 PM", type:"game"},
   {name:"Practice @ Pecan", start:"2026-08-25", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-08-27", time:"6:00 PM", type:"practice"},
   {name:"Team Raffle", start:"2026-08-31", type:"other"},
-  {name:"Ace Gaitan's Birthday", start:"2026-09-01", type:"other"},
+  {name:"Ace G.'s Birthday", start:"2026-09-01", type:"other"},
   {name:"Practice @ Pecan", start:"2026-09-01", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-09-03", time:"6:00 PM", type:"practice"},
   {name:"Friday Night", start:"2026-09-04", time:"6:00 PM", type:"other"},
@@ -1277,30 +1285,30 @@ const events = [
   {name:"Friday Night", start:"2026-09-11", time:"6:00 PM", type:"other"},
   {name:"PG Southwest Regional Championships", start:"2026-09-12", time:"10:15 AM", type:"game"},
   {name:"PG Southwest Regional Championships", start:"2026-09-13", type:"game"},
-  {name:"Donovan DeAnda's Birthday", start:"2026-09-15", type:"other"},
+  {name:"Donovan D.'s Birthday", start:"2026-09-15", type:"other"},
   {name:"Practice @ Pecan", start:"2026-09-15", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-09-17", time:"6:00 PM", type:"practice"},
   {name:"Friday Night", start:"2026-09-18", time:"6:00 PM", type:"other"},
   {name:"@ Pearland", start:"2026-09-20", time:"8:00 AM", type:"game"},
   {name:"vs Houston", start:"2026-09-20", time:"10:30 AM", type:"game"},
-  {name:"Breck Ask's Birthday", start:"2026-09-21", type:"other"},
+  {name:"Breck A.'s Birthday", start:"2026-09-21", type:"other"},
   {name:"Practice @ Pecan", start:"2026-09-22", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-09-24", time:"6:00 PM", type:"practice"},
   {name:"Friday Night", start:"2026-09-25", time:"6:00 PM", type:"other"},
   {name:"Practice @ Pecan", start:"2026-09-29", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-01", time:"6:00 PM", type:"practice"},
   {name:"PG Hurricane Harvey Memorial Super Regional NIT", start:"2026-10-03", end:"2026-10-04", type:"game"},
-  {name:"Gio Para's Birthday", start:"2026-10-04", type:"other"},
+  {name:"Gio P.'s Birthday", start:"2026-10-04", type:"other"},
   {name:"Practice @ Pecan", start:"2026-10-06", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-08", time:"6:00 PM", type:"practice"},
-  {name:"Beau Blake's Birthday", start:"2026-10-09", type:"other"},
+  {name:"Beau B.'s Birthday", start:"2026-10-09", type:"other"},
   {name:"vs Island", start:"2026-10-11", time:"9:15 AM", type:"game"},
   {name:"@ Baytown", start:"2026-10-11", time:"11:45 AM", type:"game"},
   {name:"Practice @ Pecan", start:"2026-10-13", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-15", time:"6:00 PM", type:"practice"},
   {name:"PG Sunday Select", start:"2026-10-17", end:"2026-10-18", type:"game"},
   {name:"Practice @ Pecan", start:"2026-10-20", time:"6:00 PM", type:"practice"},
-  {name:"Ariel Gallo's Birthday", start:"2026-10-21", type:"other"},
+  {name:"Ariel G.'s Birthday", start:"2026-10-21", type:"other"},
   {name:"Practice @ Pecan", start:"2026-10-22", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-27", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-29", time:"6:00 PM", type:"practice"},
@@ -1383,7 +1391,7 @@ const ICONS = {
   sleeve:'<svg viewBox="0 0 120 120"><path d="M42 14 L78 14 L74 106 L46 106 Z"/><line x1="43" y1="26" x2="77" y2="26"/><line x1="45" y1="94" x2="75" y2="94"/></svg>'
 };
 
-const ROSTER = ["Ariel Gallo","Daniel Nevarez","Rhett Balderrama","Breck Ask","Roman Gallo","Alber Mejias","Colt Wilson","Jeremiah Moreno","Donovan DeAnda","Gio Para","Ace Gaitan","Beau Blake","Benjamin Govea"];
+const ROSTER = ["Ariel G.","Daniel J.","Rhett B.","Breck A.","Roman G.","Alber M.","Colt W.","Jeremiah M.","Donovan D.","Gio P.","Ace G.","Beau B.","Benjamin G."];
 
 /* Summer 2026 scorebook export */
 const STATS = {"record":"14-6","players":[{"num":"4","first":"Jeremiah","last":"M.","bat":{"GP":"20","PA":"49","AB":"49","AVG":".878","OBP":".878","OPS":"2.347","SLG":"1.469","H":"43","1B":"23","2B":"13","3B":"5","HR":"2","RBI":"22","R":"31","BB":"0","SO":"0","SB":"3","TB":"72","XBH":"20","QAB%":"77.55","C%":"100.0","LD%":"26.53","FB%":"22.45","GB%":"51.02"},"pit":{"IP":"3.0","GP":"3","BF":"16","#P":"27","H":"8","R":"3","ER":"3","BB":"0","SO":"3","ERA":"6.000","WHIP":"2.667","BAA":".500","S%":"96.30","FPS%":"100.0"},"fld":{"TC":"73","A":"6","PO":"67","DP":"8","INN":"0.0","SBATT":"0","CS":"0","P":"3.0","C":"0.0","1B":"61.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"5.0","CF":"2.0","RF":"0.0","SF":"5.0","Total":"76.0"}},{"num":"88","first":"Breck","last":"A.","bat":{"GP":"20","PA":"41","AB":"41","AVG":".854","OBP":".854","OPS":"2.463","SLG":"1.610","H":"35","1B":"16","2B":"11","3B":"4","HR":"4","RBI":"20","R":"22","BB":"0","SO":"0","SB":"5","TB":"66","XBH":"19","QAB%":"73.17","C%":"100.0","LD%":"31.71","FB%":"24.39","GB%":"43.90"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"59","A":"32","PO":"27","DP":"6","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"10.0","3B":"0.0","SS":"57.1","LF":"0.0","CF":"5.0","RF":"0.0","SF":"1.0","Total":"73.1"}},{"num":"15","first":"Donovan","last":"D.","bat":{"GP":"20","PA":"46","AB":"46","AVG":".826","OBP":".826","OPS":"2.391","SLG":"1.565","H":"38","1B":"15","2B":"15","3B":"5","HR":"3","RBI":"24","R":"27","BB":"0","SO":"1","SB":"2","TB":"72","XBH":"23","QAB%":"78.26","C%":"97.83","LD%":"24.44","FB%":"28.89","GB%":"44.44"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"36","A":"11","PO":"25","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"55.0","SS":"7.1","LF":"3.2","CF":"7.2","RF":"0.0","SF":"0.0","Total":"73.2"}},{"num":"11","first":"Beau","last":"B.","bat":{"GP":"20","PA":"34","AB":"34","AVG":".824","OBP":".824","OPS":"2.324","SLG":"1.500","H":"28","1B":"13","2B":"10","3B":"2","HR":"3","RBI":"15","R":"19","BB":"0","SO":"0","SB":"1","TB":"51","XBH":"15","QAB%":"67.65","C%":"100.0","LD%":"20.59","FB%":"32.35","GB%":"47.06"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"18","A":"8","PO":"10","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"20.1","SS":"0.0","LF":"1.2","CF":"51.0","RF":"0.0","SF":"1.0","Total":"74.0"}},{"num":"9","first":"Colt","last":"W.","bat":{"GP":"20","PA":"41","AB":"41","AVG":".805","OBP":".805","OPS":"2.195","SLG":"1.390","H":"33","1B":"19","2B":"8","3B":"2","HR":"4","RBI":"26","R":"16","BB":"0","SO":"2","SB":"1","TB":"57","XBH":"14","QAB%":"73.17","C%":"95.12","LD%":"38.46","FB%":"25.64","GB%":"35.90"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"21","A":"0","PO":"21","DP":"0","INN":"47.1","SBATT":"4","CS":"1","P":"0.0","C":"47.1","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"0.0","CF":"0.0","RF":"0.0","SF":"2.0","Total":"49.1"}},{"num":"27","first":"Alber","last":"M.","bat":{"GP":"20","PA":"38","AB":"38","AVG":".789","OBP":".789","OPS":"2.000","SLG":"1.211","H":"30","1B":"22","2B":"3","3B":"2","HR":"3","RBI":"16","R":"18","BB":"0","SO":"1","SB":"3","TB":"46","XBH":"8","QAB%":"60.53","C%":"97.37","LD%":"16.22","FB%":"10.81","GB%":"72.97"},"pit":{"IP":"51.2","GP":"17","BF":"282","#P":"681","H":"177","R":"69","ER":"69","BB":"1","SO":"18","ERA":"8.013","WHIP":"3.445","BAA":".630","S%":"73.86","FPS%":"65.96"},"fld":{"TC":"28","A":"18","PO":"10","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"51.2","C":"0.0","1B":"0.0","2B":"8.2","3B":"0.0","SS":"0.0","LF":"0.0","CF":"1.0","RF":"2.2","SF":"4.0","Total":"68.0"}},{"num":"5","first":"Roman","last":"G.","bat":{"GP":"20","PA":"50","AB":"50","AVG":".740","OBP":".740","OPS":"1.780","SLG":"1.040","H":"37","1B":"24","2B":"11","3B":"2","HR":"0","RBI":"14","R":"25","BB":"0","SO":"0","SB":"1","TB":"52","XBH":"13","QAB%":"66.00","C%":"100.0","LD%":"30.00","FB%":"30.00","GB%":"40.00"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"66","A":"35","PO":"31","DP":"5","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.0","2B":"58.0","3B":"0.0","SS":"11.1","LF":"1.0","CF":"2.0","RF":"0.0","SF":"2.0","Total":"74.1"}},{"num":"8","first":"Daniel","last":"J.","bat":{"GP":"20","PA":"47","AB":"46","AVG":".739","OBP":".745","OPS":"2.114","SLG":"1.370","H":"34","1B":"16","2B":"12","3B":"1","HR":"5","RBI":"26","R":"24","BB":"1","SO":"2","SB":"3","TB":"63","XBH":"18","QAB%":"70.21","C%":"95.65","LD%":"15.91","FB%":"22.73","GB%":"61.36"},"pit":{"IP":"10.2","GP":"7","BF":"48","#P":"96","H":"24","R":"7","ER":"7","BB":"0","SO":"5","ERA":"3.938","WHIP":"2.250","BAA":".500","S%":"78.12","FPS%":"72.92"},"fld":{"TC":"13","A":"7","PO":"6","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"10.2","C":"0.0","1B":"3.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"3.0","CF":"3.0","RF":"9.1","SF":"24.0","Total":"53.0"}},{"num":"50","first":"Rhett","last":"B.","bat":{"GP":"20","PA":"37","AB":"36","AVG":".722","OBP":".730","OPS":"1.730","SLG":"1.000","H":"26","1B":"19","2B":"4","3B":"3","HR":"0","RBI":"10","R":"14","BB":"1","SO":"2","SB":"2","TB":"36","XBH":"7","QAB%":"56.76","C%":"94.44","LD%":"20.59","FB%":"14.71","GB%":"64.71"},"pit":{"IP":"5.0","GP":"5","BF":"21","#P":"40","H":"12","R":"1","ER":"1","BB":"0","SO":"1","ERA":"1.200","WHIP":"2.400","BAA":".571","S%":"77.50","FPS%":"76.19"},"fld":{"TC":"3","A":"2","PO":"1","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"5.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.1","LF":"7.0","CF":"0.0","RF":"40.0","SF":"3.2","Total":"56.0"}},{"num":"13","first":"Ace","last":"G.","bat":{"GP":"20","PA":"31","AB":"31","AVG":".677","OBP":".677","OPS":"1.645","SLG":".968","H":"21","1B":"15","2B":"3","3B":"3","HR":"0","RBI":"9","R":"14","BB":"0","SO":"2","SB":"2","TB":"30","XBH":"6","QAB%":"32.26","C%":"93.55","LD%":"3.45","FB%":"37.93","GB%":"58.62"},"pit":{"IP":"0.0","GP":"0","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"13","A":"0","PO":"13","DP":"0","INN":"29.0","SBATT":"3","CS":"1","P":"0.0","C":"29.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"0.0","CF":"0.2","RF":"1.0","SF":"0.0","Total":"30.2"}},{"num":"67","first":"Gio","last":"P.","bat":{"GP":"20","PA":"32","AB":"32","AVG":".625","OBP":".625","OPS":"1.469","SLG":".844","H":"20","1B":"15","2B":"4","3B":"0","HR":"1","RBI":"11","R":"13","BB":"0","SO":"3","SB":"0","TB":"27","XBH":"5","QAB%":"37.50","C%":"90.62","LD%":"10.34","FB%":"20.69","GB%":"68.97"},"pit":{"IP":"0.0","GP":"1","BF":"0","#P":"0","H":"0","R":"0","ER":"0","BB":"0","SO":"0","ERA":"-","WHIP":"-","BAA":"-","S%":"-","FPS%":"-"},"fld":{"TC":"4","A":"3","PO":"1","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"0.0","C":"0.0","1B":"0.1","2B":"0.0","3B":"0.0","SS":"0.0","LF":"6.0","CF":"1.0","RF":"12.1","SF":"21.0","Total":"40.2"}},{"num":"1","first":"Ariel","last":"G.","bat":{"GP":"18","PA":"36","AB":"36","AVG":".583","OBP":".583","OPS":"1.361","SLG":".778","H":"21","1B":"16","2B":"3","3B":"2","HR":"0","RBI":"10","R":"9","BB":"0","SO":"3","SB":"2","TB":"28","XBH":"5","QAB%":"36.11","C%":"91.67","LD%":"18.18","FB%":"30.30","GB%":"51.52"},"pit":{"IP":"2.0","GP":"2","BF":"19","#P":"41","H":"14","R":"10","ER":"10","BB":"0","SO":"1","ERA":"30.00","WHIP":"7.000","BAA":".737","S%":"70.73","FPS%":"73.68"},"fld":{"TC":"1","A":"1","PO":"0","DP":"0","INN":"0.0","SBATT":"0","CS":"0","P":"2.0","C":"0.0","1B":"0.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"6.0","CF":"0.0","RF":"10.1","SF":"3.0","Total":"21.1"}},{"num":"44","first":"Benjamin","last":"G.","bat":{"GP":"16","PA":"30","AB":"30","AVG":".567","OBP":".567","OPS":"1.333","SLG":".767","H":"17","1B":"12","2B":"4","3B":"1","HR":"0","RBI":"11","R":"7","BB":"0","SO":"2","SB":"0","TB":"23","XBH":"5","QAB%":"53.33","C%":"93.33","LD%":"17.86","FB%":"32.14","GB%":"50.00"},"pit":{"IP":"1.2","GP":"2","BF":"7","#P":"22","H":"3","R":"0","ER":"0","BB":"0","SO":"1","ERA":".000","WHIP":"1.800","BAA":".429","S%":"77.27","FPS%":"42.86"},"fld":{"TC":"21","A":"5","PO":"16","DP":"1","INN":"0.0","SBATT":"0","CS":"0","P":"1.2","C":"0.0","1B":"13.0","2B":"0.0","3B":"0.0","SS":"0.0","LF":"42.0","CF":"2.2","RF":"0.0","SF":"4.0","Total":"63.1"},"nick":"Benjamin “Bean”"}],"totals":{"bat":{"GP":"20","PA":"512","AB":"510","AVG":".751","OBP":".752","OPS":"1.974","SLG":"1.222","H":"383","1B":"225","2B":"101","3B":"32","HR":"25","RBI":"214","R":"235","BB":"2","SO":"18","SB":"25","TB":"623","XBH":"158","QAB%":"62.11","C%":"96.47","LD%":"22.15","FB%":"25.41","GB%":"52.24"},"pit":{"IP":"80.0","GP":"20","BF":"416","#P":"956","H":"247","R":"92","ER":"90","BB":"1","SO":"31","ERA":"6.750","WHIP":"3.100","BAA":".595","S%":"75.73","FPS%":"69.47"},"fld":{"TC":"373","A":"133","PO":"240","DP":"12","INN":"80.0","SBATT":"7","CS":"2","P":"80.0","C":"80.0","1B":"77.1","2B":"76.2","3B":"75.1","SS":"76.1","LF":"75.1","CF":"76.0","RF":"75.2","SF":"70.2","Total":"753.2"}}};
@@ -1590,33 +1598,6 @@ function renderStats(){
     leader(pp,p=>val(p.pit['S%']),p=>parseFloat(p.pit['S%']).toFixed(1)+'%','Strike %',{ip:true})
   ].join('');
 
-  /* leaders: rise in and count up the first time each card scrolls into view */
-  (function(){
-    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const count=b=>{
-      const end=b.textContent, n=parseFloat(end); if(!n) return;
-      const m=end.match(/\.(\d+)/), d=(m&&!b.hasAttribute('data-whole'))?m[1].length:0, pct=end.endsWith('%')?'%':'', lead=end.startsWith('.');
-      const t0=performance.now(), dur=1400;
-      (function tick(t){
-        const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
-        if(k>=1){ b.textContent=end; return; }
-        let s=(n*e).toFixed(d); if(lead) s=s.replace(/^0/,'');
-        b.textContent=s+pct; requestAnimationFrame(tick);
-      })(t0);
-    };
-    const io=new IntersectionObserver(es=>es.forEach(e=>{
-      if(!e.isIntersecting) return;
-      const c=e.target; io.unobserve(c);
-      c.classList.remove('pre'); c.classList.add('go');
-      setTimeout(()=>count(c.querySelector('.st-l1 b')),(+c.style.getPropertyValue('--d')||0)*110+140);
-      setTimeout(()=>c.classList.remove('go'),3000);
-    }),{threshold:.2});
-    ['#stLeadBat','#stLeadPit'].forEach(sel=>{
-      const g=$(sel), cols=Math.max(1,getComputedStyle(g).gridTemplateColumns.split(' ').length||4);
-      [...g.children].forEach((c,i)=>{ c.style.setProperty('--d',cols>1?i%cols:0); c.classList.add('pre'); io.observe(c); });
-    });
-  })();
-
   /* roster */
   $('#stRoster').innerHTML=[...P].sort((a,b)=>+a.num-+b.num).map(p=>`<button class="st-rw" data-pl="${p.num}"><span class="no">${p.num}</span><span class="w">${esc(short(p))}</span><span class="x q">${p.bat.AVG}</span></button>`).join('');
 
@@ -1688,8 +1669,43 @@ function renderStats(){
   });
 }
 
+/* ================= MOTION ================= */
+/* Blocks rise in and numbers count up the first time they scroll into view. */
+function initFx(){
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const BLOCKS='.tile,.door,.cell,.nums>.num,.tcard,.upcard,.step,.st-panel,.st-list,.st-lc,.table-wrap,.log,.verse,.month';
+  const NUMS='.cell-num,.num b,.count b,.st-l1 b';
+  const count=(b,delay)=>{
+    const end=b.textContent.trim(), m=end.match(/^(-?)(\$?)([\d,]*\.?\d+)(%?)$/); if(!m) return;
+    const n=parseFloat(m[3].replace(/,/g,'')); if(!n) return;
+    const dec=(m[3].split('.')[1]||'').length, whole=b.hasAttribute('data-whole'), lead=m[3][0]==='.', comma=m[3].includes(',');
+    const show=v=>{ let t=comma?v.toLocaleString('en-US',{minimumFractionDigits:whole?0:dec,maximumFractionDigits:whole?0:dec}):v.toFixed(whole?0:dec); if(lead) t=t.replace(/^0/,''); return m[1]+m[2]+t+m[4]; };
+    b.textContent=show(0);
+    const t0=performance.now()+delay, dur=1400;
+    (function tick(t){
+      const k=Math.max(0,Math.min(1,(t-t0)/dur));
+      if(k>=1){ b.textContent=end; return; }
+      b.textContent=show(n*(1-Math.pow(1-k,3))); requestAnimationFrame(tick);
+    })(performance.now());
+  };
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target; io.unobserve(el);
+    if(el.matches('.cat-bar')){ el.classList.add('fx-bar'); return; }
+    if(el.matches('.st-seg')){ el.classList.add('fx-wipe'); return; }
+    const p=el.parentElement, cols=getComputedStyle(p).gridTemplateColumns.split(' ').filter(c=>c.endsWith('px')).length;
+    const d=cols>1?[...p.children].indexOf(el)%cols:0;
+    el.style.setProperty('--d',d);
+    el.classList.remove('fx-pre'); el.classList.add('fx-go');
+    el.addEventListener('animationend',function done(ev){ if(ev.target===el&&ev.animationName==='stRise'){ el.classList.remove('fx-go'); el.removeEventListener('animationend',done); } });
+    (el.matches(NUMS)?[el]:[...el.querySelectorAll(NUMS)]).forEach(b=>count(b,d*110+140));
+  }),{rootMargin:'0px 0px -6% 0px'});
+  $$(BLOCKS).forEach(el=>{ el.classList.add('fx-pre'); io.observe(el); });
+  $$('.cat-bar,.st-seg').forEach(el=>io.observe(el));
+}
+
 /* ================= BOOT ================= */
-renderHome(); renderBanking(); renderSchedule(); renderStats(); renderSwag();
+renderHome(); renderBanking(); renderSchedule(); renderStats(); renderSwag(); initFx();
 
 function intro(){
   const el=$('#intro'); let seen=false; try{seen=sessionStorage.getItem('creed_intro')==='1';}catch(e){}
