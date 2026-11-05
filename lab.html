@@ -538,10 +538,36 @@ footer a:hover{text-decoration:underline}
 .pk-lab td small{font-size:10.5px;color:rgba(245,247,250,.62);margin-left:6px}
 .pk-lab td.k{font-weight:700;color:#BFE6F8}
 .pk-lab td.up{color:#7FD6A0;font-weight:600}.pk-lab td.down{color:#F0C27A;font-weight:600}
+.pk-mode{display:inline-flex;padding:3px;border-radius:999px;background:var(--card2);border:1px solid var(--edge)}
+.pk-mode button{min-height:36px;padding:0 15px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2)}
+.pk-mode button.on{background:var(--blue);color:#050608}
+.pk-mode button:focus-visible,#pkgSave:focus-visible,#pkgClose:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+#pkgWrap.pk-light .pk-page{background:linear-gradient(165deg,#E4F4FE 0,#fff 34%,#fff 72%,#EAF6FE 100%)!important;color:#0B0E12}
+#pkgWrap.pk-light .pk-cover{background:#fff!important}
+#pkgWrap.pk-light #pkw stop:last-child{stop-color:#fff}
+#pkgWrap.pk-light .pk-eye,#pkgWrap.pk-light .pk-no,#pkgWrap.pk-light .pk-h p,#pkgWrap.pk-light .pk-s h3,#pkgWrap.pk-light .pk-lab th,#pkgWrap.pk-light .pk-card p em{color:#1B78BF}
+#pkgWrap.pk-light .pk-c h1,#pkgWrap.pk-light .pk-sea,#pkgWrap.pk-light .pk-h h2,#pkgWrap.pk-light .pk-h em{color:#0B0E12}
+#pkgWrap.pk-light .pk-date,#pkgWrap.pk-light .pk-f,#pkgWrap.pk-light .pk-note,#pkgWrap.pk-light .pk-card p,#pkgWrap.pk-light .pk-t span,#pkgWrap.pk-light .pk-lab td small,#pkgWrap.pk-light .pk-guide span,#pkgWrap.pk-light .pk-empty p{color:#4A5563}
+#pkgWrap.pk-light .pk-h{border-bottom-color:#BFE3F8}
+#pkgWrap.pk-light .pk-hero div,#pkgWrap.pk-light .pk-tiles.big .pk-t{border-color:#A9DBF8;background:linear-gradient(165deg,#CDEBFD,#F2FAFF)}
+#pkgWrap.pk-light .pk-hero span{color:#1B78BF}
+#pkgWrap.pk-light .pk-t,#pkgWrap.pk-light .pk-card,#pkgWrap.pk-light .pk-empty{border-color:#CDE9FA;background:linear-gradient(170deg,#EEF8FF,#fff)}
+#pkgWrap.pk-light .pk-bar i{background:#E4EDF3}
+#pkgWrap.pk-light .pk-bar u{background:linear-gradient(90deg,#3FA2E6,#76C9F2,#A8DFF8)}
+#pkgWrap.pk-light .pk-lab td{border-bottom-color:#E1EDF4}
+#pkgWrap.pk-light .pk-lab td.k{color:#1B78BF}
+#pkgWrap.pk-light .pk-lab td.up{color:#167A4B}
+#pkgWrap.pk-light .pk-lab td.down{color:#A5660E}
+#pkgWrap.pk-light .pk-ch .v{fill:#0B0E12}
+#pkgWrap.pk-light .pk-ch .x{fill:#4A5563}
+#pkgWrap.pk-light .pk-ch line{stroke:#D5E3EC}
+#pkgWrap.pk-light .pk-ch path[stroke]{stroke:#3FA2E6}
+#pkgWrap.pk-light .pk-ch circle{stroke:#fff;fill:#3FA2E6}
 body.pk-open{overflow:hidden}
 @media print{
   @page{size:letter;margin:0}
   html,body.pk-open{background:#050608!important;overflow:visible!important;height:auto}
+  html.pk-lt,html.pk-lt body.pk-open{background:#fff!important}
   body.pk-open>*:not(#pkgWrap){display:none!important}
   #pkgWrap{position:static;overflow:visible;background:none}
   .pk-tool{display:none}
@@ -1152,7 +1178,7 @@ window.Lab = Lab;
   else { window.addEventListener('creed-ready', boot, {once:true}); setTimeout(boot, 8000); }
 })();
 </script>
-<script src="parent-package.js?v=1"></script>
+<script src="parent-package.js?v=2"></script>
 
 
 <script type="module">

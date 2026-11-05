@@ -125,13 +125,24 @@ window.CreedPkg=(function(){
     return S.sample?pages.join('').replace(/<section class="pk-page/g,'<section class="pk-page pk-demo'):pages.join('');
   }
   function fit(w){ const s=Math.min(1,(innerWidth-24)/816); w.querySelectorAll('.pk-page').forEach(g=>{g.style.zoom=s;}); }
-  function close(){ const w=document.getElementById('pkgWrap'); if(w) w.remove(); document.body.classList.remove('pk-open'); }
+  const MODE='creed_pkg_mode';
+  function startMode(){
+    try{ const v=localStorage.getItem(MODE); if(v==='dark'||v==='light') return v; }catch(e){}
+    return matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  }
+  function setMode(w,m,keep){
+    w.classList.toggle('pk-light',m==='light'); document.documentElement.classList.toggle('pk-lt',m==='light');
+    w.querySelectorAll('[data-pkm]').forEach(b=>{const on=b.dataset.pkm===m;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+    if(keep){ try{localStorage.setItem(MODE,m);}catch(e){} }
+  }
+  function close(){ const w=document.getElementById('pkgWrap'); if(w) w.remove(); document.body.classList.remove('pk-open'); document.documentElement.classList.remove('pk-lt'); }
   function open(player,rows){
     const html=build(player,rows); if(!html) return false;
     close();
     const w=document.createElement('div'); w.id='pkgWrap';
-    w.innerHTML=`<div class="pk-tool"><button class="btn sm" id="pkgSave">Save as PDF</button><button class="btn dark sm" id="pkgClose">Close</button><span>On iPhone, tap Save as PDF, then Share, then Save to Files.</span></div><div class="pk-doc">${html}</div>`;
+    w.innerHTML=`<div class="pk-tool"><div class="pk-mode" role="group" aria-label="Package colors"><button data-pkm="dark">Dark</button><button data-pkm="light">Light</button></div><button class="btn sm" id="pkgSave">Save as PDF</button><button class="btn dark sm" id="pkgClose">Close</button><span>Light uses less ink when printing. On iPhone, tap Save as PDF, then Share, then Save to Files.</span></div><div class="pk-doc">${html}</div>`;
     document.body.appendChild(w); document.body.classList.add('pk-open'); fit(w);
+    setMode(w,startMode()); w.querySelectorAll('[data-pkm]').forEach(b=>b.onclick=()=>setMode(w,b.dataset.pkm,true));
     document.title=`Texas Creed Player Package - ${player}`;
     w.querySelector('#pkgSave').onclick=()=>window.print();
     w.querySelector('#pkgClose').onclick=()=>{ close(); document.title='Creed Performance Lab'; };
