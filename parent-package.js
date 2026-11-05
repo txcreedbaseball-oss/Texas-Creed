@@ -48,10 +48,34 @@ window.CreedPkg=(function(){
       const list=rows.filter(r=>r.test===t), lk=protoKey(list[list.length-1]), comp=list.filter(r=>protoKey(r)===lk);
       const m0=metrics(list[list.length-1])[0]; if(!m0) return;
       const pts=monthWindows(comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null)).map(s=>({v:s.m.val,x:D(s.r.date).toLocaleDateString('en-US',{month:'short'})}));
-      if(pts.length<2) return;
+      if(!pts.length) return;
       const f=m0.sc==='s'?v=>v.toFixed(2)+'s':m0.sc==='mph'?v=>v.toFixed(1)+' mph':m0.sc==='pct'?v=>Math.round(v)+'%':m0.sc==='rubric'?v=>v+' / 5':v=>String(v);
-      out.push(cardChart(TESTS[t].name,m0.l,pts,f,m0.pol==='low'?'lower is better':m0.sc==='rubric'?'coach rating':''));
+      if(COACH_ONLY.has(t)) return;
+      out.push(pts.length<2?`<div class="pk-card pk-one"><h4>${e(TESTS[t].name)}</h4><p>${e(m0.l)}</p><b>${e(f(pts[0].v))}</b><span>First result, ${e(pts[0].x)}. The chart starts after the next test.</span></div>`:cardChart(TESTS[t].name,m0.l,pts,f,m0.pol==='low'?'lower is better':''));
     }));
+    return out;
+  }
+  /* Coach grades: 1 to 5, shown as a letter. IQ converts correct answers out of 5 to the same scale. */
+  const SCALE=[['A','5','Independent and reliable'],['B','4','Demonstrates consistently'],['C','3','Demonstrates intermittently'],['D','2','Emerging with support'],['F','1','Needs frequent guidance']];
+  const letter=v=>v>=4.5?'A':v>=3.5?'B':v>=2.5?'C':v>=1.5?'D':'F';
+  const n1=v=>(Math.round(v*10)/10).toFixed(1);
+  function gradeLine(rows,k,scale){
+    const e=rows.map(r=>{const m=metrics(r).find(x=>x.k===k);return m&&m.val!=null?{r,m:{val:m.val*scale,sc:'rubric'}}:null;}).filter(Boolean);
+    return monthWindows(e);
+  }
+  function grades(rows){
+    const out=[];
+    const add=(test,title)=>{
+      const list=rows.filter(r=>r.test===test); if(!list.length) return;
+      const skills=TESTS[test].kind==='rubric'?TESTS[test].skills.map(s=>({k:s[0],l:s[1],w:gradeLine(list,s[0],1)})).filter(s=>s.w.length):[{k:'iq',l:'Correct decisions',w:gradeLine(list,'iq',.05)}].filter(s=>s.w.length);
+      if(!skills.length) return;
+      const now=skills.map(s=>({l:s.l,v:s.w[s.w.length-1].m.val}));
+      const score=now.reduce((a,x)=>a+x.v,0)/now.length;
+      const dates=[...new Set(skills.flatMap(s=>s.w.map(x=>x.r.date)))].sort();
+      const trend=skills[0].w.map((x,i)=>{const vals=skills.map(s=>s.w[i]).filter(Boolean).map(y=>y.m.val);return {v:Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10,x:D(x.r.date).toLocaleDateString('en-US',{month:'short'})};});
+      out.push({title,score,now,trend,dates});
+    };
+    add('me','Mechanics'); add('iq','Baseball IQ'); add('co','Coachability');
     return out;
   }
   function labRows(rows){
@@ -75,13 +99,22 @@ window.CreedPkg=(function(){
     const S=window.CREED_STATS, b=p.bat, f=p.fld, t=p.pit, pitched=outs(t.IP)>0;
     const lab=labRows(rows), labPages=[]; for(let i=0;i<Math.max(1,lab.length);i+=27) labPages.push(lab.slice(i,i+27));
     const cards=growth(rows), gPages=[]; for(let i=0;i<cards.length;i+=8) gPages.push(cards.slice(i,i+8));
+    const G=grades(rows);
     const seasons=p.seasons||[], hasSeasons=seasons.length>1;
     const pitSeasons=seasons.filter(s=>s.pit&&outs(s.pit.IP)>0), hasPitSeasons=pitSeasons.length>1;
-    const total=3+(pitched?1:0)+(hasSeasons?1:0)+(hasPitSeasons?1:0)+gPages.length+labPages.length; let n=1; const pages=[];
+    const total=3+(G.length?1:0)+(pitched?1:0)+(hasSeasons?1:0)+(hasPitSeasons?1:0)+gPages.length+labPages.length; let n=1; const pages=[];
     const when=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
     pages.push(`<section class="pk-page pk-cover">${WAVE}<div class="pk-c"><img class="pk-logo" src="${LOGO}" alt="Texas Creed logo"><p class="pk-eye">Parent Player Package</p><h1>${e(name(p))}</h1><p class="pk-no">#${e(p.num)}</p>
       <div class="pk-hero"><div><b>${e(b.AVG)}</b><span>Average</span></div><div><b>${e(b.H)}</b><span>Hits</span></div><div><b>${e(b.RBI)}</b><span>RBI</span></div><div><b>${e(b.R)}</b><span>Runs</span></div></div>
       <p class="pk-sea">${e(S.season)} · Team record ${e(S.record)} · ${e(b.GP)} games played</p><p class="pk-date">Prepared ${e(when)}</p></div></section>`); n++;
+    if(G.length){
+      const hasTrend=G.some(g=>g.trend.length>1);
+      pages.push(frame(p,'Coach Grades','Where his game is right now',
+        `<div class="pk-grades">${G.map(g=>`<div class="pk-g"><span>${e(g.title)}</span><b>${letter(g.score)}</b><em>${n1(g.score)} / 5</em></div>`).join('')}</div>`+
+        G.map(g=>`<div class="pk-s"><h3>${e(g.title)}</h3><div class="pk-bars pk-rate">${g.now.map(x=>`<div class="pk-bar"><span>${e(x.l)}</span><i><u style="width:${(x.v/5*100).toFixed(1)}%"></u></i><b>${n1(x.v)}</b><strong>${letter(x.v)}</strong></div>`).join('')}</div></div>`).join('')+
+        (hasTrend?`<div class="pk-cards">${G.filter(g=>g.trend.length>1).map(g=>cardChart(g.title,'Score out of 5, by grading round',g.trend,v=>v.toFixed(1))).join('')}</div>`:`<p class="pk-note">Trend charts start after the next grading round.</p>`)+
+        `<div class="pk-s"><h3>Grading scale</h3><div class="pk-scale">${SCALE.map(s=>`<div><b>${s[0]}</b><em>${s[1]}</em><span>${e(s[2])}</span></div>`).join('')}</div><p class="pk-note">Grades reflect coach judgment, not a measurement. When coaches score within the same month, the scores are averaged. Letters round to the nearest whole score: 4.5 and up is an A, 3.5 to 4.4 a B, 2.5 to 3.4 a C, 1.5 to 2.4 a D, and below 1.5 an F. Baseball IQ converts correct answers out of 5 to this scale.</p></div>`,n,total)); n++;
+    }
     const hits=[['Singles',+b['1B'],b['1B']],['Doubles',+b['2B'],b['2B']],['Triples',+b['3B'],b['3B']],['Home runs',+b.HR,b.HR]];
     pages.push(frame(p,'At the Plate','Hitting',
       tiles(b,['AVG','OBP','SLG','OPS'],LBL,true)+
