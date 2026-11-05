@@ -47,7 +47,7 @@ window.CreedPkg=(function(){
     CATS.forEach(c=>tests.filter(t=>TESTS[t].cat===c).forEach(t=>{
       const list=rows.filter(r=>r.test===t), lk=protoKey(list[list.length-1]), comp=list.filter(r=>protoKey(r)===lk);
       const m0=metrics(list[list.length-1])[0]; if(!m0) return;
-      const pts=comp.map(r=>{const m=metrics(r).find(x=>x.k===m0.k);return m&&m.val!=null?{v:m.val,x:D(r.date).toLocaleDateString('en-US',{month:'short'})}:null;}).filter(Boolean);
+      const pts=monthWindows(comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null)).map(s=>({v:s.m.val,x:D(s.r.date).toLocaleDateString('en-US',{month:'short'})}));
       if(pts.length<2) return;
       const f=m0.sc==='s'?v=>v.toFixed(2)+'s':m0.sc==='mph'?v=>v.toFixed(1)+' mph':m0.sc==='pct'?v=>Math.round(v)+'%':m0.sc==='rubric'?v=>v+' / 5':v=>String(v);
       out.push(cardChart(TESTS[t].name,m0.l,pts,f,m0.pol==='low'?'lower is better':m0.sc==='rubric'?'coach rating':''));
@@ -60,7 +60,7 @@ window.CreedPkg=(function(){
     CATS.forEach(c=>tests.filter(t=>TESTS[t].cat===c).forEach(t=>{
       const list=rows.filter(r=>r.test===t), lk=protoKey(list[list.length-1]), comp=list.filter(r=>protoKey(r)===lk);
       metrics(list[list.length-1]).forEach(m0=>{
-        const s=comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null); if(!s.length) return;
+        const s=monthWindows(comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null)); if(!s.length) return;
         const base=s[0].m, last=s[s.length-1].m; let pr=s[0]; s.forEach(x=>{ if(better(m0,x.m.val,pr.m.val)) pr=x; });
         const ch=s.length>1?showChange(base,last):{t:'',c:''};
         const plain=v=>showVal(v).replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
@@ -120,7 +120,7 @@ window.CreedPkg=(function(){
     labPages.forEach((chunk,i)=>{
       const body=lab.length?`<table class="pk-lab"><thead><tr><th>Test</th><th>Baseline</th><th>Latest</th><th>Best</th><th>Change</th><th>Sessions</th></tr></thead><tbody>${chunk.map(r=>`<tr><td><b>${e(r.test)}</b><small>${e(r.cat)} · ${e(r.metric)}${r.rub?' · coach rating':''}</small></td><td>${e(r.base)}</td><td class="k">${e(r.last)}</td><td>${e(r.best)}</td><td class="${r.c}">${e(r.ch)}</td><td>${r.n}</td></tr>`).join('')}</tbody></table>`:
         `<div class="pk-s pk-empty"><h3>Assessments are on the way</h3><p>${e(name(p))} doesn't have Performance Lab results yet. The first test sets the baseline.</p></div>`;
-      pages.push(frame(p,'Performance Lab','Every player versus yesterday’s version of himself',body+(i===labPages.length-1?`<p class="pk-note">Results compare each session with ${e(p.first)}’s own baseline. Skipped or invalid attempts are not counted. Sessions with a different setup are left out of the comparison.</p>`+(chunk.length<=12?`<div class="pk-s"><h3>What the numbers mean</h3><div class="pk-guide">${GUIDE.map(g=>`<div><b>${e(g[0])}</b><span>${e(g[1])}</span></div>`).join('')}</div></div>`:''):''),n,total)); n++;
+      pages.push(frame(p,'Performance Lab','Every player versus yesterday’s version of himself',body+(i===labPages.length-1?`<p class="pk-note">Results compare each session with ${e(p.first)}’s own baseline. Skipped or invalid attempts are not counted. Sessions with a different setup are left out of the comparison. Multiple entries within a month are averaged into one result.</p>`+(chunk.length<=12?`<div class="pk-s"><h3>What the numbers mean</h3><div class="pk-guide">${GUIDE.map(g=>`<div><b>${e(g[0])}</b><span>${e(g[1])}</span></div>`).join('')}</div></div>`:''):''),n,total)); n++;
     });
     return S.sample?pages.join('').replace(/<section class="pk-page/g,'<section class="pk-page pk-demo'):pages.join('');
   }

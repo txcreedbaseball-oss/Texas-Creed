@@ -743,6 +743,23 @@ function showChange(base,latest){
   return {t:'',c:''};
 }
 const better=(m,a,b)=>m.pol==='low'?a<b:a>b;
+/* Entries for one test within a month of each other (several coaches, or a retest)
+   count as one data point: their average. Saved entries are never changed. */
+function monthWindows(entries){
+  const out=[]; let cur=null, end=null;
+  [...entries].sort((a,b)=>a.r.date.localeCompare(b.r.date)).forEach(e=>{
+    const d=D(e.r.date);
+    if(!cur||d>end){ cur=[]; out.push(cur); end=D(e.r.date); end.setMonth(end.getMonth()+1); }
+    cur.push(e);
+  });
+  return out.map(g=>{
+    const m={...g[g.length-1].m}, withRate=g.every(x=>x.m.den!=null);
+    if(withRate){ m.num=g.reduce((s,x)=>s+x.m.num,0); m.den=g.reduce((s,x)=>s+x.m.den,0); m.val=m.den>0?m.num/m.den*100:null; }
+    else m.val=g.reduce((s,x)=>s+x.m.val,0)/g.length;
+    if(m.sc==='rubric') m.val=Math.round(m.val*10)/10;
+    return {r:g[0].r,m,count:g.length,rows:g.map(x=>x.r)};
+  }).filter(x=>x.m.val!=null);
+}
 
 const Lab = (()=>{
   let db=null, user=null, me=null, rows=[], ready=false, started=false, tab='overview', unsub=null, canWrite=false, nextDue=null;
@@ -953,22 +970,23 @@ const Lab = (()=>{
     const dd=dueDate(); if(dd&&dd<=today0()&&D(latest.date)<dd) badges.push('<span class="badge due">Next assessment due</span>');
     let panels='';
     mList.forEach(m0=>{
-      const series=comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null);
-      const allSeries=list.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null);
+      const series=monthWindows(comp.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null));
+      const allRaw=list.map(r=>({r,m:metrics(r).find(x=>x.k===m0.k)})).filter(x=>x.m&&x.m.val!=null);
+      const allSeries=[...new Set(allRaw.map(x=>protoKey(x.r)))].flatMap(k=>monthWindows(allRaw.filter(x=>protoKey(x.r)===k))).sort((a,b)=>a.r.date.localeCompare(b.r.date));
       if(!series.length) return;
       const base=series[0].m, last=series[series.length-1].m;
       let pr=series[0]; series.forEach(s=>{ if(better(m0,s.m.val,pr.m.val)) pr=s; });
       const isNewPB=series.length>1&&pr===series[series.length-1]&&better(m0,pr.m.val,series[0].m.val);
       if(isNewPB&&m0===mList[0]) badges.push('<span class="badge pb">New personal best</span>');
       const ch=series.length>1?showChange(base,last):{t:'',c:''};
-      const raws=(T.kind==='time'||T.kind==='mph')&&m0===mList[0]?allSeries.flatMap(s=>nums(s.r.attempts||[]).map(v=>({date:s.r.date,val:v}))):[];
+      const raws=(T.kind==='time'||T.kind==='mph')&&m0===mList[0]?allRaw.flatMap(s=>nums(s.r.attempts||[]).map(v=>({date:s.r.date,val:v}))):[];
       const pts=allSeries.map(s=>({date:s.r.date,val:s.m.val,grp:protoKey(s.r),alt:protoKey(s.r)!==lk,label:`${s.r.date}: ${fmtM(s.m.val,s.m.sc)}${s.m.den!=null?` (${s.m.num}/${s.m.den})`:''}${protoKey(s.r)!==lk?' · different protocol':''}`}));
       panels+=`<div class="panel"><h3>${esc(m0.l)}</h3><p class="cap">${esc(T.cat)} · ${esc(T.name)}${m0.sc==='rubric'?' · coach rating, not a measurement':''}</p>
         <div class="sumgrid">
           <div class="smc"><div class="l">Baseline</div><div class="v">${showVal(base)}</div><div class="s">${md(D(series[0].r.date),{month:'short',day:'numeric',year:'numeric'})}</div></div>
           <div class="smc"><div class="l">Latest</div><div class="v">${showVal(last)}</div><div class="s ${ch.c}">${ch.t||md(D(series[series.length-1].r.date),{month:'short',day:'numeric',year:'numeric'})}</div></div>
           <div class="smc"><div class="l">Personal best</div><div class="v">${showVal(pr.m)}</div><div class="s">${md(D(pr.r.date))}</div></div>
-          <div class="smc"><div class="l">Sessions</div><div class="v">${series.length}</div><div class="s">${m0.sc==='pct'?'change in % points':m0.sc==='rubric'?'change in rating points':'comparable sessions'}</div></div>
+          <div class="smc"><div class="l">Sessions</div><div class="v">${series.length}</div><div class="s">${series.some(s=>s.count>1)?'entries in a month averaged':m0.sc==='pct'?'change in % points':m0.sc==='rubric'?'change in rating points':'comparable sessions'}</div></div>
         </div>
         ${chartSVG(pts,raws,null,m0.sc)}
         <div class="legend"><span><i style="background:var(--blue)"></i>${m0.l}</span>${raws.length?'<span><i style="background:rgba(245,247,250,.28)"></i>Individual valid attempts</span>':''}${excluded?'<span><i style="background:var(--amber)"></i>Different protocol</span>':''}</div>
@@ -999,7 +1017,7 @@ const Lab = (()=>{
       <div class="panel"><h3>Fly balls &amp; catching</h3><p>Consistent delivery and distance. Mark an uncatchable throw invalid — it never counts against the player.</p></div>
       <div class="panel"><h3>Baseball IQ</h3><p>Fixed five scenarios:</p><ul>${IQ_SCEN.map(s=>`<li>${s}</li>`).join('')}</ul></div>
       <div class="panel" style="grid-column:1/-1"><h3>Coach rating rubric (1–5)</h3><p>Mechanics and coachability are subjective observations, not measurements. Changes are shown in rating points only.</p><ul>${RUBRIC_ANCHORS.map((a,i)=>`<li><b>${i+1}</b> — ${a}</li>`).join('')}</ul></div>
-      <div class="panel" style="grid-column:1/-1"><h3>Calculation rules</h3><ul><li>Skipped or invalid attempts are excluded — never counted as zero.</li><li>Times: lower is better. Improvement = (baseline − latest) ÷ baseline.</li><li>MPH: peak, top-3 average (only with 3+ valid throws/swings), and overall average.</li><li>Rates show the count and the percentage; change is in percentage points.</li><li>No rankings, leaderboards, composite scores or benchmarks.</li></ul></div>
+      <div class="panel" style="grid-column:1/-1"><h3>Calculation rules</h3><ul><li>Skipped or invalid attempts are excluded — never counted as zero.</li><li>Times: lower is better. Improvement = (baseline − latest) ÷ baseline.</li><li>MPH: peak, top-3 average (only with 3+ valid throws/swings), and overall average.</li><li>Rates show the count and the percentage; change is in percentage points.</li><li>All entries for a test within one month count as one result: their average.</li><li>No rankings, leaderboards, composite scores or benchmarks.</li></ul></div>
     </div>`;
   }
 
@@ -1178,7 +1196,7 @@ window.Lab = Lab;
   else { window.addEventListener('creed-ready', boot, {once:true}); setTimeout(boot, 8000); }
 })();
 </script>
-<script src="parent-package.js?v=2"></script>
+<script src="parent-package.js?v=3"></script>
 
 
 <script type="module">
