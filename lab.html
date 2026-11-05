@@ -480,6 +480,7 @@ footer a:hover{text-decoration:underline}
   padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .labhead img{height:30px;width:auto;flex:none}
 .labhead b{font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+.labhead a.home{display:flex;align-items:center;gap:12px;min-height:44px;color:inherit;text-decoration:none}
 .labhead a.back{margin-left:auto;font-size:12.5px;color:var(--blue);text-decoration:none;white-space:nowrap}
 .labhead a.back:hover{text-decoration:underline}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(5,6,8,.95)}
@@ -504,9 +505,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <div id="app">
 <header class="labhead"><div class="labhead-in">
-  <img data-logo alt="">
-  <b>Texas Creed</b>
-  <a class="back" href="https://txcreedbaseball-oss.github.io/Texas-Creed/" target="_blank" rel="noopener">Team site ›</a>
+  <a class="home" href="index.html#/home" aria-label="Texas Creed home"><img data-logo alt=""><b>Texas Creed</b></a>
+  <a class="back" href="index.html#/home">Team site ›</a>
 </div></header>
 
 <section class="page" data-page="lab">
@@ -525,7 +525,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <footer><div class="wrap">
   <span>Texas Creed · 7U · Houston, TX</span>
-  <span><a href="https://txcreedbaseball-oss.github.io/Texas-Creed/" target="_blank" rel="noopener">Team site</a></span>
+  <span><a href="index.html#/home">Team site</a></span>
 </div></footer>
 </div>
 
