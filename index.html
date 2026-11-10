@@ -187,6 +187,10 @@ section.blk{padding:56px 0}
 .sp-ev.is-alt .sp-amt b,.sp-ev.is-tbd .sp-amt b{color:var(--ink3)}
 .sp-note{font-size:12.5px;color:var(--ink3);margin-top:6px;line-height:1.45}
 .sp-sum{margin-top:22px}
+.sp-pt td small,.sp-pt th small{display:block;font-size:11.5px;font-weight:500;color:var(--ink3);margin-top:3px;text-transform:none;letter-spacing:0}
+.sp-pt td:not(:first-child){white-space:nowrap}
+.sp-pt .sm{display:none}
+@media (max-width:640px){table.dt.sp-pt{font-size:13px}table.dt.sp-pt th,table.dt.sp-pt td{padding:11px 7px}table.dt.sp-pt th:first-child,table.dt.sp-pt td:first-child{padding-left:14px}table.dt.sp-pt th:last-child,table.dt.sp-pt td:last-child{padding-right:14px}.sp-pt th small{display:none}.sp-pt .lg{display:none}.sp-pt .sm{display:inline}}
 .sp-empty{padding:26px 20px;text-align:center;color:var(--ink3);font-size:14px}
 .sp-how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .sp-how div{background:var(--card);border:1px solid var(--edge);border-radius:16px;padding:16px 18px;font-size:13.5px;color:var(--ink2);line-height:1.5}
@@ -776,11 +780,11 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
   </div></section>
 
   <section class="blk"><div class="wrap">
-    <div class="blk-h" style="text-align:center"><div class="eyebrow">By the numbers</div><h2 class="h-l">Two tournaments left to fund.</h2></div>
+    <div class="blk-h" style="text-align:center"><div class="eyebrow">By the numbers</div><h2 class="h-l">Fall is paid. Spring is next.</h2></div>
     <div class="nums">
       <div class="num"><b>$361</b><span>Team balance on hand</span></div>
-      <div class="num"><b>$1,075</b><span>Left to pay for 2 tournaments</span></div>
-      <div class="num neg"><b>-$714</b><span>Shortfall after commitments</span></div>
+      <div class="num"><b>$0</b><span>Left to pay this fall</span></div>
+      <div class="num"><b data-whole id="homeSpring">$0</b><span>Still to fund for spring</span></div>
     </div>
     <p class="samplebar">Venmo through Nov 4 · <a href="#/banking" style="color:var(--blue);text-decoration:none">Full breakdown ›</a></p>
   </div></section>
@@ -820,7 +824,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 <section class="page" data-page="banking">
   <div class="lnav"><div class="lnav-in"><h2>Banking</h2><div class="sub" data-scroller id="fallNav">
     <button data-to="bk-overview" class="on">Overview</button><button data-to="bk-rollup">Rollup</button><button data-to="bk-exp">Expenses</button><button data-to="bk-plan">Tournaments</button><button data-to="bk-cat">Categories</button><button data-to="bk-txn">Transactions</button>
-  </div><div class="sub" data-scroller id="spNav" hidden><button data-to="sp-overview" class="on">Overview</button><button data-to="sp-plan">Tournaments</button><button data-to="sp-fees">Card fees</button><button data-to="sp-ledger">Ledger</button></div></div></div>
+  </div><div class="sub" data-scroller id="spNav" hidden><button data-to="sp-overview" class="on">Overview</button><button data-to="sp-plan">Tournaments</button><button data-to="sp-practice">Practice</button><button data-to="sp-fees">Card fees</button><button data-to="sp-ledger">Ledger</button></div></div></div>
   <div class="season" role="tablist" aria-label="Season"><div class="season-in"><button role="tab" data-season="fall">Fall 2026</button><button role="tab" data-season="spring">Spring 2027</button></div></div>
   <div id="bk-fall">
   <div class="hero" id="bk-overview">
@@ -832,8 +836,8 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
     <div class="board">
       <div class="cell"><div class="cell-label">Team Balance</div><div class="cell-num">$361.12</div><div class="sub">Venmo, thru Nov 4</div></div>
       <div class="cell pending"><div class="cell-label">Owed To Team</div><div class="cell-num">$0.00</div><div class="sub">Jersey money all collected</div></div>
-      <div class="cell spent"><div class="cell-label">Tournaments Left</div><div class="cell-num">$1,075.00</div><div class="sub">Two unpaid PG events</div></div>
-      <div class="cell after"><div class="cell-label">Shortfall After</div><div class="cell-num">-$713.88</div><div class="sub">Balance less commitments</div></div>
+      <div class="cell spent"><div class="cell-label">Tournaments Left</div><div class="cell-num">$0.00</div><div class="sub">December events cancelled</div></div>
+      <div class="cell after"><div class="cell-label">Rolls To Spring</div><div class="cell-num">$361.12</div><div class="sub">Carried into the spring budget</div></div>
     </div>
 
     <section class="blk" id="bk-rollup">
@@ -848,23 +852,23 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
           <tr class="paid-out"><td>Latin American Tournament<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$2,706.00</td><td>Nov 19–22. Paid by Venmo Sep 3–6 in three payments</td></tr>
           <tr class="paid-out"><td>PG Hurricane Harvey Memorial Super Regional NIT<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$695.00</td><td>Oct 3–4. Paid by Venmo Oct 13</td></tr>
           <tr class="paid-out"><td>Parent jersey order paid to vendor<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$990.00</td><td>66 jerseys × $15 — Venmo Oct 13; $945 collected back from parents</td></tr>
-          <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$1,060.00</td><td>Feb 28–Mar 1, 2027. Prepaid by Venmo Oct 17</td></tr>
+          <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$1,060.00</td><td>Mar 6–8, 2027. Prepaid by Venmo Oct 17</td></tr>
           <tr class="paid-out"><td>PG SETBA Fall Borderline Bash — Beaumont<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$388.13</td><td>Nov 7–8 at Ford Park. Paid by Venmo Nov 2 ($375.00 entry plus $13.13 tech fee); replaced the $625 Gulf Coast Select event</td></tr>
-          <tr class="paid-out"><td>PG SETBA Fall Super NIT<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$465.75</td><td>Nov 14–15. Paid by Venmo Nov 4 ($450.00 entry plus $15.75 tech fee)</td></tr>
+          <tr class="paid-out"><td>PG SETBA Fall Super NIT<span class="paid-badge">Credited</span></td><td class="num amt-neg">-$465.75</td><td>Nov 14–15, cancelled. Paid by Venmo Nov 4 ($450.00 entry plus $15.75 tech fee); the $450.00 entry is credited to the 2027 PG Beaumont Super Regional NIT</td></tr>
           <tr class="paid-out"><td>New baseballs + practice facility<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$556.00</td><td>5 dozen balls ($391) and MadeInTheCage 11/3 ($165) — Venmo Nov 3</td></tr>
-          <tr><td>Remaining tournament commitments</td><td class="num amt-neg">-$1,075.00</td><td>PG December Freeze ($450) and PG Holiday Bash ($625), both in December</td></tr>
-          <tr class="total"><td>TOTAL FUNDRAISING GOAL</td><td class="num">$1,075.00</td><td>Remaining unpaid tournament costs only</td></tr>
+          <tr><td>Remaining tournament commitments</td><td class="num">$0.00</td><td>PG December Freeze ($450) and PG Holiday Bash ($625) were cancelled</td></tr>
+          <tr class="total"><td>TOTAL FUNDRAISING GOAL</td><td class="num">$0.00</td><td>Fall is fully paid</td></tr>
         </tbody>
       </table></div>
       <div class="table-wrap" style="margin-top:14px"><table class="dt">
         <thead><tr><th>Reconciliation</th><th class="num">Amount</th></tr></thead>
         <tbody>
-          <tr><td>Remaining tournament commitments (unpaid)</td><td class="num">$1,075.00</td></tr>
-          <tr><td>Equivalent goal per 13-player roster</td><td class="num">$82.69</td></tr>
+          <tr><td>Remaining tournament commitments (unpaid)</td><td class="num">$0.00</td></tr>
+          <tr><td>Equivalent goal per 13-player roster</td><td class="num">$0.00</td></tr>
           <tr><td>Team balance on hand today</td><td class="num amt-pos">$361.12</td></tr>
           <tr class="paid-out"><td>Raffle prizes<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$1,090.00</td></tr>
           <tr class="paid-out"><td>Custom team bags<span class="paid-badge">Paid</span></td><td class="num amt-neg">-$845.00</td></tr>
-          <tr class="total"><td>PROJECTED REMAINING BALANCE</td><td class="num amt-neg">-$713.88</td></tr>
+          <tr class="total"><td>ROLLS OVER TO SPRING 2027</td><td class="num amt-pos">$361.12</td></tr>
           <tr><td>Jersey money still owed to the team</td><td class="num">$0.00</td></tr>
         </tbody>
       </table></div>
@@ -895,11 +899,11 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
         <div class="note-box"><b>PG Southwest Regional Championships paid (Sep 12–13):</b> $625.00. The $625 set aside for the Aug 29–30 Back to School Bash was applied to this payment, so no new money left the account. The Back to School Bash was removed from the plan.</div>
         <div class="note-box"><b>PG Hurricane Harvey Memorial Super Regional NIT paid (Oct 3–4):</b> $695.00 by Venmo on Oct 13.</div>
         <div class="note-box"><b>PG SETBA Fall Borderline Bash — Beaumont paid (Nov 7–8):</b> $388.13 by Venmo on Nov 2: the $375.00 entry plus the 3.5% tech fee of $13.13. It replaced the $625 Gulf Coast Select event, a $236.87 saving.</div>
-        <div class="note-box"><b>PG SETBA Fall Super NIT paid (Nov 14–15):</b> $465.75 by Venmo on Nov 4: the $450.00 entry plus the 3.5% tech fee of $15.75.</div>
+        <div class="note-box"><b>PG SETBA Fall Super NIT cancelled (Nov 14–15):</b> $465.75 was paid by Venmo on Nov 4: the $450.00 entry plus the 3.5% tech fee of $15.75. The $450.00 entry is credited to the 2027 PG Beaumont Super Regional NIT (Apr 17–18). The tech fee isn't counted as credit.</div>
         <div class="note-box"><b>Latin American Tournament paid (Nov 19–22):</b> $2,706.00 by Venmo in three payments: $2,250 (Sep 3, pay-back of fronted savings), $228 (Sep 3, Donnie) and $228 (Sep 6, Bean). This is the actual cost, not the original $2,964 estimate.</div>
-        <div class="note-box"><b>Houston 1000 NIT paid (Feb 28–Mar 1, 2027):</b> $1,060.00 by Venmo on Oct 17.</div>
-        <div class="note-box"><b>Still to pay in December:</b> PG December Freeze ($450.00, Dec 5–6) and PG Holiday Bash @ Baseball USA ($625.00, Dec 12–13), $1,075.00 in total.</div>
-        <div class="note-box"><b>Fee note:</b> The Perfect Game cart adds a 3.5% credit/debit tech fee. Paying both December events by card would add $37.63 ($15.75 + $21.88). A bank-account payment avoids it where eligible.</div>
+        <div class="note-box"><b>Houston 1000 NIT paid (Mar 6–8, 2027):</b> $1,060.00 by Venmo on Oct 17.</div>
+        <div class="note-box"><b>December events cancelled:</b> PG December Freeze (Dec 5–6, $450.00) and PG Holiday Bash @ Baseball USA (Dec 12–13, $625.00) were never paid, so nothing is owed. The $361.12 fall balance rolls over to the spring budget.</div>
+        <div class="note-box"><b>Fee note:</b> The Perfect Game cart adds a 3.5% credit/debit tech fee. Spring estimates on the Spring 2027 tab include it.</div>
       </details>
     </section>
 
@@ -941,6 +945,13 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
         <div class="panel" id="spPlan"></div>
         <div class="table-wrap sp-sum"><table class="dt"><tbody id="spSum"></tbody></table></div>
         <details class="more"><summary>Alternates &amp; items to confirm ›</summary><div id="spNotes"></div></details>
+      </section>
+
+      <section class="blk" id="sp-practice">
+        <div class="blk-h"><h2 class="h-m">Practice &amp; facilities</h2><p>February through May. Three practices a week: two outdoor at NASA fields and one indoor at Made In The Cage.</p></div>
+        <div class="table-wrap"><table class="dt sp-pt">
+          <thead id="spPracHead"></thead><tbody id="spPrac"></tbody>
+        </table></div>
       </section>
 
       <section class="blk" id="sp-fees">
@@ -1371,18 +1382,16 @@ const expLedger = [
   [22,"PG SETBA Fall Borderline Bash — Beaumont (incl. $13.13 tech fee)",-388.13,"PAID — Venmo 11/2",true],
   [23,"New baseballs — 5 dozen",-391.00,"PAID — Venmo 11/3",true],
   [24,"MadeInTheCage full facility — practice 11/3",-165.00,"PAID — Venmo 11/3",true],
-  [25,"PG SETBA Fall Super NIT (incl. $15.75 tech fee)",-465.75,"PAID — Venmo 11/4",true],
+  [25,"PG SETBA Fall Super NIT (incl. $15.75 tech fee) — cancelled, $450 credited to 2027 Beaumont NIT",-465.75,"PAID — Venmo 11/4",true],
 ];
 
 const tournaments = [
   {start:"2026-09-12",end:"2026-09-13",name:"PG Southwest Regional Championships",cost:625,paid:true},
   {start:"2026-10-03",end:"2026-10-04",name:"PG Hurricane Harvey Memorial Super Regional NIT",cost:695,paid:true},
   {start:"2026-11-07",end:"2026-11-08",name:"PG SETBA Fall Borderline Bash — Beaumont",cost:388.13,paid:true},
-  {start:"2026-11-14",end:"2026-11-15",name:"PG SETBA Fall Super NIT",cost:465.75,paid:true},
+  {start:"2026-11-14",end:"2026-11-15",name:"PG SETBA Fall Super NIT — cancelled, $450 credited to Beaumont NIT 2027",cost:465.75,paid:true},
   {start:"2026-11-19",end:"2026-11-22",name:"Latin American Tournament",cost:2706,paid:true},
-  {start:"2026-12-05",end:"2026-12-06",name:"PG December Freeze",cost:450,paid:false},
-  {start:"2026-12-12",end:"2026-12-13",name:"PG Holiday Bash @ Baseball USA",cost:625,paid:false},
-  {start:"2027-02-28",end:"2027-03-01",name:"Houston 1000 NIT",cost:1060,paid:true},
+  {start:"2027-03-06",end:"2027-03-08",name:"Houston 1000 NIT",cost:1060,paid:true},
 ];
 
 /* ================= SPRING 2027 BUDGET =================
@@ -1392,10 +1401,10 @@ const tournaments = [
 const SPRING_FEE = 0.035, SPRING_PLAYERS = 13;
 const springEvents = [
   {start:"2027-02-27",end:"2027-02-28",name:"PG #Houston1000 Warm Up",div:"7U AA",where:"Houston",entry:625,status:"planned"},
-  {start:"2027-02-28",end:"2027-03-01",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring.",check:"Prepaid from fall funds on Oct 17. The Feb 28–Mar 1 date on file overlaps the Warm Up (Feb 27–28); other Houston 1000 age groups play Mar 6–7. Confirm the 7U dates."},
+  {start:"2027-03-06",end:"2027-03-08",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring."},
   {start:"2027-03-20",end:"2027-03-21",name:"PG Spring Showdown @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-04-09",end:"2027-04-11",name:"2D Sports Louisiana Super Select NIT",div:"7U",where:"Louisiana",entry:500,status:"planned",nit:true,noFee:true,note:"$500 total, no card fee added. A 2D Sports event, not a Perfect Game cart payment."},
-  {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,status:"planned",nit:true},
+  {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,credit:450,status:"planned",nit:true,note:"$450 credit from the cancelled Nov 14–15 PG SETBA Fall Super NIT. Only $25 plus the card fee is left to pay."},
   {start:"2027-04-17",end:"2027-04-18",name:"PG Belt Wars @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"alt",note:"Same weekend as the Beaumont NIT. NITs take priority, so this is the backup."},
   {start:"2027-05-01",end:"2027-05-02",name:"PG BCS State Championships",div:"7U AAA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-05-22",end:"2027-05-23",name:"PG H-Town Club Championships",div:"7U AA",where:"Houston",entry:625,status:"planned"},
@@ -1404,7 +1413,14 @@ const springEvents = [
   {start:"2027-06-24",end:"2027-06-27",name:"PG Astros Fest Regional World Series",div:"7U Open",where:"Houston",entry:1095,status:"planned"},
   {start:"2027-07-07",end:"2027-07-10",name:"PG Gulf Coast AA World Series — Week 7",div:"7U AA",where:"Orange Beach, AL",entry:1145,status:"planned",note:"Orange Beach Sportsplex. Card fee included in case it's paid by card."},
 ];
+/* Practice & facilities: amount per month (Feb–May 2027).
+   NASA fields: $110 per practice, Tuesdays and Thursdays. Made In The Cage: $565 monthly rent, 1 practice a week. */
+const springPractice = [
+  {name:"NASA fields", detail:"2 a week · $110 each", months:{"2027-02":880,"2027-03":990,"2027-04":990,"2027-05":880}, count:{"2027-02":8,"2027-03":9,"2027-04":9,"2027-05":8}},
+  {name:"Made In The Cage", detail:"Indoor, 1 a week · $565/mo", months:{"2027-02":565,"2027-03":565,"2027-04":565,"2027-05":565}},
+];
 const springLedger = [
+  {d:"2026-12-31", n:"Fall 2026 balance rolled over (Venmo, as of Nov 4)", a:361.12},
   /* {d:"2027-01-15", n:"Spring buy-in — 13 players", a:3250}, */
 ];
 
@@ -1460,11 +1476,8 @@ const events = [
   {name:"Practice @ Pecan", start:"2026-10-27", time:"6:00 PM", type:"practice"},
   {name:"Practice @ Pecan", start:"2026-10-29", time:"6:00 PM", type:"practice"},
   {name:"PG SETBA Fall Borderline Bash — Beaumont", start:"2026-11-07", end:"2026-11-08", type:"game"},
-  {name:"PG SETBA Fall Super NIT", start:"2026-11-14", end:"2026-11-15", type:"game"},
   {name:"Latin American Tournament", start:"2026-11-19", end:"2026-11-22", type:"game"},
-  {name:"PG December Freeze", start:"2026-12-05", end:"2026-12-06", type:"game"},
-  {name:"PG Holiday Bash @ Baseball USA", start:"2026-12-12", end:"2026-12-13", type:"game"},
-  {name:"Houston 1000 NIT", start:"2027-02-28", end:"2027-03-01", type:"game"},
+  {name:"Houston 1000 NIT", start:"2027-03-06", end:"2027-03-08", type:"game"},
 ];
 
 const SMP = "https://smpcustomapparel.com/shop/ols/products/";
@@ -1601,26 +1614,33 @@ function renderHome(){
 
 /* ================= SPRING BUDGET ================= */
 const r2 = n => Math.round(n*100)/100;
-function spFee(e){ return e.status==='planned'&&!e.noFee ? r2(e.entry*SPRING_FEE) : 0; }
-function spTotal(e){ return e.status==='paid' ? (e.paidAmt||e.entry) : e.status==='planned' ? r2(e.entry+spFee(e)) : 0; }
+function spDue(e){ return Math.max(0,r2(e.entry-(e.credit||0))); }
+function spFee(e){ return e.status==='planned'&&!e.noFee ? r2(spDue(e)*SPRING_FEE) : 0; }
+function spTotal(e){ return e.status==='paid' ? (e.paidAmt||e.entry) : e.status==='planned' ? r2(spDue(e)+spFee(e)) : 0; }
 function renderSpring(){
   const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const counted=springEvents.filter(e=>e.status==='paid'||e.status==='planned');
-  const budget=r2(counted.reduce((s,e)=>s+spTotal(e),0));
-  const paid=r2(counted.filter(e=>e.status==='paid').reduce((s,e)=>s+spTotal(e),0));
+  const credits=r2(counted.reduce((s,e)=>s+(e.status==='planned'?(e.credit||0):0),0));
+  const budget=r2(counted.reduce((s,e)=>s+spTotal(e),0)+credits);
+  const paidOnly=r2(counted.filter(e=>e.status==='paid').reduce((s,e)=>s+spTotal(e),0));
+  const paid=r2(paidOnly+credits);
   const due=r2(counted.filter(e=>e.status==='planned').reduce((s,e)=>s+spTotal(e),0));
   const fees=r2(counted.reduce((s,e)=>s+spFee(e),0));
-  const entries=r2(counted.filter(e=>e.status==='planned').reduce((s,e)=>s+e.entry,0));
+  const entries=r2(counted.filter(e=>e.status==='planned').reduce((s,e)=>s+spDue(e),0));
   const inSpring=r2(springLedger.filter(t=>t.a>0).reduce((s,t)=>s+t.a,0));
   const outSpring=r2(springLedger.filter(t=>t.a<0).reduce((s,t)=>s+t.a,0));
-  const toRaise=Math.max(0,r2(due-inSpring));
+  const pMonths=["2027-02","2027-03","2027-04","2027-05"];
+  const prac=r2(springPractice.reduce((s,x)=>s+pMonths.reduce((t,m)=>t+(x.months[m]||0),0),0));
+  const needed=r2(due+prac);
+  const toRaise=Math.max(0,r2(needed-inSpring));
   const per=r2(toRaise/SPRING_PLAYERS);
+  const hs=$('#homeSpring'); if(hs) hs.textContent='$'+Math.round(toRaise).toLocaleString('en-US');
   const next=springEvents.filter(e=>e.status==='planned').sort((a,b)=>a.start.localeCompare(b.start))[0];
 
   $('#spBoard').innerHTML=`
-    <div class="cell"><div class="cell-label">Spring Budget</div><div class="cell-num">${fmt(budget)}</div><div class="sub">${counted.length} tournaments, fees included</div></div>
-    <div class="cell"><div class="cell-label">Already Paid</div><div class="cell-num" style="color:var(--green)">${fmt(paid)}</div><div class="sub">Houston 1000 NIT, from fall</div></div>
-    <div class="cell spent"><div class="cell-label">Still To Fund</div><div class="cell-num">${fmt(toRaise)}</div><div class="sub">${inSpring?fmt(inSpring)+' raised so far':'Nothing raised for spring yet'}</div></div>
+    <div class="cell"><div class="cell-label">Spring Budget</div><div class="cell-num">${fmt(r2(budget+prac))}</div><div class="sub">${counted.length} tournaments + practices</div></div>
+    <div class="cell"><div class="cell-label">Paid Or Credited</div><div class="cell-num" style="color:var(--green)">${fmt(paid)}</div><div class="sub">${credits?'Houston 1000 + Beaumont credit':'Houston 1000 NIT, from fall'}</div></div>
+    <div class="cell spent"><div class="cell-label">Still To Fund</div><div class="cell-num">${fmt(toRaise)}</div><div class="sub">${inSpring?fmt(inSpring)+' already in hand':'Nothing raised for spring yet'}</div></div>
     <div class="cell after"><div class="cell-label">Per Player</div><div class="cell-num">${fmt(per)}</div><div class="sub">Split across ${SPRING_PLAYERS} players</div></div>`;
 
   const groups={};
@@ -1630,7 +1650,7 @@ function renderSpring(){
   const row=e=>{
     const st={paid:tag('paid','Paid'),planned:tag('plan','Planned'),alt:tag('alt','Alternate'),tbd:tag('tbd','Date TBD')}[e.status];
     const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>Paid Oct 17</small>`
-      :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${e.noFee?'Flat total, no card fee':fmt(e.entry)+' + '+fmt(spFee(e))+' fee'}</small>`
+      :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${e.credit?fmt(e.entry)+' − '+fmt(e.credit)+' credit + '+fmt(spFee(e))+' fee':e.noFee?'Flat total, no card fee':fmt(e.entry)+' + '+fmt(spFee(e))+' fee'}</small>`
       :e.entry?`<b>${fmt(e.entry)}</b><small>Not counted</small>`:`<b>TBD</b><small>Price pending</small>`;
     const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`${e.when?esc(e.when):'TBD'}<small>Date pending</small>`;
     return `<div class="sp-ev is-${e.status}"><div class="sp-d">${d}</div><div><div class="sp-n">${esc(e.name)}</div><div class="sp-tags">${st}${e.nit?tag('nit','NIT'):''}${tag('',esc(e.div))}${tag('',esc(e.where))}${e.check?tag('chk','Confirm date'):''}</div>${e.note||e.check?`<div class="sp-note">${esc(e.check||e.note)}</div>`:''}</div><div class="sp-amt">${amt}</div></div>`;
@@ -1644,9 +1664,12 @@ function renderSpring(){
   $('#spSum').innerHTML=`
     <tr><td>Entry fees still to pay</td><td class="num">${fmt(entries)}</td></tr>
     <tr><td>Estimated card fees (3.5%)</td><td class="num">${fmt(fees)}</td></tr>
-    <tr class="highlight"><td><b>Due for spring</b></td><td class="num"><b>${fmt(due)}</b></td></tr>
-    <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num">${fmt(paid)}</td></tr>
-    <tr><td>Spring money raised</td><td class="num amt-pos">${fmt(inSpring)}</td></tr>
+    <tr><td>Tournaments due</td><td class="num">${fmt(due)}</td></tr>
+    <tr><td>Practice fields &amp; indoor facility</td><td class="num">${fmt(prac)}</td></tr>
+    <tr class="highlight"><td><b>Due for spring</b></td><td class="num"><b>${fmt(needed)}</b></td></tr>
+    <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num">${fmt(paidOnly)}</td></tr>
+    ${credits?`<tr class="paid-out"><td>Beaumont NIT credit<span class="paid-badge">Credit</span></td><td class="num">${fmt(credits)}</td></tr>`:''}
+    <tr><td>Spring money in hand (incl. fall rollover)</td><td class="num amt-pos">${fmt(inSpring)}</td></tr>
     <tr class="total"><td>STILL TO FUND</td><td class="num">${fmt(toRaise)}</td></tr>
     <tr><td>Per player (${SPRING_PLAYERS})</td><td class="num">${fmt(per)}</td></tr>`;
 
@@ -1654,6 +1677,10 @@ function renderSpring(){
   $('#spNotes').innerHTML=notes.map(e=>`<div class="note-box"><b>${esc(e.name)}${e.start?' ('+evRange(e)+')':''}:</b> ${esc(e.check||e.note)}</div>`).join('')+
     `<div class="note-box"><b>Next payment:</b> ${next?esc(next.name)+', '+evRange(next)+' — '+fmt(spTotal(next))+' by card':'All spring events are paid.'}</div>`;
 
+  const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  $('#spPracHead').innerHTML=`<tr><th>Month</th>${springPractice.map(x=>`<th class="num">${esc(x.name)}<small>${esc(x.detail)}</small></th>`).join('')}<th class="num">Total</th></tr>`;
+  $('#spPrac').innerHTML=pMonths.map(m=>{const t=springPractice.reduce((s,x)=>s+(x.months[m]||0),0);return `<tr><td><span class="lg">${MN[+m.slice(5)-1]}</span><span class="sm">${MN[+m.slice(5)-1].slice(0,3)}</span></td>${springPractice.map(x=>`<td class="num">${fmt(x.months[m]||0)}${x.count&&x.count[m]?`<small>${x.count[m]} practices</small>`:''}</td>`).join('')}<td class="num"><b>${fmt(t)}</b></td></tr>`;}).join('')
+    +`<tr class="total"><td>TOTAL</td>${springPractice.map(x=>`<td class="num">${fmt(pMonths.reduce((s,m)=>s+(x.months[m]||0),0))}</td>`).join('')}<td class="num">${fmt(prac)}</td></tr>`;
   $('#spLedger').innerHTML=springLedger.length
     ? [...springLedger].sort((a,b)=>a.d.localeCompare(b.d)).map(t=>`<tr><td>${fmtDate(t.d)}</td><td>${esc(t.n)}</td><td class="num ${t.a<0?'amt-neg':'amt-pos'}">${fmt(t.a)}</td></tr>`).join('')
       +`<tr class="total"><td></td><td>SPRING BALANCE</td><td class="num">${fmt(r2(inSpring+outSpring))}</td></tr>`
