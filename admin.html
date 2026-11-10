@@ -112,7 +112,8 @@ async function loadTeams() {
   const box = $('#teams'); box.innerHTML = '';
   for (const team of ['7u', '9u']) {
     let snap = null; try { snap = await getDoc(doc(fs, 'teamSites', team)); } catch (e) {}
-    const d = snap && snap.exists() ? snap.data() : null;
+    const raw = snap && snap.exists() ? snap.data() : null;
+    let d = raw; try { if (raw && raw.json) d = { ...JSON.parse(raw.json), updated: raw.updated, updatedBy: raw.updatedBy }; } catch (e) {}
     const row = document.createElement('div'); row.className = 'team row';
     row.innerHTML = `<div><b>${team.toUpperCase()}</b> <span class="pill ${d ? 'ok' : 'none'}">${d ? 'Live' : 'Not published'}</span><br><small>${d ? 'Updated ' + esc(d.updated || '—') + (d.updatedBy ? ' by ' + esc(d.updatedBy) : '') : 'Parents on this team will see a “not published yet” message.'}</small></div>`;
     if (d) { const b = document.createElement('button'); b.className = 'btn ghost'; b.textContent = 'Download backup'; b.onclick = () => download(team, d); row.appendChild(b); }
@@ -137,13 +138,16 @@ $('#pub').onclick = async () => {
   if (!pending) return;
   $('#pub').disabled = true; msg($('#pMsg'), 'Publishing…');
   try {
-    const out = { ...pending, updated: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }), updatedBy: (auth.currentUser.email || '').split('@')[0] };
+    const updated = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+    const updatedBy = (auth.currentUser.email || '').split('@')[0];
+    /* Stored as one JSON string: Firestore can't hold lists inside lists, which the ledger uses. */
+    const out = { v: 2, team: pending.team, updated, updatedBy, json: JSON.stringify({ ...pending, updated, updatedBy }) };
     await setDoc(doc(fs, 'teamSites', pending.team), out);
     msg($('#pMsg'), `${pending.team.toUpperCase()} is live. Parents see it the next time they open the site.`, 'ok');
     pending = null; $('#file').value = ''; $('#prev').hidden = true; loadTeams();
   } catch (err) {
     console.error(err); $('#pub').disabled = false;
-    msg($('#pMsg'), err && err.code === 'permission-denied' ? 'Firebase refused the write. Check that the new Firestore rules are published.' : 'Publish failed. Check your connection and try again.', 'err');
+    msg($('#pMsg'), err && err.code === 'permission-denied' ? 'Firebase refused the write. Check that the new Firestore rules are published.' : 'Publish failed (' + ((err && (err.code || err.message)) || 'unknown') + '). Send this message to Claude.', 'err');
   }
 };
 
