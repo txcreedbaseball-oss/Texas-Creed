@@ -190,6 +190,8 @@ section.blk{padding:56px 0}
 .sp-pt td small,.sp-pt th small{display:block;font-size:11.5px;font-weight:500;color:var(--ink3);margin-top:3px;text-transform:none;letter-spacing:0}
 .sp-pt td:not(:first-child){white-space:nowrap}
 .sp-pt .sm{display:none}
+.sp-payboard{margin-top:4px}
+@media (max-width:640px){.sp-pay th:nth-child(3),.sp-pay td:nth-child(3){display:none}}
 @media (max-width:640px){table.dt.sp-pt{font-size:13px}table.dt.sp-pt th,table.dt.sp-pt td{padding:11px 7px}table.dt.sp-pt th:first-child,table.dt.sp-pt td:first-child{padding-left:14px}table.dt.sp-pt th:last-child,table.dt.sp-pt td:last-child{padding-right:14px}.sp-pt th small{display:none}.sp-pt .lg{display:none}.sp-pt .sm{display:inline}}
 .sp-empty{padding:26px 20px;text-align:center;color:var(--ink3);font-size:14px}
 .sp-how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
@@ -813,7 +815,7 @@ document.querySelectorAll('img[data-logo]').forEach(i=>i.src=LOGO);
 /* ================= DATA =================
    Team data is private. It loads from Firebase after sign-in (teamSites/{team}). */
 let txns=[], expLedger=[], tournaments=[], SPRING_FEE=0.035, SPRING_PLAYERS=13,
-    springEvents=[], springPractice=[], springLedger=[], events=[], TEAM={label:'7U',balanceNote:''};
+    springEvents=[], springPractice=[], springLedger=[], springPayMonths=[], events=[], TEAM={label:'7U',balanceNote:''};
 
 const SMP = "https://smpcustomapparel.com/shop/ols/products/";
 // SMP Custom Apparel catalog (checked Oct 29, 2026). Photos load from SMP's image server.
@@ -967,7 +969,25 @@ function renderSpring(){
   const prac=r2(springPractice.reduce((s,x)=>s+pMonths.reduce((t,m)=>t+(x.months[m]||0),0),0));
   const needed=r2(due+prac);
   const toRaise=Math.max(0,r2(needed-inSpring));
-  const per=r2(toRaise/SPRING_PLAYERS);
+  const per=Math.ceil(r2(toRaise/SPRING_PLAYERS*100))/100; /* round up so the split never comes up short */
+  if($('#spPay')&&springPayMonths.length){
+    const n=springPayMonths.length, perMo=Math.floor(per/n*100)/100, lastMo=r2(per-perMo*(n-1));
+    const dueBy={};
+    springEvents.filter(e=>e.status==='planned'&&e.start).forEach(e=>{const m=e.start.slice(0,7);dueBy[m]=r2((dueBy[m]||0)+spTotal(e));});
+    springPractice.forEach(x=>Object.entries(x.months).forEach(([m,v])=>{dueBy[m]=r2((dueBy[m]||0)+v);}));
+    let bal=inSpring, low=null; const MN2=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const rows=springPayMonths.map((m,i)=>{const pp=i===n-1?lastMo:perMo, team=r2(pp*SPRING_PLAYERS), due=dueBy[m]||0; bal=r2(bal+team-due); if(bal<0&&(!low||bal<low.bal)) low={m,bal};
+      return `<tr><td><span class="lg">${MN2[+m.slice(5)-1]}</span><span class="sm">${MN2[+m.slice(5)-1].slice(0,3)}</span></td><td class="num"><b>${fmt(pp)}</b></td><td class="num">${fmt(team)}</td><td class="num">${due?fmt(due):'—'}</td><td class="num ${bal<0?'amt-neg':''}">${fmt(bal)}</td></tr>`;});
+    const tot=r2(perMo*(n-1)+lastMo);
+    $('#spPay').innerHTML=rows.join('')+`<tr class="total"><td>TOTAL</td><td class="num">${fmt(tot)}</td><td class="num">${fmt(r2(tot*SPRING_PLAYERS))}</td><td class="num">${fmt(r2(Object.entries(dueBy).filter(([m])=>springPayMonths.includes(m)).reduce((s,[,v])=>s+v,0)))}</td><td class="num">${fmt(bal)}</td></tr>`;
+    const f=MN2[+springPayMonths[0].slice(5)-1], l=MN2[+springPayMonths[n-1].slice(5)-1];
+    $('#spPayLede').textContent=`What each family pays, ${f} through ${l}, to cover the ${fmt(toRaise)} still to fund.`;
+    $('#spPayBoard').innerHTML=`<div class="cell after"><div class="cell-label">Per Player, Monthly</div><div class="cell-num">${fmt(perMo)}</div><div class="sub">${n} payments, ${f}–${l}</div></div>
+      <div class="cell"><div class="cell-label">Per Player, Total</div><div class="cell-num">${fmt(per)}</div><div class="sub">Split across ${SPRING_PLAYERS} players</div></div>
+      <div class="cell"><div class="cell-label">Team, Monthly</div><div class="cell-num">${fmt(r2(perMo*SPRING_PLAYERS))}</div><div class="sub">All ${SPRING_PLAYERS} families paid</div></div>
+      <div class="cell ${low?'spent':''}"><div class="cell-label">${low?'Tightest Month':'Cash Flow'}</div><div class="cell-num">${low?fmt(low.bal):'Covered'}</div><div class="sub">${low?MN2[+low.m.slice(5)-1]+', if bills are paid that month':'Every bill is covered on time'}</div></div>`;
+    $('#spPayNote').innerHTML=`<div class="note-box"><b>How it works:</b> equal payments each month${lastMo!==perMo?` (the last one is ${fmt(lastMo)} to land on the exact total)`:''}. "Bills due" counts each tournament in the month it's played and practice costs in the month they're used.${low?` The total covers every bill, but the biggest tournaments land late, so bills outrun payments and the balance dips to ${fmt(low.bal)} in ${MN2[+low.m.slice(5)-1]}. To stay above zero, collect about ${fmt(Math.ceil(-low.bal/SPRING_PLAYERS))} more per family before then and lower the last payments to match, or keep ${fmt(Math.ceil(-low.bal))} in reserve to front the gap until July.`:''}</div>`;
+  }
   const hs=$('#homeSpring'); if(hs) hs.textContent='$'+Math.round(toRaise).toLocaleString('en-US');
   const next=springEvents.filter(e=>e.status==='planned').sort((a,b)=>a.start.localeCompare(b.start))[0];
 
@@ -1335,7 +1355,7 @@ function boot(site){
   const d=site.data||{};
   txns=d.txns||[]; expLedger=d.expLedger||[]; tournaments=d.tournaments||[];
   SPRING_FEE=d.SPRING_FEE??0.035; SPRING_PLAYERS=d.SPRING_PLAYERS||13;
-  springEvents=d.springEvents||[]; springPractice=d.springPractice||[]; springLedger=d.springLedger||[];
+  springEvents=d.springEvents||[]; springPractice=d.springPractice||[]; springLedger=d.springLedger||[]; springPayMonths=d.springPayMonths||[];
   events=d.events||[]; ROSTER=d.ROSTER||[]; STATS=d.STATS||{record:'',players:[],archived:[]};
   TEAM={label:site.label||'7U',balanceNote:site.balanceNote||''};
   const H=site.html||{};
