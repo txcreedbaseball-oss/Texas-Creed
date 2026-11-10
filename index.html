@@ -254,6 +254,8 @@ details.more summary::-webkit-details-marker{display:none}
 .tag.due{color:var(--amber);background:rgba(240,194,122,.12)}
 .tag.past{color:var(--ink3);background:rgba(255,255,255,.06)}
 .month{margin-top:30px}
+.req-note{margin-top:4px;padding:13px 16px;border:1px solid var(--edge);border-left:3px solid var(--blue);border-radius:14px;background:var(--card);font-size:14px;color:var(--ink2)}
+.dot.req{background:#FF6B6B}.dot.reqn{background:var(--blue)}.req-tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:rgba(255,107,107,.14);color:#FF8A8A;font-size:11px;font-weight:700;letter-spacing:.03em;vertical-align:1px}.req-sub{display:block;margin-top:2px;font-size:12.5px;font-weight:500;color:var(--ink3)}
 .month h4{font-size:22px;font-weight:700;letter-spacing:-.015em;margin-bottom:8px}
 .evrow{display:grid;grid-template-columns:86px 1fr auto;gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line2)}
 .evrow:last-child{border-bottom:0}
@@ -882,7 +884,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 <!-- ================= SCHEDULE ================= -->
 <section class="page" data-page="schedule">
   <div class="lnav"><div class="lnav-in"><h2>Schedule</h2><div class="sub" data-scroller>
-    <button data-to="sc-top" class="on">Up next</button><button data-to="sc-tour">Tournaments</button><button data-to="sc-season">Full season</button>
+    <button data-to="sc-top" class="on">Up next</button><button data-to="sc-tour">Tournaments</button><button data-to="sc-season">Full season</button><button data-to="sc-req">Required dates</button>
   </div></div></div>
   <div class="hero" id="sc-top">
     <div class="eyebrow">Fall 2026 · 7U AA</div>
@@ -906,6 +908,12 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
         <button class="pill" id="pastTog">Show past</button>
       </div>
       <div id="season"></div>
+    </section>
+
+    <section class="blk" id="sc-req" style="padding-top:10px">
+      <div class="blk-h"><h2 class="h-m">Team required dates</h2><p>Academy board, finance and filing dates for the next 12 months. Red marks a legal filing deadline.</p></div>
+      <div class="req-note">Every month on the 15th: reconcile the Academy General, 7U and 9U accounts and review spending.</div>
+      <div id="reqList"></div>
     </section>
   </div>
 </section>
@@ -1546,7 +1554,43 @@ function renderSchedule(){
   }
   draw();
   $$('#evFilters .pill[data-t]').forEach(b=>b.addEventListener('click',()=>{$$('#evFilters .pill[data-t]').forEach(x=>x.classList.remove('on'));b.classList.add('on');type=b.dataset.t;draw();}));
+  renderRequired();
   $('#pastTog').addEventListener('click',e=>{showPast=!showPast;e.currentTarget.classList.toggle('on',showPast);e.currentTarget.textContent=showPast?'Hide past':'Show past';draw();});
+}
+
+/* ================= REQUIRED DATES ================= */
+/* Academy compliance dates. Yearly items repeat; one-time items drop off after they pass. */
+const REQUIRED=[
+  {d:'2026-11-23',n:'Check IRS 501(c)(3) application status'},
+  {d:'2026-12-07',n:'Follow up on IRS determination letter',note:'Once approved, file Texas Form AP-204 within 7 days.'},
+  {d:'2026-12-15',n:'Prepare Texas Comptroller AP-204 exemption application'},
+  {d:'2027-02-15',n:'Annual board meeting',note:'Financial review, budget approval and officer elections. Notice goes out by Feb 8.'},
+  {d:'2027-05-17',n:'Texas franchise tax information report',note:'Verify it applies. Not needed once the state exemption is approved.',hi:1},
+  {md:'12-31',n:'Close the books and prepare year-end reports'},
+  {md:'01-15',n:'Quarterly board financial review',note:'Q4 and year-end'},
+  {md:'04-15',n:'Quarterly board financial review',note:'Q1'},
+  {md:'07-15',n:'Quarterly board review: midyear budget check'},
+  {md:'10-15',n:'Quarterly board review: revenue projections and next year’s budget'},
+  {md:'04-15',n:'Prepare IRS Form 990-series return'},
+  {md:'01-15',n:'Review Texas state compliance notices'},
+  {md:'07-15',n:'Review Texas state compliance notices'},
+  {irs:1,n:'IRS Form 990-series filing deadline',note:'990-N if gross receipts are normally $50,000 or less.',hi:1}
+];
+function renderRequired(){
+  const t=today0(), stop=new Date(t); stop.setFullYear(stop.getFullYear()+1);
+  const out=[];
+  REQUIRED.forEach(r=>{
+    if(r.d){ const s=D(r.d); if(s>=t&&s<=stop) out.push({...r,s}); return; }
+    for(let y=t.getFullYear(); y<=stop.getFullYear(); y++){
+      let s;
+      if(r.irs){ s=new Date(y,4,15); while(s.getDay()===0||s.getDay()===6) s.setDate(s.getDate()+1); if(y<2027) continue; }
+      else { const [m,d]=r.md.split('-'); s=new Date(y,+m-1,+d); if(y===2026&&r.md!=='12-31') continue; }
+      if(s>=t&&s<=stop) out.push({...r,s});
+    }
+  });
+  out.sort((a,b)=>a.s-b.s||(b.hi||0)-(a.hi||0));
+  const by={}; out.forEach(e=>{const k=md(e.s,{month:'long',year:'numeric'}); (by[k]=by[k]||[]).push(e);});
+  $('#reqList').innerHTML=Object.entries(by).map(([m,es])=>`<div class="month"><h4>${m}</h4>${es.map(e=>`<div class="evrow${e.hi?' req-hi':''}"><div class="dd">${md(e.s,{weekday:'short',day:'numeric'})}</div><div class="nn"><i class="dot ${e.hi?'req':'reqn'}"></i>${esc(e.n)}${e.hi?'<span class="req-tag">Filing deadline</span>':''}${e.note?`<small class="req-sub">${esc(e.note)}</small>`:''}</div></div>`).join('')}</div>`).join('');
 }
 
 /* ================= SWAG ================= */
