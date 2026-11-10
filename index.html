@@ -931,7 +931,7 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
     <div class="hero" id="sp-overview">
       <div class="eyebrow">Spring 2027 Budget</div>
       <h1 class="h-l">Spring season. <span class="grad">Planned to the dollar.</span></h1>
-      <p class="lede">Tournament weekends from February through June, with every NIT included. Kept separate from fall money.</p>
+      <p class="lede">Tournament weekends from February through the summer World Series, with every NIT included. Kept separate from fall money.</p>
     </div>
     <div class="wrap">
       <div class="board" id="spBoard"></div>
@@ -1400,8 +1400,9 @@ const springEvents = [
   {start:"2027-05-01",end:"2027-05-02",name:"PG BCS State Championships",div:"7U AAA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-05-22",end:"2027-05-23",name:"PG H-Town Club Championships",div:"7U AA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-05-29",end:"2027-05-31",name:"PG Texas Invitational Super Regional NIT",div:"7U AA",where:"Tomball",entry:895,status:"planned",nit:true},
+  {start:"2027-06-05",end:"2027-06-06",name:"PG Texas State Championships",div:"7U AA",where:"Texas",entry:625,status:"planned"},
   {start:"2027-06-24",end:"2027-06-27",name:"PG Astros Fest Regional World Series",div:"7U Open",where:"Houston",entry:1095,status:"planned"},
-  {start:"",end:"",name:"PG Texas State Championships",div:"7U AA",where:"Texas",entry:0,status:"tbd",note:"In the cart, but the date and price didn't come through. Added to the budget once confirmed."},
+  {start:"",end:"",when:"Week 7",name:"PG Gulf Coast AA World Series — Week 7",div:"7U AA",where:"Gulf Shores, AL",entry:1145,status:"planned",noFee:true,note:"$1,145 total, no card fee added. Week 7 dates for 2027 aren't posted yet."},
 ];
 const springLedger = [
   /* {d:"2027-01-15", n:"Spring buy-in — 13 players", a:3250}, */
@@ -1631,14 +1632,14 @@ function renderSpring(){
     const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>Paid Oct 17</small>`
       :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${e.noFee?'Flat total, no card fee':fmt(e.entry)+' + '+fmt(spFee(e))+' fee'}</small>`
       :e.entry?`<b>${fmt(e.entry)}</b><small>Not counted</small>`:`<b>TBD</b><small>Price pending</small>`;
-    const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`TBD<small>Date pending</small>`;
+    const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`${e.when?esc(e.when):'TBD'}<small>Date pending</small>`;
     return `<div class="sp-ev is-${e.status}"><div class="sp-d">${d}</div><div><div class="sp-n">${esc(e.name)}</div><div class="sp-tags">${st}${e.nit?tag('nit','NIT'):''}${tag('',esc(e.div))}${tag('',esc(e.where))}${e.check?tag('chk','Confirm date'):''}</div>${e.note||e.check?`<div class="sp-note">${esc(e.check||e.note)}</div>`:''}</div><div class="sp-amt">${amt}</div></div>`;
   };
   $('#spPlan').innerHTML=Object.entries(groups).map(([k,list])=>{
     const [y,m]=k.split('-'); const c=list.filter(e=>e.status==='planned'||e.status==='paid');
     const mt=r2(c.reduce((s,e)=>s+spTotal(e),0));
     return `<div class="sp-month"><div class="sp-mh"><h3>${MN[+m-1]} ${y}</h3><span>${c.length} ${c.length===1?'event':'events'} · ${fmt(mt)}</span></div>${list.map(row).join('')}</div>`;
-  }).join('')+(tbd.length?`<div class="sp-month"><div class="sp-mh"><h3>Date to be confirmed</h3><span>Not in totals yet</span></div>${tbd.map(row).join('')}</div>`:'');
+  }).join('')+(tbd.length?(()=>{const c=tbd.filter(e=>e.status==='planned'||e.status==='paid');const mt=r2(c.reduce((s,e)=>s+spTotal(e),0));return `<div class="sp-month"><div class="sp-mh"><h3>Summer · date to be confirmed</h3><span>${c.length?c.length+' '+(c.length===1?'event':'events')+' · '+fmt(mt):'Not in totals yet'}</span></div>${tbd.map(row).join('')}</div>`;})():'');
 
   $('#spSum').innerHTML=`
     <tr><td>Entry fees still to pay</td><td class="num">${fmt(entries)}</td></tr>
