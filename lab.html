@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png?v=3">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=3">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=3">
-<link rel="manifest" href="manifest.webmanifest?v=3">
+<link rel="manifest" href="manifest.webmanifest?v=4">
 <title>Creed Performance Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -673,8 +673,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <div id="app">
 <header class="labhead"><div class="labhead-in">
-  <a class="home" href="index.html#/home" aria-label="Texas Creed home"><img data-logo alt=""><b>Texas Creed</b></a>
-  <a class="back" href="index.html#/home">Team site ›</a>
+  <a class="home" href="team/#/home" aria-label="Texas Creed home"><img data-logo alt=""><b>Texas Creed</b></a>
+  <a class="back" href="team/#/home">Team site ›</a>
 </div></header>
 
 <section class="page" data-page="lab">
@@ -693,7 +693,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <footer><div class="wrap">
   <span>Texas Creed · 7U · Houston, TX</span>
-  <span><a href="index.html#/home">Team site</a></span>
+  <span><a href="team/#/home">Team site</a></span>
 </div></footer>
 </div>
 
@@ -1398,11 +1398,11 @@ try{
     const pp=document.createElement('script'); pp.src='parent-package.js?v=11'; document.body.appendChild(pp);
     go();
   }
-  function blocked(t){ const w=document.getElementById('labWait'); if(w) w.innerHTML='<h3 class="h-m">Performance Lab</h3><p>'+t+'</p><p style="margin-top:16px"><a href="index.html" style="color:var(--blue)">Back to the team site</a></p>'; }
+  function blocked(t){ const w=document.getElementById('labWait'); if(w) w.innerHTML='<h3 class="h-m">Performance Lab</h3><p>'+t+'</p><p style="margin-top:16px"><a href="team/" style="color:var(--blue)">Back to the team site</a></p>'; }
   onAuthStateChanged(auth, async u => {
     CURRENT = u;
     if(started) return;
-    if(!u){ location.replace('index.html?next=lab'); return; }
+    if(!u){ location.replace('team/?next=lab'); return; }
     const email=(u.email||'').toLowerCase();
     if(email==='parents9u@txcreed.app'){ started=true; blocked('The Performance Lab is open to 7U for now. 9U testing is coming.'); return; }
     try{
