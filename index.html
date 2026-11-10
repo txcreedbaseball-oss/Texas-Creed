@@ -1401,10 +1401,10 @@ const tournaments = [
 const SPRING_FEE = 0.035, SPRING_PLAYERS = 13;
 const springEvents = [
   {start:"2027-02-27",end:"2027-02-28",name:"PG #Houston1000 Warm Up",div:"7U AA",where:"Houston",entry:625,status:"planned"},
-  {start:"2027-03-06",end:"2027-03-08",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring."},
+  {start:"2027-03-06",end:"2027-03-08",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,paidNote:"Paid Oct 17",nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring."},
   {start:"2027-03-20",end:"2027-03-21",name:"PG Spring Showdown @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-04-09",end:"2027-04-11",name:"2D Sports Louisiana Super Select NIT",div:"7U",where:"Louisiana",entry:500,status:"planned",nit:true,noFee:true,note:"$500 total, no card fee added. A 2D Sports event, not a Perfect Game cart payment."},
-  {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,credit:450,status:"planned",nit:true,note:"$450 credit from the cancelled Nov 14–15 PG SETBA Fall Super NIT. Only $25 plus the card fee is left to pay."},
+  {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,status:"paid",paidAmt:475,paidNote:"Paid · no card fee",nit:true,note:"Paid in full, with no card fee. Includes the $450 credit from the cancelled Nov 14–15 PG SETBA Fall Super NIT."},
   {start:"2027-04-17",end:"2027-04-18",name:"PG Belt Wars @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"alt",note:"Same weekend as the Beaumont NIT. NITs take priority, so this is the backup."},
   {start:"2027-05-01",end:"2027-05-02",name:"PG BCS State Championships",div:"7U AAA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-05-22",end:"2027-05-23",name:"PG H-Town Club Championships",div:"7U AA",where:"Houston",entry:625,status:"planned"},
@@ -1639,7 +1639,7 @@ function renderSpring(){
 
   $('#spBoard').innerHTML=`
     <div class="cell"><div class="cell-label">Spring Budget</div><div class="cell-num">${fmt(r2(budget+prac))}</div><div class="sub">${counted.length} tournaments + practices</div></div>
-    <div class="cell"><div class="cell-label">Paid Or Credited</div><div class="cell-num" style="color:var(--green)">${fmt(paid)}</div><div class="sub">${credits?'Houston 1000 + Beaumont credit':'Houston 1000 NIT, from fall'}</div></div>
+    <div class="cell"><div class="cell-label">Already Paid</div><div class="cell-num" style="color:var(--green)">${fmt(paid)}</div><div class="sub">${counted.filter(e=>e.status==='paid').map(e=>e.name.replace(/^PG /,'').replace(/ Super Regional| NIT.*$/g,'')).join(' + ')}${credits?' + credits':''}</div></div>
     <div class="cell spent"><div class="cell-label">Still To Fund</div><div class="cell-num">${fmt(toRaise)}</div><div class="sub">${inSpring?fmt(inSpring)+' already in hand':'Nothing raised for spring yet'}</div></div>
     <div class="cell after"><div class="cell-label">Per Player</div><div class="cell-num">${fmt(per)}</div><div class="sub">Split across ${SPRING_PLAYERS} players</div></div>`;
 
@@ -1649,7 +1649,7 @@ function renderSpring(){
   const tag=(c,t)=>`<span class="sp-tag ${c}">${t}</span>`;
   const row=e=>{
     const st={paid:tag('paid','Paid'),planned:tag('plan','Planned'),alt:tag('alt','Alternate'),tbd:tag('tbd','Date TBD')}[e.status];
-    const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>Paid Oct 17</small>`
+    const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>${esc(e.paidNote||'Paid')}</small>`
       :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${e.credit?fmt(e.entry)+' − '+fmt(e.credit)+' credit + '+fmt(spFee(e))+' fee':e.noFee?'Flat total, no card fee':fmt(e.entry)+' + '+fmt(spFee(e))+' fee'}</small>`
       :e.entry?`<b>${fmt(e.entry)}</b><small>Not counted</small>`:`<b>TBD</b><small>Price pending</small>`;
     const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`${e.when?esc(e.when):'TBD'}<small>Date pending</small>`;
@@ -1667,7 +1667,7 @@ function renderSpring(){
     <tr><td>Tournaments due</td><td class="num">${fmt(due)}</td></tr>
     <tr><td>Practice fields &amp; indoor facility</td><td class="num">${fmt(prac)}</td></tr>
     <tr class="highlight"><td><b>Due for spring</b></td><td class="num"><b>${fmt(needed)}</b></td></tr>
-    <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num">${fmt(paidOnly)}</td></tr>
+    ${counted.filter(e=>e.status==='paid').map(e=>`<tr class="paid-out"><td>${esc(e.name)}<span class="paid-badge">Paid</span></td><td class="num">${fmt(spTotal(e))}</td></tr>`).join('')}
     ${credits?`<tr class="paid-out"><td>Beaumont NIT credit<span class="paid-badge">Credit</span></td><td class="num">${fmt(credits)}</td></tr>`:''}
     <tr><td>Spring money in hand (incl. fall rollover)</td><td class="num amt-pos">${fmt(inSpring)}</td></tr>
     <tr class="total"><td>STILL TO FUND</td><td class="num">${fmt(toRaise)}</td></tr>
