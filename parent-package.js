@@ -106,7 +106,7 @@ window.CreedPkg=(function(){
   const GRADE_GUIDE=[['A = 5','Independent and reliable'],['B = 4','Demonstrates consistently'],['C = 3','Demonstrates intermittently'],['D = 2','Emerging with support'],['Dev = 1','Developing: needs frequent guidance']];
   const GUIDE=[['AVG','Hits divided by at-bats'],['OBP','How often he reaches base'],['SLG','Total bases per at-bat'],['OPS','OBP plus slugging'],['Quality at-bat','A hard-hit ball, extra-base hit, walk, sacrifice, or a long, tough at-bat'],['Contact %','At-bats without a strikeout'],['Hard-hit ball','A line drive or hard ground ball'],['ERA','Earned runs per 6 innings'],['WHIP','Walks plus hits per inning'],['First-pitch strike %','First pitches thrown for a strike'],['Total chances','Assists plus putouts'],['Assist','A throw that helps get an out']];
   function build(player,rows){
-    const p=(window.CREED_STATS.players||[]).find(x=>short(x)===player); if(!p) return null;
+    const p=(window.CREED_STATS.players||[]).concat(window.CREED_STATS.archived||[]).find(x=>short(x)===player); if(!p) return null;
     const S=window.CREED_STATS, b=p.bat, f=p.fld, t=p.pit, pitched=outs(t.IP)>0;
     const lab=labRows(rows), labPages=[]; for(let i=0;i<Math.max(1,lab.length);i+=27) labPages.push(lab.slice(i,i+27));
     const cards=growth(rows), gPages=[]; for(let i=0;i<cards.length;i+=8) gPages.push(cards.slice(i,i+8));
