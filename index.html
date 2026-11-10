@@ -155,6 +155,50 @@ section.blk{padding:56px 0}
   section.blk{padding:40px 0}
 }
 
+
+/* ---------- season switch + spring budget ---------- */
+#bk-fall[hidden],#bk-spring[hidden],.lnav .sub[hidden]{display:none!important}
+.season{display:flex;justify-content:center;margin:26px auto 0}
+.season-in{display:inline-flex;background:var(--card2);border:1px solid var(--edge);border-radius:999px;padding:4px;gap:2px}
+.season button{font-size:14px;font-weight:600;color:var(--ink2);padding:9px 20px;border-radius:999px;transition:background .2s,color .2s}
+.season button.on{background:var(--blue);color:#050608}
+.season button:not(.on):hover{color:var(--ink)}
+.sp-month{margin-top:26px}
+.sp-month:first-child{margin-top:0}
+.sp-mh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 4px 10px;border-bottom:1px solid var(--line)}
+.sp-mh h3{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.sp-mh span{font-size:13px;color:var(--ink3);font-variant-numeric:tabular-nums}
+.sp-ev{display:grid;grid-template-columns:92px 1fr auto;gap:16px;align-items:center;padding:16px 4px;border-bottom:1px solid var(--line2)}
+.sp-d{font-size:13px;font-weight:700;color:var(--blue);line-height:1.25}
+.sp-d small{display:block;font-weight:500;color:var(--ink3);font-size:12px}
+.sp-n{font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.sp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.sp-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:20px;padding:3px 9px;background:var(--card2);color:var(--ink2)}
+.sp-tag.nit{background:var(--blue-bg);color:var(--blue)}
+.sp-tag.paid{background:rgba(127,214,160,.12);color:var(--green)}
+.sp-tag.plan{background:rgba(240,194,122,.12);color:var(--amber)}
+.sp-tag.alt,.sp-tag.tbd{background:transparent;border:1px dashed var(--ink3);color:var(--ink3)}
+.sp-tag.chk{background:rgba(240,138,141,.12);color:var(--red)}
+.sp-amt{text-align:right;font-variant-numeric:tabular-nums}
+.sp-amt b{display:block;font-size:17px;font-weight:800;color:var(--ink)}
+.sp-amt small{display:block;font-size:12px;color:var(--ink3);margin-top:2px}
+.sp-ev.is-paid .sp-amt b{color:var(--ink3);text-decoration:line-through}
+.sp-ev.is-alt,.sp-ev.is-tbd{opacity:.62}
+.sp-ev.is-alt .sp-amt b,.sp-ev.is-tbd .sp-amt b{color:var(--ink3)}
+.sp-note{font-size:12.5px;color:var(--ink3);margin-top:6px;line-height:1.45}
+.sp-sum{margin-top:22px}
+.sp-empty{padding:26px 20px;text-align:center;color:var(--ink3);font-size:14px}
+.sp-how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sp-how div{background:var(--card);border:1px solid var(--edge);border-radius:16px;padding:16px 18px;font-size:13.5px;color:var(--ink2);line-height:1.5}
+.sp-how b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:4px}
+@media (max-width:640px){
+  .sp-ev{grid-template-columns:1fr auto;gap:6px 14px;padding:14px 2px}
+  .sp-d{grid-column:1/-1;display:flex;gap:8px;align-items:baseline}
+  .sp-d small{display:inline}
+  .sp-how{grid-template-columns:1fr}
+  .season button{padding:9px 16px;font-size:13.5px}
+}
+
 /* ---------- banking (carried from ledger) ---------- */
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .cell{background:var(--card);border-radius:18px;padding:20px;border:1px solid var(--edge)}
@@ -774,9 +818,11 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 
 <!-- ================= BANKING ================= -->
 <section class="page" data-page="banking">
-  <div class="lnav"><div class="lnav-in"><h2>Banking</h2><div class="sub" data-scroller>
+  <div class="lnav"><div class="lnav-in"><h2>Banking</h2><div class="sub" data-scroller id="fallNav">
     <button data-to="bk-overview" class="on">Overview</button><button data-to="bk-rollup">Rollup</button><button data-to="bk-exp">Expenses</button><button data-to="bk-plan">Tournaments</button><button data-to="bk-cat">Categories</button><button data-to="bk-txn">Transactions</button>
-  </div></div></div>
+  </div><div class="sub" data-scroller id="spNav" hidden><button data-to="sp-overview" class="on">Overview</button><button data-to="sp-plan">Tournaments</button><button data-to="sp-fees">Card fees</button><button data-to="sp-ledger">Ledger</button></div></div></div>
+  <div class="season" role="tablist" aria-label="Season"><div class="season-in"><button role="tab" data-season="fall">Fall 2026</button><button role="tab" data-season="spring">Spring 2027</button></div></div>
+  <div id="bk-fall">
   <div class="hero" id="bk-overview">
     <div class="eyebrow">Team Banking</div>
     <h1 class="h-l">Every dollar. <span class="grad">Accounted for.</span></h1>
@@ -878,6 +924,42 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
       <div class="log-summary" id="logSummary"></div>
       <div class="log" id="log"></div>
     </section>
+  </div>
+  </div><!-- /bk-fall -->
+
+  <div id="bk-spring" hidden>
+    <div class="hero" id="sp-overview">
+      <div class="eyebrow">Spring 2027 Budget</div>
+      <h1 class="h-l">Spring season. <span class="grad">Planned to the dollar.</span></h1>
+      <p class="lede">Two Perfect Game weekends a month, Feb through May, with every Super Regional NIT included. Kept separate from fall money.</p>
+    </div>
+    <div class="wrap">
+      <div class="board" id="spBoard"></div>
+
+      <section class="blk" id="sp-plan">
+        <div class="blk-h"><h2 class="h-m">Spring tournament plan</h2><p>Each entry fee plus the estimated 3.5% card fee, month by month.</p></div>
+        <div class="panel" id="spPlan"></div>
+        <div class="table-wrap sp-sum"><table class="dt"><tbody id="spSum"></tbody></table></div>
+        <details class="more"><summary>Alternates &amp; items to confirm ›</summary><div id="spNotes"></div></details>
+      </section>
+
+      <section class="blk" id="sp-fees">
+        <div class="blk-h"><h2 class="h-m">How card fees are estimated</h2><p>So the budget never comes up short at checkout.</p></div>
+        <div class="sp-how">
+          <div><b>3.5% on every card payment</b>Perfect Game adds a 3.5% tech fee to credit and debit cart payments. Fall checkouts matched it exactly ($13.13 on $375, $15.75 on $450).</div>
+          <div><b>Built into each total</b>A $625 entry budgets $646.88 and a $475 entry budgets $491.63. The fee is rounded to the cent, per event.</div>
+          <div><b>Bank payment saves it</b>Paying by bank account, where Perfect Game allows it, skips the fee. Anything saved stays in the spring fund.</div>
+        </div>
+      </section>
+
+      <section class="blk" id="sp-ledger">
+        <div class="blk-h"><h2 class="h-m">Spring ledger</h2><p>Spring money in and out only. Fall transactions stay on the Fall 2026 tab.</p></div>
+        <div class="table-wrap"><table class="dt">
+          <thead><tr><th>Date</th><th>Item</th><th class="num">Amount</th></tr></thead>
+          <tbody id="spLedger"></tbody>
+        </table></div>
+      </section>
+    </div>
   </div>
 </section>
 
@@ -1303,6 +1385,26 @@ const tournaments = [
   {start:"2027-02-28",end:"2027-03-01",name:"Houston 1000 NIT",cost:1060,paid:true},
 ];
 
+/* ================= SPRING 2027 BUDGET =================
+   To update: change an event's status ('paid' | 'planned' | 'alt' | 'tbd'),
+   set paidAmt when it's paid, and add spring money to springLedger.
+   Card fee = 3.5% of entry for anything not yet paid. */
+const SPRING_FEE = 0.035, SPRING_PLAYERS = 13;
+const springEvents = [
+  {start:"2027-02-27",end:"2027-02-28",name:"PG #Houston1000 Warm Up",div:"7U AA",where:"Houston",entry:625,status:"planned",check:"Overlaps the Houston 1000 NIT dates we have on file (Feb 28). Confirm before paying."},
+  {start:"2027-02-28",end:"2027-03-01",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring."},
+  {start:"2027-03-20",end:"2027-03-21",name:"PG Spring Showdown @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
+  {start:"2027-04-03",end:"2027-04-04",name:"PG Line Drive Classic @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
+  {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,status:"planned",nit:true},
+  {start:"2027-04-17",end:"2027-04-18",name:"PG Belt Wars @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"alt",note:"Same weekend as the Beaumont NIT. NITs take priority, so this is the backup."},
+  {start:"2027-05-01",end:"2027-05-02",name:"PG BCS State Championships",div:"7U AAA",where:"Houston",entry:625,status:"planned"},
+  {start:"2027-05-22",end:"2027-05-23",name:"PG H-Town Club Championships",div:"7U AA",where:"Houston",entry:625,status:"planned"},
+  {start:"",end:"",name:"PG Texas Invitational Super Regional NIT",div:"7U AA",where:"Texas",entry:0,status:"tbd",nit:true,note:"In the cart, but the date and price didn't come through. Added to the budget once confirmed."},
+];
+const springLedger = [
+  /* {d:"2027-01-15", n:"Spring buy-in — 13 players", a:3250}, */
+];
+
 const events = [
   {name:"Practice @ Pecan", start:"2026-08-06", time:"6:00 PM", type:"practice"},
   {name:"Water Sale", start:"2026-08-08", time:"9:00 AM", type:"other"},
@@ -1492,6 +1594,83 @@ function renderHome(){
   const wk=new Date(t); wk.setDate(wk.getDate()+6);
   const week=fut.filter(e=>e.s<=wk).slice(0,6);
   $('#homeWeek').innerHTML=week.length?week.map(e=>`<div><span><i class="dot ${e.type}"></i>${esc(e.name)}</span><em>${md(e.s,{weekday:'short',month:'short',day:'numeric'})}${e.time?' · '+e.time:''}</em></div>`).join(''):'<div><span style="color:var(--ink3)">Nothing on the calendar in the next 7 days.</span></div>';
+}
+
+/* ================= SPRING BUDGET ================= */
+const r2 = n => Math.round(n*100)/100;
+function spFee(e){ return e.status==='planned' ? r2(e.entry*SPRING_FEE) : 0; }
+function spTotal(e){ return e.status==='paid' ? (e.paidAmt||e.entry) : e.status==='planned' ? r2(e.entry+spFee(e)) : 0; }
+function renderSpring(){
+  const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const counted=springEvents.filter(e=>e.status==='paid'||e.status==='planned');
+  const budget=r2(counted.reduce((s,e)=>s+spTotal(e),0));
+  const paid=r2(counted.filter(e=>e.status==='paid').reduce((s,e)=>s+spTotal(e),0));
+  const due=r2(counted.filter(e=>e.status==='planned').reduce((s,e)=>s+spTotal(e),0));
+  const fees=r2(counted.reduce((s,e)=>s+spFee(e),0));
+  const entries=r2(counted.filter(e=>e.status==='planned').reduce((s,e)=>s+e.entry,0));
+  const inSpring=r2(springLedger.filter(t=>t.a>0).reduce((s,t)=>s+t.a,0));
+  const outSpring=r2(springLedger.filter(t=>t.a<0).reduce((s,t)=>s+t.a,0));
+  const toRaise=Math.max(0,r2(due-inSpring));
+  const per=r2(toRaise/SPRING_PLAYERS);
+  const next=springEvents.filter(e=>e.status==='planned').sort((a,b)=>a.start.localeCompare(b.start))[0];
+
+  $('#spBoard').innerHTML=`
+    <div class="cell"><div class="cell-label">Spring Budget</div><div class="cell-num">${fmt(budget)}</div><div class="sub">${counted.length} tournaments, fees included</div></div>
+    <div class="cell"><div class="cell-label">Already Paid</div><div class="cell-num" style="color:var(--green)">${fmt(paid)}</div><div class="sub">Houston 1000 NIT, from fall</div></div>
+    <div class="cell spent"><div class="cell-label">Still To Fund</div><div class="cell-num">${fmt(toRaise)}</div><div class="sub">${inSpring?fmt(inSpring)+' raised so far':'Nothing raised for spring yet'}</div></div>
+    <div class="cell after"><div class="cell-label">Per Player</div><div class="cell-num">${fmt(per)}</div><div class="sub">Split across ${SPRING_PLAYERS} players</div></div>`;
+
+  const groups={};
+  springEvents.filter(e=>e.start).sort((a,b)=>a.start.localeCompare(b.start)||(a.status==='alt')-(b.status==='alt')).forEach(e=>{const k=e.start.slice(0,7);(groups[k]=groups[k]||[]).push(e);});
+  const tbd=springEvents.filter(e=>!e.start);
+  const tag=(c,t)=>`<span class="sp-tag ${c}">${t}</span>`;
+  const row=e=>{
+    const st={paid:tag('paid','Paid'),planned:tag('plan','Planned'),alt:tag('alt','Alternate'),tbd:tag('tbd','Date TBD')}[e.status];
+    const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>Paid Oct 17</small>`
+      :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${fmt(e.entry)} + ${fmt(spFee(e))} fee</small>`
+      :e.entry?`<b>${fmt(e.entry)}</b><small>Not counted</small>`:`<b>TBD</b><small>Price pending</small>`;
+    const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`TBD<small>Date pending</small>`;
+    return `<div class="sp-ev is-${e.status}"><div class="sp-d">${d}</div><div><div class="sp-n">${esc(e.name)}</div><div class="sp-tags">${st}${e.nit?tag('nit','NIT'):''}${tag('',esc(e.div))}${tag('',esc(e.where))}${e.check?tag('chk','Confirm date'):''}</div>${e.note||e.check?`<div class="sp-note">${esc(e.check||e.note)}</div>`:''}</div><div class="sp-amt">${amt}</div></div>`;
+  };
+  $('#spPlan').innerHTML=Object.entries(groups).map(([k,list])=>{
+    const [y,m]=k.split('-'); const c=list.filter(e=>e.status==='planned'||e.status==='paid');
+    const mt=r2(c.reduce((s,e)=>s+spTotal(e),0));
+    return `<div class="sp-month"><div class="sp-mh"><h3>${MN[+m-1]} ${y}</h3><span>${c.length} ${c.length===1?'event':'events'} · ${fmt(mt)}</span></div>${list.map(row).join('')}</div>`;
+  }).join('')+(tbd.length?`<div class="sp-month"><div class="sp-mh"><h3>Date to be confirmed</h3><span>Not in totals yet</span></div>${tbd.map(row).join('')}</div>`:'');
+
+  $('#spSum').innerHTML=`
+    <tr><td>Entry fees still to pay</td><td class="num">${fmt(entries)}</td></tr>
+    <tr><td>Estimated card fees (3.5%)</td><td class="num">${fmt(fees)}</td></tr>
+    <tr class="highlight"><td><b>Due for spring</b></td><td class="num"><b>${fmt(due)}</b></td></tr>
+    <tr class="paid-out"><td>Houston 1000 NIT<span class="paid-badge">Paid</span></td><td class="num">${fmt(paid)}</td></tr>
+    <tr><td>Spring money raised</td><td class="num amt-pos">${fmt(inSpring)}</td></tr>
+    <tr class="total"><td>STILL TO FUND</td><td class="num">${fmt(toRaise)}</td></tr>
+    <tr><td>Per player (${SPRING_PLAYERS})</td><td class="num">${fmt(per)}</td></tr>`;
+
+  const notes=springEvents.filter(e=>e.status==='alt'||e.status==='tbd'||e.check);
+  $('#spNotes').innerHTML=notes.map(e=>`<div class="note-box"><b>${esc(e.name)}${e.start?' ('+evRange(e)+')':''}:</b> ${esc(e.check||e.note)}</div>`).join('')+
+    `<div class="note-box"><b>Next payment:</b> ${next?esc(next.name)+', '+evRange(next)+' — '+fmt(spTotal(next))+' by card':'All spring events are paid.'}</div>`;
+
+  $('#spLedger').innerHTML=springLedger.length
+    ? [...springLedger].sort((a,b)=>a.d.localeCompare(b.d)).map(t=>`<tr><td>${fmtDate(t.d)}</td><td>${esc(t.n)}</td><td class="num ${t.a<0?'amt-neg':'amt-pos'}">${fmt(t.a)}</td></tr>`).join('')
+      +`<tr class="total"><td></td><td>SPRING BALANCE</td><td class="num">${fmt(r2(inSpring+outSpring))}</td></tr>`
+    : `<tr><td colspan="3" class="sp-empty">No spring money in or out yet. Spring payments and fundraising will show here.</td></tr>`;
+}
+function setSeason(sz,save){
+  const sp=sz==='spring';
+  $('#bk-fall').hidden=sp; $('#bk-spring').hidden=!sp;
+  $('#fallNav').hidden=sp; $('#spNav').hidden=!sp;
+  $$('.season button').forEach(b=>{const on=b.dataset.season===sz;b.classList.toggle('on',on);b.setAttribute('aria-selected',on);});
+  if(save){ try{localStorage.setItem('creed_season',sz);}catch(e){} }
+}
+function initSeason(){
+  let sz=null;
+  const h=location.hash.match(/^#\/banking\/(fall|spring)/); if(h) sz=h[1];
+  if(!sz){ try{sz=localStorage.getItem('creed_season');}catch(e){} }
+  if(sz!=='fall'&&sz!=='spring') sz=isoToday()>='2027-01-01'?'spring':'fall';
+  setSeason(sz,false);
+  $$('.season button').forEach(b=>b.addEventListener('click',()=>{setSeason(b.dataset.season,true);const y=$('[data-page="banking"]').getBoundingClientRect().top+window.scrollY;window.scrollTo({top:y,behavior:'smooth'});}));
+  window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#\/banking\/(fall|spring)/); if(m) setSeason(m[1],true);});
 }
 
 /* ================= BANKING ================= */
@@ -1786,7 +1965,7 @@ function initFx(){
 }
 
 /* ================= BOOT ================= */
-renderHome(); renderBanking(); renderSchedule(); renderStats(); renderSwag(); initFx();
+renderHome(); renderBanking(); renderSpring(); initSeason(); renderSchedule(); renderStats(); renderSwag(); initFx();
 
 function intro(){
   const el=$('#intro'); let seen=false; try{seen=sessionStorage.getItem('creed_intro')==='1';}catch(e){}
