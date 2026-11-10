@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Board Tools · Texas Creed</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icons/favicon-32.png">
+<style>
+:root{--bg:#050608;--card:#0A0C10;--card2:#14171C;--edge:rgba(130,205,255,.16);--line:rgba(255,255,255,.1);
+--ink:#F5F7FA;--ink2:rgba(245,247,250,.72);--ink3:rgba(245,247,250,.46);--blue:#76C9F2;--green:#7FD6A0;--red:#F08A8D;--amber:#F0C27A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;min-height:100vh}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
+.top a{color:var(--blue);text-decoration:none;font-size:14px}
+h1{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.eb{font-size:13px;font-weight:600;color:var(--blue);margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--edge);border-radius:18px;padding:22px;margin-top:16px}
+.card h2{font-size:18px;font-weight:700}
+.card p{color:var(--ink2);font-size:14px;margin-top:4px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.btn{background:var(--blue);color:#050608;font-weight:700;padding:11px 18px;border-radius:12px}
+.btn.ghost{background:var(--card2);color:var(--ink);font-weight:600}
+.btn:disabled{opacity:.45;cursor:default}
+input[type=password]{width:100%;background:var(--card2);border:1px solid var(--line);padding:13px 15px;border-radius:12px;outline:none}
+input[type=password]:focus{border-color:var(--blue)}
+.msg{font-size:13.5px;margin-top:10px;min-height:20px}
+.msg.ok{color:var(--green)}.msg.err{color:var(--red)}.msg.warn{color:var(--amber)}
+.team{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center}
+.team b{font-size:16px}
+.team small{color:var(--ink3);font-size:13px}
+.pill{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:20px;background:var(--card2);color:var(--ink2)}
+.pill.ok{background:rgba(127,214,160,.12);color:var(--green)}
+.pill.none{background:rgba(240,194,122,.12);color:var(--amber)}
+.preview{margin-top:14px;background:var(--card2);border-radius:12px;padding:14px;font-size:13.5px;color:var(--ink2)}
+.preview b{color:var(--ink)}
+[hidden]{display:none!important}
+</style>
+</head><body>
+<div class="wrap">
+  <div class="top"><div><div class="eb">Texas Creed</div><h1>Board tools</h1></div><a href="index.html">Back to team site</a></div>
+
+  <section class="card" id="signin">
+    <h2>Board sign-in</h2>
+    <p>Use the board and coaches password.</p>
+    <div class="row"><input type="password" id="pw" placeholder="Password" aria-label="Board password" autocomplete="current-password"></div>
+    <div class="row"><button class="btn" id="go">Sign in</button></div>
+    <div class="msg" id="sMsg"></div>
+  </section>
+
+  <div id="tools" hidden>
+    <section class="card">
+      <h2>Published team data</h2>
+      <p>What parents see after they sign in. Each team has one data file.</p>
+      <div id="teams"></div>
+    </section>
+
+    <section class="card">
+      <h2>Publish a data file</h2>
+      <p>Choose a <b>creed-7u-data.json</b> or <b>creed-9u-data.json</b> file. Publishing replaces that team's live data right away.</p>
+      <div class="row"><input type="file" id="file" accept="application/json,.json"></div>
+      <div class="preview" id="prev" hidden></div>
+      <div class="row"><button class="btn" id="pub" disabled>Publish</button></div>
+      <div class="msg" id="pMsg"></div>
+    </section>
+
+    <section class="card">
+      <h2>Account</h2>
+      <p id="who"></p>
+      <div class="row"><button class="btn ghost" id="out">Sign out</button></div>
+    </section>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserLocalPersistence, signOut }
+  from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+const app = initializeApp({
+  apiKey: "AIzaSyAXMXqPMGMtClMQhvcfq7U6QdP3fq21NUE", authDomain: "creed-8ed96.firebaseapp.com", projectId: "creed-8ed96",
+  storageBucket: "creed-8ed96.firebasestorage.app", messagingSenderId: "631344742651", appId: "1:631344742651:web:a8ba5fb3780e53ac5df05e"
+});
+const auth = getAuth(app), fs = getFirestore(app);
+try { await setPersistence(auth, browserLocalPersistence); } catch (e) {}
+const BOARD = ['board@txcreed.app', 'coach@txcreed.app'];
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const msg = (el, t, k) => { el.textContent = t || ''; el.className = 'msg' + (k ? ' ' + k : ''); };
+let pending = null;
+
+async function signInBoard() {
+  const pw = $('#pw').value; if (!pw) return;
+  $('#go').disabled = true; msg($('#sMsg'), 'Checking…');
+  for (const email of BOARD) {
+    try { await signInWithEmailAndPassword(auth, email, pw); $('#go').disabled = false; return; } catch (e) {}
+  }
+  $('#go').disabled = false; msg($('#sMsg'), 'Incorrect password.', 'err'); $('#pw').value = '';
+}
+$('#go').onclick = signInBoard;
+$('#pw').addEventListener('keydown', e => { if (e.key === 'Enter') signInBoard(); });
+$('#out').onclick = async () => { await signOut(auth); location.reload(); };
+
+function download(team, data) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
+  a.download = `creed-${team}-data-backup-${new Date().toISOString().slice(0, 10)}.json`; a.click();
+}
+
+async function loadTeams() {
+  const box = $('#teams'); box.innerHTML = '';
+  for (const team of ['7u', '9u']) {
+    let snap = null; try { snap = await getDoc(doc(fs, 'teamSites', team)); } catch (e) {}
+    const d = snap && snap.exists() ? snap.data() : null;
+    const row = document.createElement('div'); row.className = 'team row';
+    row.innerHTML = `<div><b>${team.toUpperCase()}</b> <span class="pill ${d ? 'ok' : 'none'}">${d ? 'Live' : 'Not published'}</span><br><small>${d ? 'Updated ' + esc(d.updated || '—') + (d.updatedBy ? ' by ' + esc(d.updatedBy) : '') : 'Parents on this team will see a “not published yet” message.'}</small></div>`;
+    if (d) { const b = document.createElement('button'); b.className = 'btn ghost'; b.textContent = 'Download backup'; b.onclick = () => download(team, d); row.appendChild(b); }
+    box.appendChild(row);
+  }
+}
+
+$('#file').addEventListener('change', async e => {
+  pending = null; $('#pub').disabled = true; $('#prev').hidden = true; msg($('#pMsg'), '');
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const j = JSON.parse(await f.text());
+    if (!['7u', '9u'].includes(j.team) || !j.html || !j.data) throw new Error('This isn’t a Texas Creed team data file.');
+    const d = j.data;
+    $('#prev').innerHTML = `Publishing to <b>${j.team.toUpperCase()}</b> · file dated ${esc(j.updated || '—')}<br>
+      ${(d.txns || []).length} transactions · ${(d.events || []).length} calendar events · ${(d.springEvents || []).length} spring tournaments · ${((d.STATS || {}).players || []).length} players with stats`;
+    $('#prev').hidden = false; pending = j; $('#pub').disabled = false;
+  } catch (err) { msg($('#pMsg'), err.message || 'Couldn’t read that file.', 'err'); }
+});
+
+$('#pub').onclick = async () => {
+  if (!pending) return;
+  $('#pub').disabled = true; msg($('#pMsg'), 'Publishing…');
+  try {
+    const out = { ...pending, updated: new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }), updatedBy: (auth.currentUser.email || '').split('@')[0] };
+    await setDoc(doc(fs, 'teamSites', pending.team), out);
+    msg($('#pMsg'), `${pending.team.toUpperCase()} is live. Parents see it the next time they open the site.`, 'ok');
+    pending = null; $('#file').value = ''; $('#prev').hidden = true; loadTeams();
+  } catch (err) {
+    console.error(err); $('#pub').disabled = false;
+    msg($('#pMsg'), err && err.code === 'permission-denied' ? 'Firebase refused the write. Check that the new Firestore rules are published.' : 'Publish failed. Check your connection and try again.', 'err');
+  }
+};
+
+onAuthStateChanged(auth, u => {
+  const ok = u && BOARD.includes((u.email || '').toLowerCase());
+  $('#signin').hidden = !!ok; $('#tools').hidden = !ok;
+  if (u && !ok) msg($('#sMsg'), 'Signed in as a parent account. Enter the board password to switch.', 'warn');
+  if (ok) { $('#who').textContent = 'Signed in as ' + u.email.split('@')[0] + '.'; loadTeams(); }
+});
+</script>
+</body></html>
