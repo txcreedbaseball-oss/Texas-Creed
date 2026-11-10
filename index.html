@@ -931,13 +931,13 @@ button.st-rw:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
     <div class="hero" id="sp-overview">
       <div class="eyebrow">Spring 2027 Budget</div>
       <h1 class="h-l">Spring season. <span class="grad">Planned to the dollar.</span></h1>
-      <p class="lede">Two Perfect Game weekends a month, Feb through May, with every Super Regional NIT included. Kept separate from fall money.</p>
+      <p class="lede">Tournament weekends from February through June, with every NIT included. Kept separate from fall money.</p>
     </div>
     <div class="wrap">
       <div class="board" id="spBoard"></div>
 
       <section class="blk" id="sp-plan">
-        <div class="blk-h"><h2 class="h-m">Spring tournament plan</h2><p>Each entry fee plus the estimated 3.5% card fee, month by month.</p></div>
+        <div class="blk-h"><h2 class="h-m">Spring tournament plan</h2><p>In date order. Each Perfect Game entry includes the estimated 3.5% card fee.</p></div>
         <div class="panel" id="spPlan"></div>
         <div class="table-wrap sp-sum"><table class="dt"><tbody id="spSum"></tbody></table></div>
         <details class="more"><summary>Alternates &amp; items to confirm ›</summary><div id="spNotes"></div></details>
@@ -1394,12 +1394,14 @@ const springEvents = [
   {start:"2027-02-27",end:"2027-02-28",name:"PG #Houston1000 Warm Up",div:"7U AA",where:"Houston",entry:625,status:"planned",check:"Overlaps the Houston 1000 NIT dates we have on file (Feb 28). Confirm before paying."},
   {start:"2027-02-28",end:"2027-03-01",name:"Houston 1000 NIT",div:"7U",where:"Houston",entry:1060,status:"paid",paidAmt:1060,nit:true,note:"Prepaid from fall funds by Venmo on Oct 17. No money due in spring."},
   {start:"2027-03-20",end:"2027-03-21",name:"PG Spring Showdown @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
-  {start:"2027-04-03",end:"2027-04-04",name:"PG Line Drive Classic @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"planned"},
+  {start:"2027-04-09",end:"2027-04-11",name:"2D Sports Louisiana Super Select NIT",div:"7U",where:"Louisiana",entry:500,status:"planned",nit:true,noFee:true,note:"$500 total, no card fee added. A 2D Sports event, not a Perfect Game cart payment."},
   {start:"2027-04-17",end:"2027-04-18",name:"PG Beaumont Super Regional NIT",div:"7U Open",where:"Beaumont",entry:475,status:"planned",nit:true},
   {start:"2027-04-17",end:"2027-04-18",name:"PG Belt Wars @ Baseball USA",div:"7U AA",where:"Houston",entry:625,status:"alt",note:"Same weekend as the Beaumont NIT. NITs take priority, so this is the backup."},
   {start:"2027-05-01",end:"2027-05-02",name:"PG BCS State Championships",div:"7U AAA",where:"Houston",entry:625,status:"planned"},
   {start:"2027-05-22",end:"2027-05-23",name:"PG H-Town Club Championships",div:"7U AA",where:"Houston",entry:625,status:"planned"},
-  {start:"",end:"",name:"PG Texas Invitational Super Regional NIT",div:"7U AA",where:"Texas",entry:0,status:"tbd",nit:true,note:"In the cart, but the date and price didn't come through. Added to the budget once confirmed."},
+  {start:"2027-05-29",end:"2027-05-31",name:"PG Texas Invitational Super Regional NIT",div:"7U AA",where:"Tomball",entry:895,status:"planned",nit:true},
+  {start:"2027-06-24",end:"2027-06-27",name:"PG Astros Fest Regional World Series",div:"7U Open",where:"Houston",entry:1095,status:"planned"},
+  {start:"",end:"",name:"PG Texas State Championships",div:"7U AA",where:"Texas",entry:0,status:"tbd",note:"In the cart, but the date and price didn't come through. Added to the budget once confirmed."},
 ];
 const springLedger = [
   /* {d:"2027-01-15", n:"Spring buy-in — 13 players", a:3250}, */
@@ -1598,7 +1600,7 @@ function renderHome(){
 
 /* ================= SPRING BUDGET ================= */
 const r2 = n => Math.round(n*100)/100;
-function spFee(e){ return e.status==='planned' ? r2(e.entry*SPRING_FEE) : 0; }
+function spFee(e){ return e.status==='planned'&&!e.noFee ? r2(e.entry*SPRING_FEE) : 0; }
 function spTotal(e){ return e.status==='paid' ? (e.paidAmt||e.entry) : e.status==='planned' ? r2(e.entry+spFee(e)) : 0; }
 function renderSpring(){
   const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1627,7 +1629,7 @@ function renderSpring(){
   const row=e=>{
     const st={paid:tag('paid','Paid'),planned:tag('plan','Planned'),alt:tag('alt','Alternate'),tbd:tag('tbd','Date TBD')}[e.status];
     const amt=e.status==='paid'?`<b>${fmt(spTotal(e))}</b><small>Paid Oct 17</small>`
-      :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${fmt(e.entry)} + ${fmt(spFee(e))} fee</small>`
+      :e.status==='planned'?`<b>${fmt(spTotal(e))}</b><small>${e.noFee?'Flat total, no card fee':fmt(e.entry)+' + '+fmt(spFee(e))+' fee'}</small>`
       :e.entry?`<b>${fmt(e.entry)}</b><small>Not counted</small>`:`<b>TBD</b><small>Price pending</small>`;
     const d=e.start?`${md(D(e.start),{weekday:'short'})}–${md(D(e.end),{weekday:'short'})}<small>${evRange(e)}</small>`:`TBD<small>Date pending</small>`;
     return `<div class="sp-ev is-${e.status}"><div class="sp-d">${d}</div><div><div class="sp-n">${esc(e.name)}</div><div class="sp-tags">${st}${e.nit?tag('nit','NIT'):''}${tag('',esc(e.div))}${tag('',esc(e.where))}${e.check?tag('chk','Confirm date'):''}</div>${e.note||e.check?`<div class="sp-note">${esc(e.check||e.note)}</div>`:''}</div><div class="sp-amt">${amt}</div></div>`;
