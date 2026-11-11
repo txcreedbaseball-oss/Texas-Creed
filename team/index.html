@@ -1285,7 +1285,7 @@ function renderSchedule(){
     const esc2=x=>String(x).replace(/[\\,;]/g,m=>'\\'+m);
     const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Texas Creed//Schedule//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:Texas Creed '+TEAM.label+' '+(s.label||''),'X-WR-TIMEZONE:America/Chicago','BEGIN:VTIMEZONE','TZID:America/Chicago','BEGIN:DAYLIGHT','TZOFFSETFROM:-0600','TZOFFSETTO:-0500','TZNAME:CDT','DTSTART:19700308T020000','RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU','END:DAYLIGHT','BEGIN:STANDARD','TZOFFSETFROM:-0500','TZOFFSETTO:-0600','TZNAME:CST','DTSTART:19701101T020000','RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU','END:STANDARD','END:VTIMEZONE'];
     list.forEach((e,i)=>{ const st=tm(e.start,e.time); lines.push('BEGIN:VEVENT','UID:creed-'+e.start+'-'+i+'@txcreed.com','DTSTAMP:'+stamp,'SUMMARY:'+esc2(e.name));
-      if(st){ const sd=new Date(+st.slice(0,4),+st.slice(4,6)-1,+st.slice(6,8),+st.slice(9,11),+st.slice(11,13)); const ed=new Date(sd.getTime()+90*6e4);
+      if(st){ const sd=new Date(+st.slice(0,4),+st.slice(4,6)-1,+st.slice(6,8),+st.slice(9,11),+st.slice(11,13)); const ed=new Date(sd.getTime()+120*6e4);
         const f=d=>d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'T'+z(d.getHours())+z(d.getMinutes())+'00';
         lines.push('DTSTART;TZID=America/Chicago:'+f(sd),'DTEND;TZID=America/Chicago:'+f(ed)); }
       else lines.push('DTSTART;VALUE=DATE:'+e.start.replace(/-/g,''),'DTEND;VALUE=DATE:'+nx(e.end||e.start));
