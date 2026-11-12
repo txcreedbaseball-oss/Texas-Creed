@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#050608">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png?v=3">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=3">
+<title>Texas Creed</title>
+<script>
+/* Any address GitHub Pages can't find lands here. Send old or mistyped links
+   to the right page so parents never see a dead end. */
+(function(){
+  var p=(location.pathname||'/').toLowerCase().replace(/\/+$/,'');
+  var q=location.search||'', h=location.hash||'';
+  if(/(^|\/)(lab|perf|performance|milestone|creed-lab|performance-lab)/.test(p)){ location.replace('/lab.html'+q+h); return; }
+  if(/^\/team(\/|$)/.test(p)||/^\/(banking|schedule|stats|login|parents?)(\/|\.html)?$/.test(p)){
+    var m=p.match(/^\/(banking|schedule|stats)/); location.replace('/team/'+(h||(m?'#/'+m[1]:''))); return; }
+  if(/^\/(index|home)(\.html?)?$/.test(p)){ location.replace('/'+h); return; }
+  if(/^\/(admin|board)(\.html)?$/.test(p)){ location.replace('/admin.html'); return; }
+})();
+</script>
+<style>
+:root{--bg:#050608;--ink:#F5F7FA;--ink2:rgba(245,247,250,.72);--ink3:rgba(245,247,250,.46);--blue:#76C9F2;--line:rgba(245,247,250,.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Inter','SF Pro Display',sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:grid;place-items:center;padding:calc(32px + env(safe-area-inset-top)) 22px calc(32px + env(safe-area-inset-bottom));
+  background:radial-gradient(520px 320px at 50% 0,rgba(118,201,242,.14),transparent 70%),var(--bg)}
+.card{max-width:440px;width:100%;text-align:center}
+img{height:84px;width:auto;margin-bottom:22px}
+.eb{font-size:13px;font-weight:600;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(30px,7vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+p{color:var(--ink2);font-size:16px;line-height:1.5;margin:12px auto 0}
+.links{display:flex;flex-direction:column;gap:10px;margin-top:28px}
+a.b{display:block;padding:14px 18px;border-radius:14px;text-decoration:none;font-weight:600;font-size:16px;border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.04)}
+a.b.pri{background:var(--blue);color:#06121A;border-color:transparent}
+.tag{margin-top:28px;font-size:12px;color:var(--ink3);letter-spacing:.06em}
+</style>
+</head><body>
+<div class="card">
+  <img src="/icons/logo.svg" alt="Texas Creed">
+  <div class="eb">Texas Creed</div>
+  <h1>That page moved.</h1>
+  <p>The link you followed is out of date. Pick where you were headed:</p>
+  <div class="links">
+    <a class="b pri" href="/team/">Team site</a>
+    <a class="b" href="/lab.html">Performance Lab</a>
+    <a class="b" href="/">Program home</a>
+  </div>
+  <div class="tag">#CREEDNATION</div>
+</div>
+</body></html>
