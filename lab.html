@@ -800,7 +800,7 @@ function showChange(base,latest){
 }
 const better=(m,a,b)=>m.pol==='low'?a<b:a>b;
 const COACH_ONLY=new Set(['iq','me','co']), COACH_ONLY_CATS=new Set(['Baseball IQ','Fundamentals','Coachability']);
-const PRIVATE_COL='coachScores'; /* readable only by the signed-in coach account */
+const PRIVATE_COL='coachScores'; /* grades: readable and writable only by the board account */
 const colFor=test=>COACH_ONLY.has(test)?PRIVATE_COL:'assessments';
 /* Entries for one test within a month of each other (several coaches, or a retest)
    count as one data point: their average. Saved entries are never changed. */
@@ -881,7 +881,7 @@ const Lab = (()=>{
   }
   /* Coach grades live in their own collection, which only the coach account can read. */
   function loadPrivate(){
-    if(!coachOk()) return Promise.resolve();
+    if(!boardOk()) return Promise.resolve();
     if(privLoad) return privLoad;
     privLoad=new Promise(done=>{
       const col=db.collection(PRIVATE_COL);
@@ -895,7 +895,7 @@ const Lab = (()=>{
   /* A coach's session moves any older grades out of the public collection. Each one is
      confirmed in its new home before the public copy is removed. */
   async function movePrivate(){
-    if(moving||!coachOk()||privErr||!privLoad) return;
+    if(moving||!boardOk()||privErr||!privLoad) return;
     const old=pubRows.filter(r=>COACH_ONLY.has(r.test)); if(!old.length) return;
     moving=true;
     try{
@@ -910,8 +910,8 @@ const Lab = (()=>{
     }catch(e){ console.error('Moving coach grades stopped',e); }
     moving=false;
   }
-  function seenCats(){ return CATS.filter(c=>coachOk()||!COACH_ONLY_CATS.has(c)); }
-  function setVisible(){ rows=coachOk()?allRows:allRows.filter(r=>!COACH_ONLY.has(r.test)); }
+  function seenCats(){ return CATS.filter(c=>boardOk()||!COACH_ONLY_CATS.has(c)); }
+  function setVisible(){ rows=boardOk()?allRows:allRows.filter(r=>!COACH_ONLY.has(r.test)); }
   function byPlayer(p,t){ return rows.filter(r=>r.player===p&&(!t||r.test===t)); }
   function lastSession(){ return rows.length?rows[rows.length-1].date:null; }
   function dueDate(){ if(nextDue) return D(nextDue); const last=lastSession(); if(!last) return null; const d=D(last); d.setMonth(d.getMonth()+CADENCE_MONTHS); return d; }
@@ -931,8 +931,10 @@ const Lab = (()=>{
 
   /* ---- coach password (second lock on data entry; stored only as a SHA-256 hash) ---- */
   function coachOk(){ return !!window.CREED && window.CREED.isCoach(); }
+  /* Grades (Baseball IQ, mechanics, coachability) are board-only: only the board grades them and only the board sees them. */
+  function boardOk(){ return !!window.CREED && typeof window.CREED.isBoard==='function' && window.CREED.isBoard(); }
   function coachGate(){
-    root().innerHTML=`<div class="labgate"><h3 class="h-m">Coach password</h3><p>Enter the coach password to record or remove assessments.</p>
+    root().innerHTML=`<div class="labgate"><h3 class="h-m">Coach password</h3><p>Enter the coach password to record measurements, or the board password to also enter and see coach grades.</p>
       <div style="max-width:320px;margin:20px auto 0"><input class="inp" type="password" id="coachPw" placeholder="Coach password" autocomplete="off" aria-label="Coach password" style="text-align:center">
       <button class="btn" id="coachGo" style="width:100%;justify-content:center;margin-top:10px">Unlock</button>
       <div class="gate-error" id="coachErr"></div></div></div>`;
@@ -1010,10 +1012,10 @@ const Lab = (()=>{
     if(!out.length) return '';
     return `<div class="panel" style="margin-top:14px"><h3>Team trends</h3><p class="cap">Team median for each test by session date. Hover or tap a point for the number of players tested and the range.</p>${out.join('')}</div>`;
   }
-  function roNote(){return `<p class="samplebar">Viewing only. Coaches can record and remove assessments after signing in.</p>`;}
+  function roNote(){return `<p class="samplebar">Viewing only. Coaches can record measurements after signing in. Coach grades are entered and seen by the board only.</p>`;}
   function teamPanel(){
     const T=TESTS[overviewTest]; const tr=rows.filter(r=>r.test===overviewTest);
-    const opts=Object.entries(TESTS).filter(([k,t])=>t.kind!=='rubric'&&(coachOk()||!COACH_ONLY.has(k))).map(([k,t])=>`<option value="${k}"${k===overviewTest?' selected':''}>${t.cat} · ${t.name}</option>`).join('');
+    const opts=Object.entries(TESTS).filter(([k,t])=>t.kind!=='rubric'&&(boardOk()||!COACH_ONLY.has(k))).map(([k,t])=>`<option value="${k}"${k===overviewTest?' selected':''}>${t.cat} · ${t.name}</option>`).join('');
     let body='<p class="cap">No sessions recorded for this test yet.</p>';
     if(tr.length){
       const dates=[...new Set(tr.map(r=>r.date))].sort();
@@ -1054,10 +1056,10 @@ const Lab = (()=>{
   /* ---- parent package: coach sign-in ---- */
   function pkgGate(go){
     const run=async()=>{ await loadPrivate(); if(privErr) toast('Coach grades couldn\u2019t load, so they aren\u2019t on this package.',true); go(); };
-    if(coachOk()){ run(); return; }
+    if(boardOk()){ run(); return; }
     const w=document.createElement('div'); w.className='modal';
-    w.innerHTML=`<div class="modal-card" role="dialog" aria-modal="true" aria-label="Coach password"><h3>Coach password</h3><p>Parent packages are for coaches to create and share.</p>
-      <input class="inp" type="password" id="pkgPw" placeholder="Coach password" autocomplete="off" aria-label="Coach password"><div class="gate-error" id="pkgErr" style="min-height:20px;margin:8px 0 6px"></div>
+    w.innerHTML=`<div class="modal-card" role="dialog" aria-modal="true" aria-label="Board password"><h3>Board password</h3><p>Parent packages include coach grades, so the board creates and shares them.</p>
+      <input class="inp" type="password" id="pkgPw" placeholder="Board password" autocomplete="off" aria-label="Board password"><div class="gate-error" id="pkgErr" style="min-height:20px;margin:8px 0 6px"></div>
       <div class="modal-row"><button class="btn ghost" data-no>Cancel</button><button class="btn" data-yes>Open package</button></div></div>`;
     document.body.appendChild(w);
     const inp=w.querySelector('#pkgPw'); inp.focus();
@@ -1067,6 +1069,7 @@ const Lab = (()=>{
         await window.CREED.signIn(inp.value);
         me=window.CREED.uid(); canWrite=true; setVisible(); loadPrivate();
         $$('#labTabs [data-tab="new"],#labTabs [data-tab="history"]').forEach(x=>x.classList.remove('hidden'));
+        if(!boardOk()){ w.querySelector('#pkgErr').textContent='That\u2019s the coach password. Packages need the board password.'; inp.value=''; inp.focus(); if(ready) render(); return; }
         done(); await run();
       }catch(e){
         const net=/network|unavailable/i.test(e&&e.code||'');
@@ -1166,13 +1169,14 @@ const Lab = (()=>{
   function newHTML(){
     if(!canWrite) return `<div class="labgate"><h3 class="h-m">View only</h3><p>Only coaches with edit access can record assessments.</p></div>`;
     if(PAIR_OF[selTest]) selTest=PAIR_OF[selTest];
+    if(COACH_ONLY.has(selTest)&&!boardOk()){ selTest='h1'; draft=null; }
     if(!draft||draft.test!==selTest||draft.player!==selPlayer) draft=blankDraft(draft);
     const pairT=PAIR[selTest];
     if(pairT){ if(!draft2||draft2.test!==pairT||draft2.player!==selPlayer) draft2=blankDraft(draft2,pairT); draft2.date=draft.date; draft2.location=draft.location; } else draft2=null;
     const T=TESTS[selTest];
     const doneTests=[selTest].concat(pairT?[pairT]:[]);
     const pchips=ROSTER.map(p=>{const done=rows.some(r=>r.player===p&&doneTests.includes(r.test)&&r.date===draft.date);return `<button class="np-rw${p===selPlayer?' on':''}" data-np="${esc(p)}"><span class="no">${JERSEY[p]??''}</span><span class="w">${esc(p)}</span>${done?'<span class="ck">✓</span>':''}</button>`}).join('');
-    const tchips=`<div class="t-list">`+CATS.map(c=>`<div class="t-cat"><div class="t-name">${c}</div><div class="t-btns">${Object.entries(TESTS).filter(([k,t])=>t.cat===c&&!Object.values(PAIR).includes(k)).map(([k,t])=>`<button class="t-btn${k===selTest?' on':''}" data-nt="${k}">${PAIR[k]?esc(PAIR_INFO[k].chip):esc(t.name)}</button>`).join('')}</div></div>`).join('')+`</div>`;
+    const tchips=`<div class="t-list">`+CATS.filter(c=>boardOk()||!COACH_ONLY_CATS.has(c)).map(c=>`<div class="t-cat"><div class="t-name">${c}</div><div class="t-btns">${Object.entries(TESTS).filter(([k,t])=>t.cat===c&&!Object.values(PAIR).includes(k)&&(boardOk()||!COACH_ONLY.has(k))).map(([k,t])=>`<button class="t-btn${k===selTest?' on':''}" data-nt="${k}">${PAIR[k]?esc(PAIR_INFO[k].chip):esc(t.name)}</button>`).join('')}</div></div>`).join('')+`</div>`;
     const protoFields=(TT,d,attr)=>TT.proto.length?`<div class="fgrid" style="margin-top:4px">${TT.proto.map(([k,l,opts])=>`<div class="field"><label>${esc(l)}</label>${opts?`<select class="inp" ${attr}="${k}"><option value="">—</option>${opts.map(o=>`<option${d.proto[k]===o?' selected':''}>${o}</option>`).join('')}</select>`:`<input class="inp" ${attr}="${k}" value="${esc(d.proto[k]||'')}" ${k==='dist'?'inputmode="decimal"':''}>`}</div>`).join('')}</div><p class="cap" style="margin-top:8px">Keep these identical between sessions so results stay comparable.</p>`:'';
     const protoF=protoFields(T,draft,'data-proto');
     const pairPanel='';
@@ -1182,7 +1186,7 @@ const Lab = (()=>{
         <div class="field"><label>Date</label><input class="inp" type="date" id="nDate" value="${draft.date}"></div>
         <div class="field"><label>Location / station</label><input class="inp" id="nLoc" value="${esc(draft.location)}"></div></div></div>
       <div class="panel"><h3>Player</h3><p class="cap">✓ = already recorded for this test today.</p><div class="np-rows">${pchips}</div></div>
-      <div class="panel"><h3>Test</h3>${tchips}</div>
+      <div class="panel"><h3>Test</h3>${boardOk()?'':'<p class="cap">Baseball IQ, mechanics and coachability grades are entered by the board. </p><button class="btn ghost" id="boardIn" style="margin:4px 0 10px">Sign in as board to grade</button>'}${tchips}</div>
       <div class="panel"><h3>${pairT?esc(PAIR_INFO[selTest].title):esc(T.name)}</h3><p class="cap">${esc(selPlayer)} · ${esc(T.cat)}${pairT?' · '+esc(PAIR_INFO[selTest].cap):''}</p>${pairT?`<div class="cathd">${esc(T.name)} setup</div>`:''}${protoF}${pairProto}<div style="margin-top:14px">${attemptsHTML(T)}</div>
         ${pairT?'':`<div class="field" style="margin-top:14px"><label>Coach note (internal)</label><textarea class="inp" id="nNotes" rows="2" placeholder="Optional — observable behavior only, no medical detail">${esc(draft.notes)}</textarea></div>`}</div>
       ${pairPanel}
@@ -1228,6 +1232,7 @@ const Lab = (()=>{
     $$('[data-av]').forEach(el=>{const i=+el.dataset.av; const v=parseFloat(el.value); draft.attempts[i].v=isFinite(v)&&v>0?v:null;});
   }
   function wireNew(){
+    const bi=$('#boardIn'); if(bi) bi.onclick=()=>coachGate();
     $$('#labTabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab==='new'));
     if(!canWrite) return;
     const rer=()=>{ const y=window.scrollY; readDraft(); root().innerHTML=newHTML(); wireNew(); window.scrollTo(0,y); };
@@ -1274,6 +1279,7 @@ const Lab = (()=>{
     readDraft(); const msg=$('#nMsg');
     let list=[draft];
     if(draft2){ list=[draft,draft2].filter(hasEntries); if(!list.length){ msg.textContent=PAIR_INFO[draft.test].none; msg.className='msg err'; return; } }
+    if(list.some(d=>COACH_ONLY.has(d.test))&&!boardOk()){ msg.textContent='Only the board can save grades. Sign in with the board password.'; msg.className='msg err'; return; }
     for(const d of list){ const err=validate(d); if(err){ msg.textContent=(draft2?TESTS[d.test].name+': ':'')+err; msg.className='msg err'; return; } }
     msg.textContent='Saving…'; msg.className='msg';
     const saved=[];
@@ -1368,6 +1374,7 @@ try{
     uid: () => CURRENT ? CURRENT.uid : null,
     signIn: async pw => { try{ return await signInWithEmailAndPassword(auth, BOARD_EMAIL, pw); }catch(e){ return await signInWithEmailAndPassword(auth, COACH_EMAIL, pw); } },
     isCoach: () => !!CURRENT && [BOARD_EMAIL, COACH_EMAIL].includes((CURRENT.email||'').toLowerCase()),
+    isBoard: () => !!CURRENT && (CURRENT.email||'').toLowerCase() === BOARD_EMAIL,
     db: {
       doc(path){
         const r = doc(fs, path);
