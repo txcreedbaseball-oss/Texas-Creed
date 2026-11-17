@@ -235,6 +235,13 @@ section.blk{padding:56px 0}
 .cal-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .cal-btns .btn{cursor:pointer}
 .cal-btns .btn.ghost{background:var(--card2);color:var(--ink);box-shadow:none}
+/* compact icon tiles for calendar apps */
+.cal-icons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:14px;max-width:460px}
+.cal-ico{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 2px 10px;border-radius:14px;background:var(--card2);border:1px solid var(--line,rgba(255,255,255,.08));color:var(--ink);font-size:11.5px;font-weight:600;line-height:1.1;text-decoration:none;cursor:pointer;transition:transform .15s,background .2s}
+.cal-ico:active{transform:scale(.96)}
+.cal-ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.cal-ico.on{background:var(--blue);border-color:var(--blue);color:#050608}
+@media (hover:hover){.cal-ico:hover{background:var(--bg3)}.cal-ico.on:hover{background:var(--blue2)}}
 #calPrint{display:none}
 @media (max-width:640px){
   .cal{padding:6px;gap:3px}
